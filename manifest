@@ -1,135 +1,61 @@
 #HierarchicalClustering
-
-#Mon Dec 22 11:14:19 EST 2003
-
+#Tue Mar 09 14:42:13 EST 2004
 p6_description=cluster by rows or columns
-
 p2_type=java.lang.String
-
 p2_default_value=
-
 p1_MODE=IN
-
 p3_optional=
-
 p4_type=java.lang.Integer
-
-p7_default_value=average
-
 p6_type=java.lang.Integer
-
 quality=preproduction
-
 author=Stefano Monti
-
 p2_description=output stub
-
 taskType=Clustering
-
 name=HierarchicalClustering
-
 description=Hierarchical Clustering
-
 p4_optional=
-
 p4_default_value=3
-
 p5_description=row/column normalize data 'num iter' times (overrides normalize_type) Note\: num iter, if used, should be about 10
-
 p2_name=output.stub
-
 language=Java
-
 pipelineModel=
-
 p4_name=normalize.type
-
 p6_name=cluster.by
-
 p1_default_value=
-
 p1_description=input filename
-
 p6_default_value=2
-
 p5_optional=
-
 p1_type=java.io.File
-
 os=any
-
 p1_prefix_when_specified=
-
-p3_type=java.lang.Integer
-
+p3_type=java.lang.String
 p3_prefix_when_specified=
-
 p5_prefix_when_specified=
-
 p2_prefix_when_specified=
-
 p4_description=row-wise, col-wise, both
-
 p4_prefix_when_specified=
-
 JVMLevel=any
-
 p6_prefix_when_specified=
-
 p5_type=java.lang.Integer
-
-p7_prefix_when_specified=
-
-p7_type=java.lang.String
-
 p2_value=
-
-p7_value=average;single;complete
-
 p4_value=1\=row-wise;2\=col-wise;3\=both
-
 p1_optional=
-
 p1_value=
-
 p6_value=1\=rows;2\=columns
-
-p3_value=0\=gct/res;1\=col/row;2\=no labels;3\=odf
-
-p3_default_value=
-
+p3_value=average;single;complete
+p3_default_value=average
 p5_value=
-
-p7_description=merge type\=average, single, complete
-
 p6_optional=
-
 p1_name=input.filename
-
 userid=GenePattern
-
 cpuType=any
-
 className=edu.mit.wi.omnigene.service.analysis.genepattern.GenePatternAnalysisTask
-
 p1_TYPE=FILE
-
 version=
-
 p2_optional=
-
-p3_name=data.format
-
+p3_name=merge.type
 p5_default_value=0
-
-p3_description=gct, col/row labels, no labels, odf
-
+p3_description=merge type\=average, single, complete
 p5_name=num.iter
-
-p7_optional=
-
-p7_name=merge.type
-commandLine=<java> <java_flags> -cp <libdir>trove.jar<path.separator><libdir>colt.jar<path.separator><libdir>file_support.jar<path.separator><libdir>gp-common.jar<path.separator><libdir>geneweaver.jar edu.mit.wi.genome.geneweaver.clustering.HierarchicalClustering <input.filename> -h<data.format> -n<normalize.type> -N <num.iter> -o <output.stub> -K 1 -L <merge.type> -r -s -c<cluster.by> -e
-
+commandLine=<java> <java_flags> -cp <libdir>trove.jar<path.separator><libdir>colt.jar<path.separator><libdir>file_support.jar<path.separator><libdir>gp-common.jar<path.separator><libdir>geneweaver.jar edu.mit.wi.genome.geneweaver.clustering.HierarchicalClustering <input.filename> -n<normalize.type> -N <num.iter> -o <output.stub> -K 1 -L <merge.type> -r -s -c<cluster.by> -e
 privacy=public
-
