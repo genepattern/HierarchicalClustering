@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project basedir="." default="create-zip" name="HierarchicalClustering">
- <property name="dirOffset" value="../" />
+
+<property name="dirOffset" value="../" />
 <import file="${dirOffset}/commontargets.xml" />
 
 
@@ -19,7 +20,5 @@
 	</zip>
          <antcall target="postzip"/>
 </target>
-
-
 
 </project>
