@@ -64,5 +64,5 @@ p3_description=row-wise, col-wise, both
 p5_name=cluster.by
 p7_optional=
 p7_name=merge.type
-commandLine=<java> -Xmx512m -cp <libdir>file_support.jar<path.separator><libdir>ui_support.jar<path.separator><libdir>gp-common.jar<path.separator><libdir>HierarchicalClustering.jar edu.mit.wi.genome.geneweaver.clustering.HierarchicalClustering <input.filename> -h<data.format> -n<normalize.type> -N <num.iter> -o dummy -K <num.classes> -L <merge.type> -r -s -c<cluster.by>
+commandLine=<java> -Xmx512m -cp <libdir>file_support.jar<path.separator><libdir>trove.jar<path.separator><libdir>colt.jar<path.separator><libdir>ui_support.jar<path.separator><libdir>gp-common.jar<path.separator><libdir>HierarchicalClustering.jar edu.mit.wi.genome.geneweaver.clustering.HierarchicalClustering <input.filename> -h<data.format> -n<normalize.type> -N <num.iter> -o dummy -K <num.classes> -L <merge.type> -r -s -c<cluster.by>
 privacy=public

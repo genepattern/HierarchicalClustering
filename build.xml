@@ -18,11 +18,14 @@
 		  <exclude name="build.xml"/>
 		</fileset>
 		<fileset dir="../../build">
-                   <include name="gp-common.jar"/>
-                   <include name="file_support.jar"/>
-		   <include name="ui_support.jar"/>
-                </fileset>
-
+      		<include name="file_support.jar"/>
+			<include name="ui_support.jar"/>
+			<include name="gp-common.jar"/>
+        </fileset>
+     <fileset dir="../../lib">
+		<include name="colt.jar"/>
+		<include name="trove.jar"/>
+	</fileset>
 	</zip>
          <antcall target="postzip"/>
 </target>
