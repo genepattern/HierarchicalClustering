@@ -17,6 +17,12 @@
 		  <exclude name="*.doc"/>
 		  <exclude name="build.xml"/>
 		</fileset>
+		<fileset dir="../../build">
+                   <include name="gp-common.jar"/>
+                   <include name="file_support.jar"/>
+		   <include name="ui_support.jar"/>
+                </fileset>
+
 	</zip>
          <antcall target="postzip"/>
 </target>
