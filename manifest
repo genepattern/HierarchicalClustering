@@ -129,7 +129,7 @@ p5_name=num.iter
 p7_optional=
 
 p7_name=merge.type
-commandLine=<java> <java_flags> -Xmx512m -cp <libdir>trove.jar<path.separator><libdir>colt.jar<path.separator><libdir>file_support.jar<path.separator><libdir>gp-common.jar<path.separator><libdir>geneweaver.jar edu.mit.wi.genome.geneweaver.clustering.HierarchicalClustering <input.filename> -h<data.format> -n<normalize.type> -N <num.iter> -o <output.stub> -K 1 -L <merge.type> -r -s -c<cluster.by> -e
+commandLine=<java> <java_flags> -cp <libdir>trove.jar<path.separator><libdir>colt.jar<path.separator><libdir>file_support.jar<path.separator><libdir>gp-common.jar<path.separator><libdir>geneweaver.jar edu.mit.wi.genome.geneweaver.clustering.HierarchicalClustering <input.filename> -h<data.format> -n<normalize.type> -N <num.iter> -o <output.stub> -K 1 -L <merge.type> -r -s -c<cluster.by> -e
 
 privacy=public
 
