@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project basedir="." default="create-zip" name="HierarchicalClustering">
+
+
+<target name="init">
+    <property name="dest.dir" value="../build"/>
+</target>
+
+
+<target name="create-zip" depends="init">
+	
+	<zip destfile="${dest.dir}/${ant.project.name}.zip" whenempty="fail">
+		<fileset dir=".">
+		  <exclude name="*.doc"/>
+		  <exclude name="build.xml"/>
+		</fileset>
+	</zip>
+        
+</target>
+
+
+
+</project>
