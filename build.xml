@@ -1,11 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE project [
-        <!ENTITY zip_targets SYSTEM "file:../ziptargets.xml">
- 	  <!ENTITY common SYSTEM "file:../commontargets.xml">
-]>
 <project basedir="." default="create-zip" name="HierarchicalClustering">
- &zip_targets;
- &common;
+ <property name="dirOffset" value="../" />
+<import file="${dirOffset}/commontargets.xml" />
 
 
 <target name="create-zip" depends="init">
