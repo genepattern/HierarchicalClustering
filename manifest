@@ -1,8 +1,9 @@
-#Thu Apr 15 11:39:01 EDT 2004
+#HierarchicalClustering
+#Thu May 13 14:07:22 EDT 2004
 p6_description=cluster by rows or columns
 LSID=urn\:lsid\:broad.mit.edu\:cancer.software.genepattern.module.analysis\:00009\:0
 p2_type=java.lang.String
-p2_default_value=
+p2_default_value=<input.filename_basename>
 p1_MODE=IN
 p3_optional=
 p4_type=java.lang.Integer
@@ -10,6 +11,7 @@ p6_type=java.lang.Integer
 quality=preproduction
 author=Stefano Monti
 p2_description=output stub
+serializedModel=
 taskType=Clustering
 name=HierarchicalClustering
 description=Hierarchical Clustering
@@ -23,8 +25,8 @@ p4_name=normalize.type
 p6_name=cluster.by
 p1_default_value=
 p1_description=input filename\: RES, GCT, or ODF file
-p5_optional=
 p6_default_value=2
+p5_optional=
 p1_type=java.io.File
 os=any
 p1_prefix_when_specified=
@@ -35,27 +37,27 @@ p2_prefix_when_specified=
 p4_description=row-wise, col-wise, both
 p4_prefix_when_specified=
 JVMLevel=any
-p5_type=java.lang.Integer
 p6_prefix_when_specified=
+p5_type=java.lang.Integer
 p2_value=
-p1_value=
-p1_optional=
 p4_value=1\=row-wise;2\=col-wise;3\=both
-p3_default_value=average
-p3_value=average;single;complete
+p1_optional=
+p1_value=
 p6_value=1\=rows;2\=columns
+p3_value=average;single;complete
+p3_default_value=average
 p5_value=
 p6_optional=
 p1_name=input.filename
 userid=GenePattern
+cpuType=any
 className=edu.mit.wi.omnigene.service.analysis.genepattern.GenePatternAnalysisTask
 p1_TYPE=FILE
-cpuType=any
-p3_name=merge.type
-p2_optional=
 version=
-p3_description=merge type\=average, single, complete
+p2_optional=
+p3_name=merge.type
 p5_default_value=0
+p3_description=merge type\=average, single, complete
 p5_name=num.iter
 commandLine=<java> <java_flags> -cp <libdir>jaxb-rt-1.0-ea.jar<path.separator><libdir>trove.jar<path.separator><libdir>colt.jar<path.separator><libdir>file_support.jar<path.separator><libdir>gp-common.jar<path.separator><libdir>geneweaver.jar edu.mit.wi.genome.geneweaver.clustering.HierarchicalClustering <input.filename> -n<normalize.type> -N <num.iter> -o <output.stub> -K 1 -L <merge.type> -r -s -c<cluster.by> -e
 privacy=public
