@@ -57,5 +57,5 @@ p3_name=merge.type
 p5_default_value=0
 p3_description=merge type\=average, single, complete
 p5_name=num.iter
-commandLine=<java> <java_flags> -cp <libdir>trove.jar<path.separator><libdir>colt.jar<path.separator><libdir>file_support.jar<path.separator><libdir>gp-common.jar<path.separator><libdir>geneweaver.jar edu.mit.wi.genome.geneweaver.clustering.HierarchicalClustering <input.filename> -n<normalize.type> -N <num.iter> -o <output.stub> -K 1 -L <merge.type> -r -s -c<cluster.by> -e
+commandLine=<java> <java_flags> -cp <libdir>jaxb-rt-1.0-ea.jar<path.separator><libdir>trove.jar<path.separator><libdir>colt.jar<path.separator><libdir>file_support.jar<path.separator><libdir>gp-common.jar<path.separator><libdir>geneweaver.jar edu.mit.wi.genome.geneweaver.clustering.HierarchicalClustering <input.filename> -n<normalize.type> -N <num.iter> -o <output.stub> -K 1 -L <merge.type> -r -s -c<cluster.by> -e
 privacy=public
