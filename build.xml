@@ -26,20 +26,6 @@
          <antcall target="postzip"/>
 </target>
 
-<target name="zip" depends="init">
-	
-	<zip destfile="foo.zip" whenempty="fail" filesonly="true">
-		<fileset dir=".">
-		  <exclude name="*.doc"/>
-		  <exclude name="build.xml"/>
-		  <exclude name="lib/**"/>
-		</fileset>
-		 <fileset dir="lib"> 
-			<include name="*.jar"/>
-		</fileset>
-	</zip>
-         
-</target>
 
 
 </project>
