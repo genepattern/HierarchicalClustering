@@ -1,75 +1,68 @@
 #HierarchicalClustering
-#Thu Oct 30 14:09:19 EST 2003
-p8_prefix_when_specified=
-p5_optional=
-p6_type=java.lang.Integer
-commandLine=<java> -Xmx512m -cp <libdir>file_support.jar<path.separator><libdir>ui_support.jar<path.separator><libdir>gp-common.jar<path.separator><libdir>hcl.jar edu.mit.wi.genome.geneweaver.clustering.HierarchicalClustering <input.filename> -h<data.format> -n<normalize.type> -N <num.iter> -o <output.name> -K <num.classes> -L <merge.type> -r -s -c<cluster.by>
-description=Hierarchical Clustering
-p8_default_value=2
-p7_optional=
-p3_description=row-wise, col-wise, both
-pipelineModel=
-userid=smonti@genome.wi.mit.edu
-p6_name=num.classes
-p1_prefix_when_specified=
-p8_description=cluster by rows or columns
-p6_prefix_when_specified=
-p7_type=java.lang.String
-author=Stefano Monti
-p4_value=
+#Fri Nov 14 13:07:07 EST 2003
 p6_description=number of clusters to create (>\= 1)
-p1_description=input filename
-p7_name=merge.type
-version=
-taskType=Clustering
-p4_prefix_when_specified=
-p8_type=java.lang.Integer
-p3_value=1\=row-wise;2\=col-wise;3\=both
-p1_type=java.io.File
-p1_default_value=
-privacy=public
-os=any
-p3_default_value=3
-p8_name=cluster.by
-cpuType=any
-p1_name=input.filename
-p7_default_value=average
-p4_description=row/column normalize data 'num iter' times (overrides normalize_type) Note\: num iter, if used, should be about 10
-p2_optional=
-p8_value=1\=rows;2\=columns
-p5_default_value=
-p2_prefix_when_specified=
-p4_optional=on
 p2_type=java.lang.Integer
-p6_optional=
-p7_prefix_when_specified=
-p3_type=java.lang.Integer
-language=Java
-p8_optional=
-className=edu.mit.wi.omnigene.service.analysis.genepattern.GenePatternAnalysisTask
-p2_name=data.format
-p2_value=0\=gct/res;1\=col/row;2\=no labels;3\=odf
-name=HierarchicalClustering
-p3_name=normalize.type
-p7_description=merge type\=average, single, complete
-p2_description=gct, col/row labels, no labels, odf
-p4_type=java.lang.Integer
-p7_value=average;single;complete
-p1_value=
-p4_name=num.iter
-p5_prefix_when_specified=
-quality=preproduction
-p6_value=
-p5_description=output filename
-p5_type=java.lang.String
-p1_TYPE=FILE
-JVMLevel=any
-p4_default_value=0
-p1_optional=
 p2_default_value=
-p5_name=output.name
 p1_MODE=IN
-p6_default_value=1
-p5_value=
-p3_prefix_when_specified=
 p3_optional=
+p4_type=java.lang.Integer
+p7_default_value=average
+p6_type=java.lang.Integer
+quality=preproduction
+author=Stefano Monti
+p2_description=gct, col/row labels, no labels, odf
+taskType=Clustering
+name=HierarchicalClustering
+description=Hierarchical Clustering
+p4_optional=on
+p4_default_value=0
+p5_description=cluster by rows or columns
+p2_name=data.format
+language=Java
+pipelineModel=
+p4_name=num.iter
+p6_name=num.classes
+p1_default_value=
+p1_description=input filename
+p6_default_value=1
+p5_optional=
+p1_type=java.io.File
+os=any
+p1_prefix_when_specified=
+p3_type=java.lang.Integer
+p3_prefix_when_specified=
+p5_prefix_when_specified=
+p2_prefix_when_specified=
+p4_description=row/column normalize data 'num iter' times (overrides normalize_type) Note\: num iter, if used, should be about 10
+p4_prefix_when_specified=
+JVMLevel=any
+p6_prefix_when_specified=
+p5_type=java.lang.Integer
+p7_prefix_when_specified=
+p7_type=java.lang.String
+p2_value=0\=gct/res;1\=col/row;2\=no labels;3\=odf
+p7_value=average;single;complete
+p4_value=
+p1_optional=
+p1_value=
+p6_value=
+p3_value=1\=row-wise;2\=col-wise;3\=both
+p3_default_value=3
+p5_value=1\=rows;2\=columns
+p7_description=merge type\=average, single, complete
+p6_optional=
+p1_name=input.filename
+userid=smonti@genome.wi.mit.edu
+cpuType=any
+className=edu.mit.wi.omnigene.service.analysis.genepattern.GenePatternAnalysisTask
+p1_TYPE=FILE
+version=
+p2_optional=
+p3_name=normalize.type
+p5_default_value=2
+p3_description=row-wise, col-wise, both
+p5_name=cluster.by
+p7_optional=
+p7_name=merge.type
+commandLine=<java> -Xmx512m -cp <libdir>file_support.jar<path.separator><libdir>ui_support.jar<path.separator><libdir>gp-common.jar<path.separator><libdir>HierarchicalClustering.jar edu.mit.wi.genome.geneweaver.clustering.HierarchicalClustering <input.filename> -h<data.format> -n<normalize.type> -N <num.iter> -o dummy -K <num.classes> -L <merge.type> -r -s -c<cluster.by>
+privacy=public
