@@ -7,7 +7,7 @@
 
 <target name="create-zip" depends="init">
 	<antcall target="prezip"/>
-	<zip destfile="${dest.dir}/${ant.project.name}.zip" whenempty="fail">
+	<zip destfile="${dest.dir}/${ant.project.name}.zip" whenempty="fail" defaultexcludes="true">
 		<fileset dir=".">
 		  <exclude name="*.doc"/>
 		  <exclude name="build.xml"/> 
