@@ -15,15 +15,31 @@
 	<zip destfile="${dest.dir}/${ant.project.name}.zip" whenempty="fail">
 		<fileset dir=".">
 		  <exclude name="*.doc"/>
-		  <exclude name="build.xml"/>
+		  <exclude name="build.xml"/> 
+		  <exclude name="lib/**"/>
 		</fileset>
-		 <fileset dir="lib/"> <!-- use old gp files in case any dependencies on them -->
+		 <fileset dir="lib/"> 
+		        <!-- use old gp files in case any dependencies on them -->
 			<include name="*.jar"/>
 		</fileset>
 	</zip>
          <antcall target="postzip"/>
 </target>
 
+<target name="zip" depends="init">
+	
+	<zip destfile="foo.zip" whenempty="fail" filesonly="true">
+		<fileset dir=".">
+		  <exclude name="*.doc"/>
+		  <exclude name="build.xml"/>
+		  <exclude name="lib/**"/>
+		</fileset>
+		 <fileset dir="lib"> 
+			<include name="*.jar"/>
+		</fileset>
+	</zip>
+         
+</target>
 
 
 </project>
