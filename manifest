@@ -61,4 +61,4 @@ quality=production
 serializedModel=
 taskType=Clustering
 userid=GenePattern (gp-help@broad.mit.edu)
-version=Added email address to owner contact
+version=Added bounds checking on nIter param
