@@ -19,6 +19,8 @@
 				<include name="file_support.jar"/>
 				<include name="gp-common.jar"/>
 				<include name="jaxb-rt-1.0-ea.jar"/>
+            <include name="broad-cg.jar"/>
+            <include name="gp-modules.jar"/>
 		</fileset>
 	</zip>
          <antcall target="postzip"/>
