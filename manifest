@@ -1,7 +1,7 @@
 #HierarchicalClustering
 #Thu May 13 14:07:22 EDT 2004
 author=Stefano Monti, Broad Institute
-commandLine=<java> <java_flags> -cp <libdir>jaxb-rt-1.0-ea.jar<path.separator><libdir>trove.jar<path.separator><libdir>colt.jar<path.separator><libdir>file_support.jar<path.separator><libdir>gp-common.jar<path.separator><libdir>geneweaver.jar<path.separator><libdir>broad-cg.jar<path.separator><libdir>gp-modules.jar edu.mit.wi.genome.geneweaver.clustering.HierarchicalClustering <input.filename> -n<normalize.type> -N <num.iter> -o <output.stub> -K 1 -L <merge.type> -r -s -c<cluster.by> -e
+commandLine=<java> <java_flags> -cp <libdir>jaxb-rt-1.0-ea.jar<path.separator><libdir>trove.jar<path.separator><libdir>colt.jar<path.separator><libdir>file_support.jar<path.separator><libdir>gp-common.jar<path.separator><libdir>geneweaver.jar<path.separator><libdir>broad-cg.jar<path.separator><libdir>gp-modules.jar edu.mit.wi.genome.geneweaver.clustering.HierarchicalClustering <input.filename> -n<normalize.type> -N <num.iter> -o <output.stub> -K 1 -L <merge.type> -r -s -c<cluster.by> -e -D <similarity.measure>
 cpuType=any
 description=Hierarchical Clustering
 JVMLevel=any
@@ -55,6 +55,13 @@ p6_optional=
 p6_prefix_when_specified=
 p6_type=java.lang.Integer
 p6_value=1\=rows;2\=columns
+p7_default_value=euclidean
+p7_description=similarity measure
+p7_name=similarity.measure
+p7_optional=
+p7_prefix_when_specified=
+p7_type=java.lang.String
+p7_value=euclidean;pearson
 pipelineModel=
 privacy=public
 quality=production
