@@ -6,6 +6,7 @@ import org.apache.tools.ant.Target;
 import org.apache.tools.ant.Project;
 
 import java.io.*;
+import java.util.*;
 
 import org.genepattern.io.expr.stanford.StanfordTxtWriter;
 import org.genepattern.io.expr.IExpressionDataReader;
@@ -17,6 +18,8 @@ public class RunCluster {
     
     public static void main(String[] args) {
         try {
+        		
+  
             String libdir = args[0];
             boolean chmodFlag = true;
             String executable = null;
@@ -59,8 +62,36 @@ public class RunCluster {
             }
            
             args[2] = txtFileName;
+            List newArgs = new ArrayList(Arrays.asList(args));
+            for(int i = 0; i < newArgs.size(); i++) {
+            	String arg = (String) newArgs.get(i);
+            	if(arg.equals("mean.row")) {
+            		newArgs.remove(i); // median.row median.col
+            		newArgs.add("-cg");
+            		newArgs.add("a");
+            		i--;
+            	} else if(arg.equals("median.row")) {
+            		newArgs.remove(i);
+            		newArgs.add("-cg");
+            		newArgs.add("m");
+            		i--;
+            	}
+            	if(arg.equals("mean.column")) {
+            		newArgs.remove(i);
+            		newArgs.add("-ca");
+            		newArgs.add("a");
+            		i--;
+            	} else if(arg.equals("median.column")) {
+            		newArgs.remove(i);
+            		newArgs.add("-ca");
+            		newArgs.add("m");
+            		i--;
+            	}
+            }
+            
             Execute execute = new Execute();
-            execute.setCommandline(args);
+            String[] s = (String[])newArgs.toArray(new String[0]);
+            execute.setCommandline(s);
             execute.execute();
         } catch(Exception e) {
             System.err.println("An error occurred while running the algorithm.");
@@ -76,5 +107,5 @@ public class RunCluster {
             target = new Target();
         }       
     } 
-    
+   
 }
