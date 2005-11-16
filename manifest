@@ -1,7 +1,7 @@
 JVMLevel=1.4
 LSID=urn\:lsid\:broad.mit.edu\:cancer.software.genepattern.module.analysis\:00009\:999999999
 author=Joshua Gould, gp-help@broad.mit.edu
-commandLine=<java> -cp <libdir>gp-modules.jar<path.separator><libdir>hcl.jar<path.separator><libdir>ant.jar org.genepattern.modules.hcl.RunCluster <libdir> -f <input.filename> <log.transform> <row.center> <row.normalize> <column.center> <column.normalize> -u <output.base.name> -e <column.distance.measure> -g <row.distance.measure> -m <clustering.method> 
+commandLine=<java> <java_flags> -cp <libdir>gp-modules.jar<path.separator><libdir>hcl.jar<path.separator><libdir>ant.jar org.genepattern.modules.hcl.RunCluster <libdir> -f <input.filename> <log.transform> <row.center> <row.normalize> <column.center> <column.normalize> -u <output.base.name> -e <column.distance.measure> -g <row.distance.measure> -m <clustering.method> 
 
 cpuType=any
 description=Hierarchical Clustering
