@@ -107,6 +107,7 @@ public class RunCluster {
             execute.setCommandline(s);
             execute.execute();
         } catch(Exception e) {
+        		e.printStackTrace();
             System.err.println("An error occurred while running the algorithm.");
         }
     }
