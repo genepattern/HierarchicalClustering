@@ -25,7 +25,7 @@ import org.apache.tools.ant.taskdefs.Chmod;
 import org.apache.tools.ant.taskdefs.Execute;
 import org.genepattern.data.expr.ExpressionData;
 import org.genepattern.io.Util;
-import org.genepattern.io.expr.IExpressionDataReader;
+import org.genepattern.io.expr.IExpressionDataParser;
 import org.genepattern.io.expr.stanford.StanfordTxtWriter;
 import org.genepattern.module.AnalysisUtil;
 
@@ -57,7 +57,7 @@ public class RunCluster {
 
             String inputFileName = args[2];
 
-            IExpressionDataReader reader = AnalysisUtil
+            IExpressionDataParser reader = AnalysisUtil
                     .getExpressionReader(inputFileName);
 
             ExpressionData expressionData = AnalysisUtil.readExpressionData(
