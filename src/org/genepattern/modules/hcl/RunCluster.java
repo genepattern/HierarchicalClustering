@@ -58,7 +58,7 @@ public class RunCluster {
             String inputFileName = args[2];
 
             IExpressionDataParser reader = AnalysisUtil
-                    .getExpressionReader(inputFileName);
+                    .getExpressionDataParser(inputFileName);
 
             ExpressionData expressionData = AnalysisUtil.readExpressionData(
                     reader, inputFileName);
