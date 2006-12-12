@@ -23,10 +23,10 @@ import org.apache.tools.ant.Project;
 import org.apache.tools.ant.Target;
 import org.apache.tools.ant.taskdefs.Chmod;
 import org.apache.tools.ant.taskdefs.Execute;
-import org.genepattern.data.expr.ExpressionData;
+import org.genepattern.io.DatasetParser;
 import org.genepattern.io.Util;
-import org.genepattern.io.expr.IExpressionDataParser;
-import org.genepattern.io.expr.stanford.StanfordTxtWriter;
+import org.genepattern.io.stanford.StanfordTxtWriter;
+import org.genepattern.matrix.Dataset;
 import org.genepattern.module.AnalysisUtil;
 
 public class RunCluster {
@@ -57,10 +57,10 @@ public class RunCluster {
 
             String inputFileName = args[2];
 
-            IExpressionDataParser reader = AnalysisUtil
-                    .getExpressionDataParser(inputFileName);
+            DatasetParser reader = AnalysisUtil
+                    .getDatasetParser(inputFileName);
 
-            ExpressionData expressionData = AnalysisUtil.readExpressionData(
+            Dataset dataset = AnalysisUtil.readDataset(
                     reader, inputFileName);
 
             StanfordTxtWriter writer = new StanfordTxtWriter();
@@ -68,7 +68,7 @@ public class RunCluster {
             BufferedOutputStream os = null;
             try {
                 os = new BufferedOutputStream(new FileOutputStream(txtFileName));
-                writer.write(expressionData, os);
+                writer.write(dataset, os);
             } finally {
                 if (os != null) {
                     os.close();
