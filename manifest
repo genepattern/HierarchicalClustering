@@ -1,5 +1,4 @@
 JVMLevel=1.4
-LSID=urn\:lsid\:broad.mit.edu\:cancer.software.genepattern.module.analysis\:00009\:999999999
 author=Joshua Gould, gp-help@broad.mit.edu
 commandLine=<java> <java_flags> -cp <libdir>gp-modules.jar<path.separator><libdir>hcl.jar<path.separator><libdir>ant.jar org.genepattern.modules.hcl.RunCluster <libdir> -f <input.filename> <log.transform> <row.center> <row.normalize> <column.center> <column.normalize> -u <output.base.name> -e <column.distance.measure> -g <row.distance.measure> -m <clustering.method> 
 
@@ -13,7 +12,7 @@ privacy=public
 quality=production
 taskType=Clustering
 userid=jgould
-version=Fixes bugs in previous version
+version=Changed default distance measure
 
 p1_MODE=IN
 p1_TYPE=FILE
@@ -26,7 +25,7 @@ p1_prefix_when_specified=
 p1_type=java.io.File
 p1_value=
 
-p2_default_value=1
+p2_default_value=2
 p2_description=distance measure for column (sample) clustering
 p2_name=column.distance.measure
 p2_optional=
@@ -34,7 +33,7 @@ p2_prefix_when_specified=
 p2_type=java.lang.String
 p2_value=0\=No column clustering;1\=Uncentered correlation;2\=Pearson correlation;3\=Uncentered correlation, absolute value;4\=Pearson correlation, absolute value;5\=Spearman's rank correlation;6\=Kendall's tau;7\=Euclidean distance;8\=City-block distance
 
-p3_default_value=1
+p3_default_value=2
 p3_description=distance measure for row (gene) clustering
 p3_name=row.distance.measure
 p3_optional=
