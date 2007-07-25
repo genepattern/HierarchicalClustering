@@ -24,7 +24,7 @@ import org.apache.tools.ant.Target;
 import org.apache.tools.ant.taskdefs.Chmod;
 import org.apache.tools.ant.taskdefs.Execute;
 import org.genepattern.io.DatasetParser;
-import org.genepattern.io.Util;
+import org.genepattern.io.IOUtil;
 import org.genepattern.io.stanford.StanfordTxtWriter;
 import org.genepattern.matrix.Dataset;
 import org.genepattern.module.AnalysisUtil;
@@ -64,7 +64,7 @@ public class RunCluster {
                     reader, inputFileName);
 
             StanfordTxtWriter writer = new StanfordTxtWriter();
-            String txtFileName = Util.getBaseFileName(inputFileName) + ".txt";
+            String txtFileName = IOUtil.getBaseFileName(inputFileName) + ".txt";
             BufferedOutputStream os = null;
             try {
                 os = new BufferedOutputStream(new FileOutputStream(txtFileName));
