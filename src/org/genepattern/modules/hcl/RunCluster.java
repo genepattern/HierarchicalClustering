@@ -39,8 +39,8 @@ public class RunCluster extends ExecutableWrapper {
 
     @Override
     protected String[] createNewArgs() {
-	args[0] = libdir + executable;
-	String inputFileName = args[2];
+
+	String inputFileName = args[1];
 	DatasetParser reader = AnalysisUtil.getDatasetParser(inputFileName);
 	Dataset dataset = AnalysisUtil.readDataset(reader, inputFileName);
 	StanfordTxtWriter writer = new StanfordTxtWriter();
@@ -62,8 +62,10 @@ public class RunCluster extends ExecutableWrapper {
 	    new File(txtFileName).deleteOnExit();
 	}
 
-	args[2] = txtFileName;
+	args[1] = txtFileName;
 	List<String> newArgs = new ArrayList<String>(Arrays.asList(args));
+	newArgs.add(0, executable);
+
 	for (int i = 0; i < newArgs.size(); i++) {
 	    String arg = newArgs.get(i);
 	    if (arg.equals("mean.row")) {
