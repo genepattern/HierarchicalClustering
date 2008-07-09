@@ -1,4 +1,4 @@
-JVMLevel=1.4
+JVMLevel=1.5
 author=Joshua Gould, gp-help@broad.mit.edu
 commandLine=<java> -Dlibdir=<libdir> -Dwin=cluster.exe -Dmac=clusterMac -Dlinux=clusterLinux -Dlinux64=clusterLinux64 -cp <libdir>gp-modules.jar<path.separator><libdir>hcl.jar<path.separator><libdir>ant.jar org.genepattern.modules.hcl.RunCluster -f <input.filename> <log.transform> <row.center> <row.normalize> <column.center> <column.normalize> -u <output.base.name> -e <column.distance.measure> -g <row.distance.measure> -m <clustering.method>
 

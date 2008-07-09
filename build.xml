@@ -48,7 +48,8 @@
 		<antcall target="prezip" />
 
 		<zip destfile="${dest.dir}/${ant.project.name}.zip" whenempty="fail" defaultexcludes="true">
-			<fileset dir="." includes="LICENSE.txt, manifest, ${appfile} cluster*, *.pdf" />
+			<fileset dir="." includes="LICENSE.txt, manifest, ${appfile}, *.pdf" />
+			<zipfileset dir="." includes="cluster*" filemode="654" />
 			<fileset refid="jarlib" />
 		</zip>
 		<antcall target="postzip" />
