@@ -98,7 +98,8 @@ public class RunCluster extends ExecutableWrapper {
 	boolean error = false;
 	if (files != null) {
 	    for (File f : files) {
-		if (f.length() == 0L) {
+		String name = f.getName().toLowerCase();
+		if (f.length() == 0L && (name.endsWith(".gtr") || name.endsWith(".atr") || name.endsWith(".cdt"))) {
 		    error = true;
 		    break;
 		}
