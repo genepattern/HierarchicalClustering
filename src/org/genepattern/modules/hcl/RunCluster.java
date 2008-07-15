@@ -33,10 +33,6 @@ public class RunCluster extends ExecutableWrapper {
 	super(args);
     }
 
-    public static void main(String[] args) {
-	new RunCluster(args);
-    }
-
     @Override
     protected String[] createNewArgs() {
 
@@ -94,5 +90,27 @@ public class RunCluster extends ExecutableWrapper {
 
 	return newArgs.toArray(new String[0]);
 
+    }
+
+    @Override
+    protected void postExec() {
+	File[] files = new File(System.getProperty("user.dir")).listFiles();
+	boolean error = false;
+	if (files != null) {
+	    for (File f : files) {
+		if (f.length() == 0L) {
+		    error = true;
+		    break;
+		}
+	    }
+	}
+	if (error) {
+	    System.err.println("Not enough memory available.");
+	}
+
+    }
+
+    public static void main(String[] args) {
+	new RunCluster(args);
     }
 }
