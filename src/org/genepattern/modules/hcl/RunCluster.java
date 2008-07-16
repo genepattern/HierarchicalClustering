@@ -35,7 +35,6 @@ public class RunCluster extends ExecutableWrapper {
 
     @Override
     protected String[] createNewArgs() {
-
 	String inputFileName = args[1];
 	DatasetParser reader = AnalysisUtil.getDatasetParser(inputFileName);
 	Dataset dataset = AnalysisUtil.readDataset(reader, inputFileName);
@@ -55,7 +54,7 @@ public class RunCluster extends ExecutableWrapper {
 		} catch (IOException e) {
 		}
 	    }
-	    new File(txtFileName).deleteOnExit();
+	    // new File(txtFileName).deleteOnExit();
 	}
 
 	args[1] = txtFileName;
@@ -87,7 +86,6 @@ public class RunCluster extends ExecutableWrapper {
 		i--;
 	    }
 	}
-
 	return newArgs.toArray(new String[0]);
 
     }
