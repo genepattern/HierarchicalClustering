@@ -12,7 +12,7 @@ privacy=public
 quality=production
 taskType=Clustering
 userid=jgould
-version=Report error when out of memory. Added 64-bit Linux support.
+version=Report error when out of memory. Added 64-bit Linux support. Fixed bug that caused mean centering to be performed when median centering was selected.
 
 p1_MODE=IN
 p1_TYPE=FILE
