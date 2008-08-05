@@ -54,7 +54,7 @@ public class RunCluster extends ExecutableWrapper {
 		} catch (IOException e) {
 		}
 	    }
-	    // new File(txtFileName).deleteOnExit();
+	    new File(txtFileName).deleteOnExit();
 	}
 
 	args[1] = txtFileName;
