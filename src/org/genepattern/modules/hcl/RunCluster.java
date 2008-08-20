@@ -36,28 +36,31 @@ public class RunCluster extends ExecutableWrapper {
     @Override
     protected String[] createNewArgs() {
 	String inputFileName = args[1];
-	DatasetParser reader = AnalysisUtil.getDatasetParser(inputFileName);
-	Dataset dataset = AnalysisUtil.readDataset(reader, inputFileName);
-	StanfordTxtWriter writer = new StanfordTxtWriter();
-	String txtFileName = IOUtil.getBaseFileName(inputFileName) + ".txt";
-	BufferedOutputStream os = null;
-	try {
-	    os = new BufferedOutputStream(new FileOutputStream(txtFileName));
-	    writer.write(dataset, os);
-	} catch (IOException x) {
-	    System.err.println("Unable to create temporary file.");
-	    System.exit(1);
-	} finally {
-	    if (os != null) {
-		try {
-		    os.close();
-		} catch (IOException e) {
+	String extension = IOUtil.getExtension(inputFileName);
+	if (!extension.equalsIgnoreCase("pcl")) {
+	    DatasetParser reader = AnalysisUtil.getDatasetParser(inputFileName);
+	    Dataset dataset = AnalysisUtil.readDataset(reader, inputFileName);
+	    StanfordTxtWriter writer = new StanfordTxtWriter();
+	    String txtFileName = IOUtil.getBaseFileName(inputFileName) + ".txt";
+	    BufferedOutputStream os = null;
+	    try {
+		os = new BufferedOutputStream(new FileOutputStream(txtFileName));
+		writer.write(dataset, os);
+	    } catch (IOException x) {
+		System.err.println("Unable to create temporary file.");
+		System.exit(1);
+	    } finally {
+		if (os != null) {
+		    try {
+			os.close();
+		    } catch (IOException e) {
+		    }
 		}
+		new File(txtFileName).deleteOnExit();
 	    }
-	    new File(txtFileName).deleteOnExit();
-	}
 
-	args[1] = txtFileName;
+	    args[1] = txtFileName;
+	}
 	List<String> newArgs = new ArrayList<String>(Arrays.asList(args));
 	newArgs.add(0, executable);
 
