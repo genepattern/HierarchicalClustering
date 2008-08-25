@@ -89,6 +89,7 @@ public class RunCluster extends ExecutableWrapper {
 		i--;
 	    }
 	}
+	//	System.out.println(newArgs);
 	return newArgs.toArray(new String[0]);
 
     }
