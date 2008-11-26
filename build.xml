@@ -8,7 +8,7 @@
 		<property name="appfile" value="hcl.jar" />
 		<property name="inclds" value="org/**" />
 		<path id="library.classpath">
-			<fileset dir="${libpath}" id="jarlib" includes="Jama-1.0.1.jar, gp-modules.jar trove.jar ant.jar" />
+			<fileset dir="${libpath}" id="jarlib" includes="Jama-1.0.2.jar, gp-modules.jar trove.jar ant.jar" />
 		</path>
 	</target>
 
