@@ -12,7 +12,7 @@ privacy=public
 quality=production
 taskType=Clustering
 userid=jgould
-version=Report error when out of memory. Added 64-bit Linux support. Fixed bug that caused mean centering to be performed when median centering was selected.
+version=Row clustering turned off by default
 
 p1_MODE=IN
 p1_TYPE=FILE
@@ -33,8 +33,8 @@ p2_prefix_when_specified=
 p2_type=java.lang.String
 p2_value=0\=No column clustering;1\=Uncentered correlation;2\=Pearson correlation;3\=Uncentered correlation, absolute value;4\=Pearson correlation, absolute value;5\=Spearman's rank correlation;6\=Kendall's tau;7\=Euclidean distance;8\=City-block distance
 
-p3_default_value=2
-p3_description=distance measure for row (gene) clustering
+p3_default_value=0
+p3_description=distance measure for row (gene) clustering  NOTE: Filtering beforehand is recommended since row clustering is computationally intensive.
 p3_name=row.distance.measure
 p3_optional=
 p3_prefix_when_specified=
