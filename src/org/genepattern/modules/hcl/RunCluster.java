@@ -20,12 +20,12 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import org.genepattern.io.DatasetParser;
-import org.genepattern.io.IOUtil;
-import org.genepattern.io.stanford.StanfordTxtWriter;
-import org.genepattern.matrix.Dataset;
-import org.genepattern.module.AnalysisUtil;
 import org.genepattern.module.ExecutableWrapper;
+import org.broadinstitute.io.AnalysisUtil;
+import org.broadinstitute.io.IOUtil;
+import org.broadinstitute.io.DatasetParser;
+import org.broadinstitute.io.stanford.StanfordTxtWriter;
+import org.broadinstitute.matrix.Dataset;
 
 public class RunCluster extends ExecutableWrapper {
 
