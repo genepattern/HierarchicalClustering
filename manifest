@@ -158,4 +158,4 @@ requiredPatchURLs=
 serializedModel=
 taskType=Clustering
 userid=bhill@broad.mit.edu
-version=Row clustering turned off by default
+version=changed default values in manifest for p5-9 to be null see gpat-1032
