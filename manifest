@@ -1,99 +1,161 @@
-JVMLevel=1.5
+#_copyOfHierarchicalClustering
+#Wed May 30 16:55:42 EDT 2012
+JVMLevel=
+LSID=urn\:lsid\:9090.gpdev.gpint01\:genepatternmodules\:451\:2
 author=Joshua Gould, gp-help@broad.mit.edu
-commandLine=<java> <java_flags> -Djava.awt.headless=true -Dlibdir=<libdir> -Dwin=cluster.exe -Dmac=clusterMac -Dlinux=clusterLinux -Dlinux64=clusterLinux64 -cp <libdir>gp-modules.jar<path.separator><libdir>hcl.jar<path.separator><libdir>ant.jar org.genepattern.modules.hcl.RunCluster -f <input.filename> <log.transform> <row.center> <row.normalize> <column.center> <column.normalize> -u <output.base.name> -e <column.distance.measure> -g <row.distance.measure> -m <clustering.method>
-
+commandLine=<java> <java_flags> -Djava.awt.headless\=true -Dlibdir\=<libdir> -Dwin\=cluster.exe -Dmac\=clusterMac -Dlinux\=clusterLinux -Dlinux64\=clusterLinux64 -cp <libdir>gp-modules.jar<path.separator><libdir>hcl.jar<path.separator><libdir>ant.jar org.genepattern.modules.hcl.RunCluster -f <input.filename> <log.transform> <row.center> <row.normalize> <column.center> <column.normalize> -u <output.base.name> -e <column.distance.measure> -g <row.distance.measure> -m <clustering.method>
 cpuType=any
 description=Hierarchical Clustering
-fileFormat=gtr;atr;cdt
-language=Java, C
-name=HierarchicalClustering
+fileFormat=atr;cdt;gtr
+language=any
+name=_copyOfHierarchicalClustering
 os=any
-privacy=public
-quality=production
-taskType=Clustering
-userid=jgould
-version=Row clustering turned off by default
-
-p1_MODE=IN
-p1_TYPE=FILE
-p1_default_value=
-p1_description=input data file name - .gct, .res, .odf type \= Dataset
-p1_fileFormat=res;gct;Dataset
-p1_name=input.filename
-p1_optional=
-p1_prefix_when_specified=
-p1_type=java.io.File
-p1_value=
-
-p2_default_value=2
-p2_description=distance measure for column (sample) clustering
-p2_name=column.distance.measure
-p2_optional=
-p2_prefix_when_specified=
-p2_type=java.lang.String
-p2_value=0\=No column clustering;1\=Uncentered correlation;2\=Pearson correlation;3\=Uncentered correlation, absolute value;4\=Pearson correlation, absolute value;5\=Spearman's rank correlation;6\=Kendall's tau;7\=Euclidean distance;8\=City-block distance
-
-p3_default_value=0
-p3_description=distance measure for row (gene) clustering  NOTE: Filtering beforehand is recommended since row clustering is computationally intensive.
-p3_name=row.distance.measure
-p3_optional=
-p3_prefix_when_specified=
-p3_type=java.lang.String
-p3_value=0\=No row clustering;1\=Uncentered correlation;2\=Pearson correlation;3\=Uncentered correlation, absolute value;4\=Pearson correlation, absolute value;5\=Spearman's rank correlation;6\=Kendall's tau;7\=Euclidean distance;8\=City-block distance
-
-p4_default_value=m
-p4_description=hierarchical clustering method to use
-p4_name=clustering.method
-p4_optional=
-p4_prefix_when_specified=
-p4_type=java.lang.String
-p4_value=m\=Pairwise complete-linkage;s\=Pairwise single-linkage;c\=Pairwise centroid-linkage;a\=Pairwise average-linkage
-
-p5_default_value=no
-p5_description=log-transform the data before clustering
-p5_optional=on
-p5_name=log.transform
-p5_prefix_when_specified=
-p5_type=java.lang.String
-p5_value=\=no;-l\=yes
-
-p6_default_value=no
-p6_description=whether to center each row (gene) in the data
-p6_name=row.center
-p6_optional=on
-p6_prefix_when_specified=
-p6_type=java.lang.String
-p6_value=\=no;mean.row=Subtract the mean of each row;median.row\=Subtract the median of each row
-
-p7_default_value=no
-p7_description=whether to normalize each row (gene) in the data
-p7_name=row.normalize
-p7_optional=on
-p7_prefix_when_specified=
-p7_type=java.lang.String
-p7_value=\=no;-ng\=yes
-
-p8_default_value=no
-p8_name=column.center
-p8_description=whether to center each column (sample) in the data
-p8_optional=on
-p8_prefix_when_specified=
-p8_type=java.lang.String
-p8_value=\=no;mean.column\=Subtract the mean of each column;median.column\=Subtract the median of each column
-
-p9_default_value=no
-p9_description=whether to normalize each column (sample) in the data
-p9_name=column.normalize
-p9_optional=on
-p9_prefix_when_specified=
-p9_type=java.lang.String
-p9_value=\=no;-na\=yes
-
+p10_MODE=
+p10_TYPE=TEXT
+p10_choices=
 p10_default_value=<input.filename_basename>
 p10_description=base name for output files
+p10_fileFormat=
+p10_flag=
+p10_flagspace=
 p10_name=output.base.name
 p10_optional=
+p10_prefix=
 p10_prefix_when_specified=
 p10_type=java.lang.String
 p10_value=
-
+p1_MODE=IN
+p1_TYPE=FILE
+p1_choices=
+p1_default_value=
+p1_description=input data file name - .gct, .res, .odf type \= Dataset
+p1_fileFormat=Dataset;gct;res
+p1_flag=
+p1_flagspace=
+p1_name=input.filename
+p1_optional=
+p1_prefix=
+p1_prefix_when_specified=
+p1_type=java.io.File
+p1_value=
+p2_MODE=
+p2_TYPE=TEXT
+p2_choices=0\=No column clustering;1\=Uncentered correlation;2\=Pearson correlation;3\=Uncentered correlation, absolute value;4\=Pearson correlation, absolute value;5\=Spearman's rank correlation;6\=Kendall's tau;7\=Euclidean distance;8\=City-block distance
+p2_default_value=2
+p2_description=distance measure for column (sample) clustering
+p2_fileFormat=
+p2_flag=
+p2_flagspace=
+p2_name=column.distance.measure
+p2_optional=
+p2_prefix=
+p2_prefix_when_specified=
+p2_type=java.lang.String
+p2_value=
+p3_MODE=
+p3_TYPE=TEXT
+p3_choices=0\=No row clustering;1\=Uncentered correlation;2\=Pearson correlation;3\=Uncentered correlation, absolute value;4\=Pearson correlation, absolute value;5\=Spearman's rank correlation;6\=Kendall's tau;7\=Euclidean distance;8\=City-block distance
+p3_default_value=0
+p3_description=distance measure for row (gene) clustering  NOTE\: Filtering beforehand is recommended since row clustering is computationally intensive.
+p3_fileFormat=
+p3_flag=
+p3_flagspace=
+p3_name=row.distance.measure
+p3_optional=
+p3_prefix=
+p3_prefix_when_specified=
+p3_type=java.lang.String
+p3_value=
+p4_MODE=
+p4_TYPE=TEXT
+p4_choices=m\=Pairwise complete-linkage;s\=Pairwise single-linkage;c\=Pairwise centroid-linkage;a\=Pairwise average-linkage
+p4_default_value=m
+p4_description=hierarchical clustering method to use
+p4_fileFormat=
+p4_flag=
+p4_flagspace=
+p4_name=clustering.method
+p4_optional=
+p4_prefix=
+p4_prefix_when_specified=
+p4_type=java.lang.String
+p4_value=
+p5_MODE=
+p5_TYPE=TEXT
+p5_choices=\=no;-l\=yes
+p5_default_value=
+p5_description=log-transform the data before clustering
+p5_fileFormat=
+p5_flag=
+p5_flagspace=
+p5_name=log.transform
+p5_optional=on
+p5_prefix=
+p5_prefix_when_specified=
+p5_type=java.lang.String
+p5_value=
+p6_MODE=
+p6_TYPE=TEXT
+p6_choices=\=no;mean.row\=Subtract the mean of each row;median.row\=Subtract the median of each row
+p6_default_value=
+p6_description=whether to center each row (gene) in the data
+p6_fileFormat=
+p6_flag=
+p6_flagspace=
+p6_name=row.center
+p6_optional=on
+p6_prefix=
+p6_prefix_when_specified=
+p6_type=java.lang.String
+p6_value=
+p7_MODE=
+p7_TYPE=TEXT
+p7_choices=\=no;-ng\=yes
+p7_default_value=
+p7_description=whether to normalize each row (gene) in the data
+p7_fileFormat=
+p7_flag=
+p7_flagspace=
+p7_name=row.normalize
+p7_optional=on
+p7_prefix=
+p7_prefix_when_specified=
+p7_type=java.lang.String
+p7_value=
+p8_MODE=
+p8_TYPE=TEXT
+p8_choices=\=no;mean.column\=Subtract the mean of each column;median.column\=Subtract the median of each column
+p8_default_value=
+p8_description=whether to center each column (sample) in the data
+p8_fileFormat=
+p8_flag=
+p8_flagspace=
+p8_name=column.center
+p8_optional=on
+p8_prefix=
+p8_prefix_when_specified=
+p8_type=java.lang.String
+p8_value=
+p9_MODE=
+p9_TYPE=TEXT
+p9_choices=\=no;-na\=yes
+p9_default_value=
+p9_description=whether to normalize each column (sample) in the data
+p9_fileFormat=
+p9_flag=
+p9_flagspace=
+p9_name=column.normalize
+p9_optional=on
+p9_prefix=
+p9_prefix_when_specified=
+p9_type=java.lang.String
+p9_value=
+pipelineModel=
+privacy=private
+quality=production
+requiredPatchLSIDs=
+requiredPatchURLs=
+serializedModel=
+taskType=Clustering
+userid=bhill@broad.mit.edu
+version=Row clustering turned off by default
