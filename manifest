@@ -41,7 +41,7 @@ p3_optional=
 p3_prefix_when_specified=
 p3_type=java.lang.String
 p3_value=0\=No row clustering;1\=Uncentered correlation;2\=Pearson correlation;3\=Uncentered correlation, absolute value;4\=Pearson correlation, absolute value;5\=Spearman's rank correlation;6\=Kendall's tau;7\=Euclidean distance;8\=City-block distance
-p4_default_value=m
+p4_default_value=a
 p4_description=hierarchical clustering method to use
 p4_name=clustering.method
 p4_optional=
@@ -88,4 +88,4 @@ publicationDate=02/10/2009 14\:12
 quality=production
 taskType=Clustering
 userid=eby@broadinstitute.org
-version=Fixed bug when running on Java 7.
+version=Fixed a bug that prevented running on Java 7.  Changed the default clustering.method to Pairwise average-linkage.  Updated docs.
