@@ -9,20 +9,21 @@
 		<property name="appfile" value="hcl.jar" />
 		<property name="inclds" value="org/**" />
 		<path id="library.classpath">
-			<fileset dir="lib" id="jarlib" includes="Jama-1.0.2.jar, gp-modules.jar trove.jar ant.jar" />
+			<fileset dir="lib" id="jarlib" includes="Jama-1.0.2.jar legacy-gp-modules.jar trove.jar ant.jar" />
 		</path>
 	</target>
 
 
 	<target name="package" depends="_init, compile">
-        <jar destfile="lib/${appfile}" basedir="bin" update="true" defaultexcludes="true" >
+        <mkdir dir="dist" />
+        <jar destfile="dist/${appfile}" basedir="classes" update="true" defaultexcludes="true" >
        </jar>
 	</target>
 
 	<target name="compile" depends="_init">
-	    <mkdir dir="bin" />
+	    <mkdir dir="classes" />
 		<javac debug="true" defaultexcludes="true" includeantruntime="false" 
-		    deprecation="true" destdir="bin" includes="${inclds}" optimize="false" srcdir="src" target="${java.target}" source="${java.target}">
+		    deprecation="true" destdir="classes" includes="${inclds}" optimize="false" srcdir="src" target="${java.target}" source="${java.target}">
 			<classpath refid="library.classpath" />
 		</javac>
 	</target>
@@ -44,6 +45,7 @@
 		<zip destfile="${dest.dir}/${ant.project.name}.zip" whenempty="fail" defaultexcludes="true">
 			<fileset dir="." includes="LICENSE.txt, manifest, *.pdf" />
             <fileset dir="lib" includes="*.jar" />
+            <fileset dir="dist" includes="*.jar" />
 			<zipfileset dir="." includes="cluster*" filemode="654" />
 		</zip>
 		<antcall target="postzip" />
