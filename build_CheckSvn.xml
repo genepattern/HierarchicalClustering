@@ -113,7 +113,21 @@
 		</java>
 	</target>
 
-	<target depends="_init, package" name="create-zip">
+    <target name="manifestVersionUpdate">
+        <!-- Loading manifest won't be necessary in the future; already handled by pre/releaseModule -->
+        <property file="manifest" />
+        <input message="Enter new version comment or press enter to keep existing:"
+            addproperty="versionComment" defaultvalue="${version}" />
+        <condition property="version.unchanged">
+            <equals arg1="${version}" arg2="${versionComment}" />
+        </condition>
+        <propertyfile file="manifest">
+            <entry key="version" value="${versionComment}" />
+        </propertyfile>
+        <!-- Will add manifest to the files committed by prerelease/release-->
+    </target>
+    
+	<target depends="_init, manifestVersionUpdate, package" name="create-zip">
 		<antcall target="prezip" />
 
 		<zip destfile="${dest.dir}/${ant.project.name}.zip" whenempty="fail" defaultexcludes="true">
