@@ -45,8 +45,16 @@
             <exclude name=".*project" />
         </patternset>
     </target>
-
+    
     <target name="check_svn" depends="_init">
+        <if>
+            <not><isset property="module.svn.check"/></not>
+            <then><patternset id="module.svn.check" refid="default.svn.check" /></then>
+        </if>
+        <if>
+            <not><isset property="module.svn.check.unvers"/></not>
+            <then><patternset id="module.svn.check.unvers" refid="default.svn.check.unvers" /></then>
+        </if>
         <echo>Checking SVN for dirty files...</echo>
         <fileset dir="${dirOffset}" id="svn.dirty">
             <patternset refid="module.svn.check" />
