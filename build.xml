@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Ant build file -->
-<project basedir="" default="create-zip" name="HierarchicalClustering">
+<project basedir="." default="create-zip" name="HierarchicalClustering">
 	<property name="dirOffset" value="../" />
 	<import file="${dirOffset}/commontargets.xml" />
 
@@ -12,7 +12,6 @@
 			<fileset dir="lib" id="jarlib" includes="Jama-1.0.2.jar legacy-gp-modules.jar trove.jar ant.jar" />
 		</path>
 	</target>
-
 
 	<target name="package" depends="_init, compile">
         <mkdir dir="dist" />
@@ -38,6 +37,21 @@
 		<java fork="true" classpath="./:${library.classpath}" classname="org.genepattern.modules.hcl.DiffJavaAndC">
 		</java>
 	</target>
+
+    <target name="init.svn.check">
+        <!-- PatternSets used for SVN checks.  The module developer defines these; the intention is that the 
+             defaults cover most uses and these provide overrides. -->
+        <!-- PatternSet with includes/excludes for SVN "dirty" check -->
+        <patternset id="module.svn.check">
+            <patternset refid="default.svn.check" />
+            <exclude name="${moduleHome}/dist/${appfile}" />
+        </patternset>
+        <!-- PatternSet with includes/excludes for SVN "unversioned" check -->
+        <patternset id="module.svn.check.unvers">
+            <patternset refid="default.svn.check.unvers" />
+            <exclude name="${moduleHome}/dist/${appfile}" />
+        </patternset>
+    </target>
 
 	<target depends="_init, package" name="create-zip">
 		<antcall target="prezip" />
