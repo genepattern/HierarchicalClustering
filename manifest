@@ -1,3 +1,4 @@
+#Wed, 13 Mar 2013 18:23:58 +0900
 #HierarchicalClustering
 #Sun Mar 03 15:24:46 EST 2013
 JVMLevel=1.5
@@ -88,4 +89,4 @@ publicationDate=02/10/2009 14\:12
 quality=production
 taskType=Clustering
 userid=eby@broadinstitute.org
-version=Fixed a bug that prevented running on Java 7.  Changed the default clustering.method to Pairwise average-linkage.  Updated docs.
+version=Testing the new prerelease build process with SVN checks and version comment prompting.
