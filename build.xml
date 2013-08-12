@@ -57,7 +57,7 @@
 		<antcall target="prezip" />
 
 		<zip destfile="${dest.dir}/${ant.project.name}.zip" whenempty="fail" defaultexcludes="true">
-			<fileset dir="." includes="LICENSE.txt, manifest, *.pdf" />
+			<fileset dir="." includes="LICENSE.txt, manifest, *.html" />
             <fileset dir="lib" includes="*.jar" />
             <fileset dir="dist" includes="*.jar" />
 			<zipfileset dir="." includes="cluster*" filemode="654" />
