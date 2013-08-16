@@ -1,4 +1,4 @@
-#lsid=urn:lsid:broad.mit.edu:cancer.software.genepattern.module.analysis:00009:5
+#lsid=urn:lsid:broad.mit.edu:cancer.software.genepattern.module.analysis:00009:5.4
 #
 module: HierarchicalClustering
 params:
@@ -16,6 +16,6 @@ assertions:
         diffCmd: diff --strip-trailing-cr -q
         files:
             "all_aml_test.preprocessed.atr":
-                diff: "/Volumes/xchip_sqa/Modules/TestSuiteData/HierarchicalClustering/test/v5/output/col_oriented/valid_pset_3_test/all_aml_test.preprocessed.atr"
+                diff: "/Volumes/xchip_sqa/Modules/TestSuiteData/HierarchicalClustering/v6/output/col_oriented/valid_pset_3_test/all_aml_test.preprocessed.atr"
             "all_aml_test.preprocessed.cdt":
-                diff: "/Volumes/xchip_sqa/Modules/TestSuiteData/HierarchicalClustering/test/v5/output/col_oriented/valid_pset_3_test/all_aml_test.preprocessed.cdt"
+                diff: "/Volumes/xchip_sqa/Modules/TestSuiteData/HierarchicalClustering/v6/output/col_oriented/valid_pset_3_test/all_aml_test.preprocessed.cdt"
