@@ -1,3 +1,5 @@
+#updated after building 5.5
+#Fri, 16 Aug 2013 13:45:40 -0400
 #updated after building 5.4
 #Wed, 13 Mar 2013 19:35:26 +0900
 #updated after building 5.3
@@ -8,4 +10,4 @@
 #Tue, 05 Mar 2013 15:50:12 -0500
 #prerelease version number
 #Tue Feb 10 14:12:19 EST 2009
-prerelease.number=5
+prerelease.number=6
