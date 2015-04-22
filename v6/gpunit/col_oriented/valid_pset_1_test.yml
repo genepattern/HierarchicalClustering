@@ -4,7 +4,7 @@ name: HierarchicalClustering - Column Oriented - Valid Paramater Set 1
 description: (no description)
 module: HierarchicalClustering
 params:
-       input.filename: "<%gpunit.serverTestDataRoot%>/HierarchicalClustering/v6/input/all_aml_test.preprocessed.gct"
+       input.filename: "<%gpunit.testData%>/gpunit/HierarchicalClustering/v6/input/all_aml_test.preprocessed.gct"
        column.distance.measure: "1"
        row.distance.measure: "0"
        clustering.method: "m"
@@ -18,6 +18,6 @@ assertions:
         diffCmd: diff <%gpunit.diffStripTrailingCR%> -q
         files:
             "all_aml_test.preprocessed.atr":
-                diff: "<%gpunit.resultDataRoot%>/HierarchicalClustering/v6/output/col_oriented/valid_pset_1_test/all_aml_test.preprocessed.atr"
+                diff: "<%gpunit.resultData%>/gpunit/HierarchicalClustering/v6/output/col_oriented/valid_pset_1_test/all_aml_test.preprocessed.atr"
             "all_aml_test.preprocessed.cdt":
-                diff: "<%gpunit.resultDataRoot%>/HierarchicalClustering/v6/output/col_oriented/valid_pset_1_test/all_aml_test.preprocessed.cdt"
+                diff: "<%gpunit.resultData%>/gpunit/HierarchicalClustering/v6/output/col_oriented/valid_pset_1_test/all_aml_test.preprocessed.cdt"
