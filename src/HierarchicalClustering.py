@@ -4,7 +4,6 @@ Created on 2017-08-15 by Edwin F. Juarez.
 This module will grab a .gct file to perform hierarchical clustering on the columns.
 """
 
-# TODO: turn name of files into inputs, just like in DiffEx.
 # TODO: Create a function that parses the inputs.
 
 import os
@@ -26,6 +25,35 @@ from time import time
 from statistics import mode
 import cuscatlan as cusca
 sns.set_style("white")
+
+def parse_inputs(args=sys.argv):
+    # inp = []
+    # inp = args
+    # Error handling:
+    arg_n = len(sys.argv)
+    if arg_n == 1:
+        sys.exit("Not enough parameters files were provided. This module needs a GCT file to work.")
+    elif arg_n == 2:
+        gct_name = sys.argv[1]
+        distance_metric = 'euclidean'
+        print("Using:")
+        print("\tgct_name =", gct_name)
+        print("\tdistance_metric = euclidean (default value)")
+    elif arg_n == 3:
+        gct_name = sys.argv[1]
+        distance_metric = sys.argv[2]
+        print("Using:")
+        print("\tgct_name =", gct_name)
+        print("\tdistance_metric =", distance_metric)
+        print()
+    else:
+        sys.exit("Too many inputs. This module needs only a GCT file to work, "
+                 "plus an optional input choosing between Pearson Correlation or Information Coefficient.")
+
+    return gct_name, distance_metric
+
+gct_name, distance_metric = parse_inputs()
+
 
 def plot_dendrogram(model, **kwargs):
     #modified from https://github.com/scikit-learn/scikit-learn/pull/3464/files
@@ -116,18 +144,18 @@ df = pd.read_csv("../data/test_dataset.cls", sep=' ', skiprows=2, header=None)
 new_labels = np.asarray(df.as_matrix().T)
 new_labels = new_labels.reshape(new_labels.shape[0],)
 
-af_to_use = myaffintyp
-for af_to_use in func_dic.keys():
-    model = AgglomerativeClustering(linkage='average', n_clusters=2, affinity=af_to_use)
-    # model = AgglomerativeClustering(linkage='average', n_clusters=2, affinity='euclidean')
-    # clustering = AgglomerativeClustering(linkage='average', n_clusters=2, affinity=myaffintye)
-    t0 = time()
-    model.fit(data)
-    print("{:>16s}: {:3.2g}s\t: {} mislabels".format(
-        func_dic[af_to_use], time() - t0, count_mislabels(model.labels_, new_labels)))
-    # print(new_labels)
-    # print(model.labels_)
-    # print(np.sum(new_labels == model.labels_), '"Real errors"')
+# af_to_use = myaffintyp
+# for af_to_use in func_dic.keys():
+model = AgglomerativeClustering(linkage='average', n_clusters=2, affinity=distance_metric)
+# model = AgglomerativeClustering(linkage='average', n_clusters=2, affinity='euclidean')
+# clustering = AgglomerativeClustering(linkage='average', n_clusters=2, affinity=myaffintye)
+t0 = time()
+model.fit(data)
+print("{:>16s}: {:3.2g}s\t: {} mislabels".format(
+    func_dic[distance_metric], time() - t0, count_mislabels(model.labels_, new_labels)))
+# print(new_labels)
+# print(model.labels_)
+# print(np.sum(new_labels == model.labels_), '"Real errors"')
 
 # print(new_labels)
 # print(clustering.labels_)
