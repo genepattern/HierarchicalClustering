@@ -23,7 +23,7 @@ from scipy.cluster.hierarchy import dendrogram
 from sklearn.cluster import AgglomerativeClustering
 from time import time
 from statistics import mode
-import cuscatlan as cusca
+import cuzcatlan as cusca
 sns.set_style("white")
 
 def parse_inputs(args=sys.argv):
@@ -75,20 +75,61 @@ def plot_dendrogram(model, **kwargs):
     return order_of_columns
 
 
-def myaffintyp(M):
+def my_affinity_p(M):
     return np.array([[cusca.custom_pearson(a, b) for a in M]for b in M])
 
 
+def my_affinity_s(M):
+    return np.array([[cusca.custom_spearman(a, b) for a in M]for b in M])
+
+
+def my_affinity_k(M):
+    return np.array([[cusca.custom_kendall_tau(a, b) for a in M]for b in M])
+
+
+def my_affinity_ap(M):
+    return np.array([[cusca.absolute_pearson(a, b) for a in M]for b in M])
+
+
+def my_affinity_u(M):
+    return np.array([[cusca.uncentered_pearson(a, b) for a in M]for b in M])
+
+
+def my_affinity_au(M):
+    return np.array([[cusca.absolute_uncentered_pearson(a, b) for a in M]for b in M])
+
+
 def count_mislabels(labels, true_labels):
-    clusters = np.unique(true_labels)
-    mislabels = 0
-    for curr_clust in clusters:
-        # print("for label", curr_clust)
-        # print("\t", labels[(true_labels == curr_clust)])
-        compare_to = mode(labels[(true_labels == curr_clust)])
-        # print("\t", compare_to, np.sum(labels[(true_labels == curr_clust)] != compare_to))
-        mislabels += np.count_nonzero(labels[(true_labels == curr_clust)] != compare_to)
-    return mislabels
+    # 2017-08-17: I will make the assumption that clusters have only 2 values.
+    # clusters = np.unique(true_labels)
+    # mislabels = 0
+    # for curr_clust in clusters:
+    #     print("for label", curr_clust)
+    #     print("\t", labels[(true_labels == curr_clust)])
+    #     compare_to = mode(labels[(true_labels == curr_clust)])
+    #     print("\tcompare to:", compare_to, "mislables: ", np.count_nonzero(labels[(true_labels == curr_clust)] != compare_to))
+    #     mislabels += np.count_nonzero(labels[(true_labels == curr_clust)] != compare_to)
+
+    set_a = labels[true_labels == 0]
+    set_b = labels[true_labels == 1]
+
+    if len(set_a) <= len(set_b):
+        shorter = set_a
+        longer = set_b
+    else:
+        shorter = set_b
+        longer = set_a
+
+    long_mode = mode(longer)  # this what the label of the longer cluster should be.
+    short_mode = 1 if long_mode == 0 else 0  # Choose the other value for the label of the shorter cluster
+
+    # start with the longer vector:
+    # print("The long set is", longer, "it has", np.count_nonzero(longer != long_mode), 'mislabels.')
+    # print("The short set is", shorter, "it has", np.count_nonzero(shorter != short_mode), 'mislabels.')
+
+    # np.count_nonzero(longer != long_mode) + np.count_nonzero(shorter != short_mode)
+
+    return np.count_nonzero(longer != long_mode) + np.count_nonzero(shorter != short_mode)
 
 
 def count_diff(x):
@@ -106,7 +147,7 @@ def mydist(p1, p2):
     return np.vdot(diff, diff) ** 0.5
 
 
-def myaffintye(M):
+def my_affinity_e(M):
     global dist_matrix
     dist_matrix = np.array([[mydist(a, b) for a in M]for b in M])
     return dist_matrix
@@ -116,10 +157,26 @@ def dendodist(V):
     dists = np.array([mydist(a[0],a[1]) for a in V])
     return np.cumsum(dists)
 
-func_dic = {
-    myaffintye: "custom_eucledian",
-    #myaffintyi: "custom_ic",
-    myaffintyp: "custom_pearson",
+# func_dic = {
+#     my_affinity_e: "custom_eucledian",
+#     #my_affinity_i: "custom_ic",
+#     my_affinity_p: "custom_pearson",
+#     'l1': 'l1',
+#     'l2': 'l2',
+#     'manhattan': 'manhattan',
+#     'cosine': 'cosine',
+#     'euclidean': 'euclidean',
+# }
+
+str2func = {
+    'custom_euclidean': my_affinity_e,
+    'uncentered_pearson': my_affinity_u,
+    'absolute_uncentered_pearson': my_affinity_au,
+    #'custom_ic': my_affinity_i,
+    'pearson': my_affinity_p,
+    'spearman': my_affinity_s,
+    'kendall': my_affinity_k,
+    'absolute_pearson': my_affinity_ap,
     'l1': 'l1',
     'l2': 'l2',
     'manhattan': 'manhattan',
@@ -144,15 +201,15 @@ df = pd.read_csv("../data/test_dataset.cls", sep=' ', skiprows=2, header=None)
 new_labels = np.asarray(df.as_matrix().T)
 new_labels = new_labels.reshape(new_labels.shape[0],)
 
-# af_to_use = myaffintyp
-# for af_to_use in func_dic.keys():
-model = AgglomerativeClustering(linkage='average', n_clusters=2, affinity=distance_metric)
+# af_to_use = my_affinity_p
+# for distance_metric in str2func.keys():
+model = AgglomerativeClustering(linkage='average', n_clusters=2, affinity=str2func[distance_metric])
 # model = AgglomerativeClustering(linkage='average', n_clusters=2, affinity='euclidean')
-# clustering = AgglomerativeClustering(linkage='average', n_clusters=2, affinity=myaffintye)
+# clustering = AgglomerativeClustering(linkage='average', n_clusters=2, affinity=my_affinity_e)
 t0 = time()
 model.fit(data)
 print("{:>16s}: {:3.2g}s\t: {} mislabels".format(
-    func_dic[distance_metric], time() - t0, count_mislabels(model.labels_, new_labels)))
+    distance_metric, time() - t0, count_mislabels(model.labels_, new_labels)))
 # print(new_labels)
 # print(model.labels_)
 # print(np.sum(new_labels == model.labels_), '"Real errors"')
@@ -193,3 +250,9 @@ def plot_heatmap(df, col_order, top=5, title_text='differentially expressed gene
 np.floor(len(data_df)/2)
 plot_heatmap(data_df, top=int(np.floor(len(data_df)/2)), col_order=order_of_columns)
 
+
+# Creating outputs.
+cusca.list2cls(model.labels_, name_of_out='labels.cls')
+
+# print(model.labels_)
+# print(list(data_df))
