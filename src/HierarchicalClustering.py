@@ -15,8 +15,6 @@ tasklib_path = os.path.dirname(os.path.realpath(sys.argv[0]))
 # sys.path.append(tasklib_path + "/ccalnoir")
 import matplotlib as mpl
 mpl.use('Agg')
-# import ccalnoir as ccal
-# from ccalnoir.mathematics.information import information_coefficient
 import pandas as pd
 import numpy as np
 import scipy
@@ -88,6 +86,10 @@ def plot_dendrogram(model, dist=mydist, **kwargs):
     children = model.children_
     # Distances between each pair of children
     distance = dendodist(children, dist)
+    if all(value == 0 for value in distance):
+        # If all distances are zero, then use uniform distance
+        distance = np.arange(len(distance))
+
     # The number of observations contained in each cluster level
     no_of_observations = np.arange(2, children.shape[0]+2)
     # Create linkage matrix and then plot the dendrogram
@@ -100,6 +102,10 @@ def plot_dendrogram(model, dist=mydist, **kwargs):
 
     plt.gca().get_yaxis().set_visible(False)
     return order_of_columns
+
+
+def my_affinity_i(M):
+    return np.array([[cusca.information_coefficient(a, b) for a in M]for b in M])
 
 
 def my_affinity_p(M):
@@ -204,7 +210,7 @@ str2func = {
     'custom_euclidean': my_affinity_e,
     'uncentered_pearson': my_affinity_u,
     'absolute_uncentered_pearson': my_affinity_au,
-    #'custom_ic': my_affinity_i,
+    'information_coefficient': my_affinity_i,
     'pearson': my_affinity_p,
     'spearman': my_affinity_s,
     'kendall': my_affinity_k,
@@ -221,7 +227,7 @@ str2affinity_func = {
     'custom_euclidean': my_affinity_e,
     'uncentered_pearson': my_affinity_u,
     'absolute_uncentered_pearson': my_affinity_au,
-    #'custom_ic': my_affinity_i,
+    'information_coefficient': my_affinity_i,
     'pearson': my_affinity_p,
     'spearman': my_affinity_s,
     'kendall': my_affinity_k,
@@ -237,7 +243,7 @@ str2dist = {
     'custom_euclidean': mydist,
     'uncentered_pearson': cusca.uncentered_pearson,
     'absolute_uncentered_pearson': cusca.absolute_pearson,
-    #'custom_ic': my_affinity_i,
+    'information_coefficient': cusca.information_coefficient,
     'pearson': cusca.custom_pearson,
     'spearman': cusca.custom_spearman,
     'kendall': cusca.custom_kendall_tau,

@@ -17,6 +17,7 @@ gct_file = 'test_dataset.gct'
 # func = 'spearman'
 # func = 'kendall'
 func = 'euclidean'
+# func = 'information_coefficient'
 command = "python HierarchicalClustering.py "+INPUT_FILE_DIR+gct_file+" "+func+" True"
 print("About to make this command line call\n\t", command)
 call(command, shell=True)
