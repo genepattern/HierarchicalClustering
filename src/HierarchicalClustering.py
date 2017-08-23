@@ -2,16 +2,21 @@
 Created on 2017-08-15 by Edwin F. Juarez.
 
 This module will grab a .gct file to perform hierarchical clustering on the columns.
+
+Pre-release. This module should not be used for purposes other than testing (by Edwin).
 """
+
+print("Disclaimer: This is a pre-release version.")
+print("This module should not be used for purposes other than testing (by Edwin).")
 
 import os
 import sys
 tasklib_path = os.path.dirname(os.path.realpath(sys.argv[0]))
-sys.path.append(tasklib_path + "/ccalnoir")
+# sys.path.append(tasklib_path + "/ccalnoir")
 import matplotlib as mpl
 mpl.use('Agg')
-import ccalnoir as ccal
-from ccalnoir.mathematics.information import information_coefficient
+# import ccalnoir as ccal
+# from ccalnoir.mathematics.information import information_coefficient
 import pandas as pd
 import numpy as np
 import scipy
@@ -244,7 +249,8 @@ str2dist = {
     'euclidean': pairwise.paired_euclidean_distances,
 }
 
-data_df = pd.read_csv("../data/test_dataset.gct", sep='\t', skiprows=2)
+# data_df = pd.read_csv("../data/test_dataset.gct", sep='\t', skiprows=2)
+data_df = pd.read_csv(gct_name, sep='\t', skiprows=2)
 # plot_labels = [item[:3] for item in list(df1)]
 data_df.set_index(data_df['Name'], inplace=True)
 data_df.drop(['Name', 'Description'], axis=1, inplace=True)
@@ -257,9 +263,12 @@ plot_labels = list(data_df)
 data = data_df.as_matrix().T
 
 # Reading the cls for the
-df = pd.read_csv("../data/test_dataset.cls", sep=' ', skiprows=2, header=None)
-new_labels = np.asarray(df.as_matrix().T)
-new_labels = new_labels.reshape(new_labels.shape[0],)
+# df = pd.read_csv("../data/test_dataset.cls", sep=' ', skiprows=2, header=None)
+# new_labels = np.asarray(df.as_matrix().T)
+# new_labels = new_labels.reshape(new_labels.shape[0],)
+new_labels = np.array([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+                       1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1])
+# print(new_labels)
 
 # af_to_use = my_affinity_p
 # for distance_metric in str2func.keys():
@@ -310,7 +319,6 @@ def plot_heatmap(df, col_order, top=5, title_text='differentially expressed gene
 np.floor(len(data_df)/2)
 plot_heatmap(data_df, top=int(np.floor(len(data_df)/2)), col_order=order_of_columns)
 
-
 # Creating outputs.
 cusca.list2cls(model.labels_, name_of_out='labels.cls')
 
@@ -327,7 +335,6 @@ if output_distances:
         dist_file.write('distances row='+str(i)+","+",".join(row.astype(str)) + "\n")
         # dist_file.write('distances,'+",".join(row.astype(str)) + "\n")
         i += 1
-
     # print()
 
 # print(model.labels_)
