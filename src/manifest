@@ -1,7 +1,7 @@
 #HierarchicalClustering
 #Wed Aug 23 09:49:23 PDT 2017
 JVMLevel=
-LSID=urn\:lsid\:broad.mit.edu\:cancer.software.genepattern.module.analysis\:00009\:7
+LSID=urn\:lsid\:broad.mit.edu\:cancer.software.genepattern.module.analysis\:00009\:7.0.2
 author=Edwin Juarez;Mesirov Lab -- GenePattern
 categories=Clustering
 commandLine=<python/3.6> <libdir>HierarchicalClustering.py <GCT_file> <distance_metric> <output_distance_matrix>
@@ -36,7 +36,7 @@ p2_optional=on
 p2_prefix=
 p2_prefix_when_specified=
 p2_type=java.lang.String
-p2_value=euclidean\=Euclidean [L2] (default);pearson\=Pearson correlation;absolute_pearson\=Pearson correlation, absolute value;uncentered_pearson\=Uncentered Pearson correlation;absolute_uncentered_pearson\=Uncentered Pearson correlation, absolute value;spearman\=Spearman's rank correlation;kendall\=Kendall's Tau;mahattan\=L-1, Manhattan, City block distance;cosine\=Cosine distance
+p2_value=euclidean\=Euclidean [L2] (default);pearson\=Pearson correlation;absolute_pearson\=Pearson correlation, absolute value;uncentered_pearson\=Uncentered Pearson correlation;absolute_uncentered_pearson\=Uncentered Pearson correlation, absolute value;spearman\=Spearman's rank correlation;kendall\=Kendall's Tau;mahattan\=L-1, Manhattan, City block distance;cosine\=Cosine distance;information_coefficient\=Information Coeffient
 p3_MODE=
 p3_TYPE=TEXT
 p3_default_value=False
