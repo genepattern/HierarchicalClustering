@@ -27,23 +27,14 @@ sns.set_style("white")
 from hc_functions import *
 
 gct_name, distance_metric, output_distances = parse_inputs(sys.argv)
-
-
 data, data_df, plot_labels = parse_data(gct_name)
-
-
 model = AgglomerativeClustering(linkage='average', n_clusters=2, affinity=str2func[distance_metric])
+
+# print(plot_labels)
+
 model.fit(data)
 
 # TO MOVE
-new_labels = np.array([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-                       1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1])
-
-# test_model = AgglomerativeClustering(linkage='average', n_clusters=2, affinity=str2func[distance_metric])
-# test_model.fit(data)
-t0 = time()
-print("{:>16s}: {:3.2g}s\t: {} mislabels".format(
-    distance_metric, time() - t0, count_mislabels(model.labels_, new_labels)))
 # END TO MOVE
 
 fig = plt.figure(dpi=300)
@@ -52,6 +43,7 @@ plt.savefig('sample_cluster.png', dpi=300, bbox_inches='tight')
 plot_heatmap(data_df, top=int(np.floor(len(data_df)/2)), col_order=order_of_columns)
 
 # Creating outputs.
+print("Creating outputs now.")
 cusca.list2cls(model.labels_, name_of_out='labels.cls')
 
 if output_distances:
