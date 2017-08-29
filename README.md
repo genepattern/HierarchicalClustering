@@ -1,5 +1,2 @@
-# HierarchicalClustering
-GenePattern Hierarchical Clustering module.
-
-Under construction.
-
+# HierarchicalClustering_python
+Python rewrite of the hierarchical clustering module.
