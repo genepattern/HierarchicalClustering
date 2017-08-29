@@ -29,13 +29,7 @@ from hc_functions import *
 gct_name, distance_metric, output_distances = parse_inputs(sys.argv)
 data, data_df, plot_labels = parse_data(gct_name)
 model = AgglomerativeClustering(linkage='average', n_clusters=2, affinity=str2func[distance_metric])
-
-# print(plot_labels)
-
 model.fit(data)
-
-# TO MOVE
-# END TO MOVE
 
 fig = plt.figure(dpi=300)
 order_of_columns = plot_dendrogram(model, dist=str2dist[distance_metric], labels=plot_labels)

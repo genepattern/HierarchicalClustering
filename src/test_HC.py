@@ -1,16 +1,10 @@
-from subprocess import call
-import os
 import numpy as np
 from hc_functions import *
 import pickle
-import cuzcatlan as cusca
 from sklearn.cluster import AgglomerativeClustering
-from time import time
 
 # -------------------------
 # Begin parser tests
-
-
 def test_gct_parsing():
     gct_name, __, __ = parse_inputs(['', '../data/test_dataset.gct'])
     assert gct_name == '../data/test_dataset.gct'
@@ -58,10 +52,12 @@ def test_data_parser_output_1():
     data_2compare = pickle.load(open('../data/data_2compare.p', 'rb'))
     assert np.allclose(data, data_2compare)
 
+
 def test_data_parser_output_2():
     __, data_df, __ = parse_data('../data/test_dataset.gct')
     data_df_2compare = pickle.load(open('../data/data_df_2compare.p', 'rb'))
     assert data_df.equals(data_df_2compare)
+
 
 def test_data_parser_output_3():
     true_labels = ['L00', 'L01', 'L02', 'L03', 'L04', 'L05', 'L06', 'L07', 'L08', 'L09', 'L10', 'L11', 'L12', 'L13',
@@ -69,6 +65,7 @@ def test_data_parser_output_3():
                    'M28', 'M29', 'M30', 'M31', 'M32', 'M33', 'M34']
     __, __, plot_labels = parse_data('../data/test_dataset.gct')
     assert plot_labels == true_labels
+
 
 def test_known_output():
     #  Creating some test labels
@@ -80,3 +77,5 @@ def test_known_output():
     test_model.fit(data)
     # We know that the euclidean distance gets one label wrong
     assert count_mislabels(test_model.labels_, new_labels) == 1
+
+# TODO: Add a test for the number of outputs, maybe names instead?
