@@ -19,23 +19,28 @@ def parse_inputs(args=sys.argv):
         gct_name = args[1]
         distance_metric = 'euclidean'
         output_distances = False
+        cluster_by_rows = False
         print("Using:")
         print("\tgct_name =", gct_name)
         print("\tdistance_metric = euclidean (default value)")
         print("\toutput_distances =", output_distances, "(default: not computing it and creating a file)")
+        print("\tcluster_by_rows =", cluster_by_rows, "(default: not clustering by rows)")
     elif arg_n == 3:
         gct_name = args[1]
         distance_metric = args[2]
         output_distances = False
+        cluster_by_rows = False
         print("Using:")
         print("\tgct_name =", gct_name)
         print("\tdistance_metric =", distance_metric)
         print("\toutput_distances =", output_distances, "(default: not computing it and creating a file)")
+        print("\tcluster_by_rows =", cluster_by_rows, "(default: not clustering by rows)")
         print()
     elif arg_n == 4:
         gct_name = args[1]
         distance_metric = args[2]
         output_distances = args[3]
+        cluster_by_rows = False
         if (output_distances == 'False') or (output_distances == 'F')\
                 or (output_distances == 'false') or (output_distances == 'f'):
             output_distances = False
@@ -45,11 +50,32 @@ def parse_inputs(args=sys.argv):
         print("\tgct_name =", gct_name)
         print("\tdistance_metric =", distance_metric)
         print("\toutput_distances =", output_distances)
+        print("\tcluster_by_rows =", cluster_by_rows, "(default: not clustering by rows)")
+    elif arg_n == 5:
+        gct_name = args[1]
+        distance_metric = args[2]
+        output_distances = args[3]
+        cluster_by_rows = args[4]
+        if (output_distances == 'False') or (output_distances == 'F') \
+                or (output_distances == 'false') or (output_distances == 'f'):
+            output_distances = False
+        else:
+            output_distances = True
+        if (cluster_by_rows == 'False') or (cluster_by_rows == 'F') \
+                or (cluster_by_rows == 'false') or (cluster_by_rows == 'f'):
+            cluster_by_rows = False
+        else:
+            cluster_by_rows = True
+        print("Using:")
+        print("\tgct_name =", gct_name)
+        print("\tdistance_metric =", distance_metric)
+        print("\toutput_distances =", output_distances)
+        print("\tcluster_by_rows =", cluster_by_rows)
     else:
         sys.exit("Too many inputs. This module needs only a GCT file to work, "
                  "plus an optional input choosing between Pearson Correlation or Information Coefficient.")
 
-    return gct_name, distance_metric, output_distances
+    return gct_name, distance_metric, output_distances, cluster_by_rows
 
 
 def plot_dendrogram(model, dist=cusca.mydist, **kwargs):
@@ -67,7 +93,7 @@ def plot_dendrogram(model, dist=cusca.mydist, **kwargs):
     # Create linkage matrix and then plot the dendrogram
     linkage_matrix = np.column_stack([children, distance, no_of_observations]).astype(float)
     # Plot the corresponding dendrogram
-    R = dendrogram(linkage_matrix, **kwargs)
+    R = dendrogram(linkage_matrix, color_threshold=0, **kwargs)
     [label.set_rotation(90) for label in plt.gca().get_xticklabels()]
     order_of_columns = R['ivl']
     # print(order_of_columns)
@@ -76,8 +102,36 @@ def plot_dendrogram(model, dist=cusca.mydist, **kwargs):
     return order_of_columns
 
 
+def two_plot_two_dendrogram(model, dist=cusca.mydist, **kwargs):
+    #modified from https://github.com/scikit-learn/scikit-learn/pull/3464/files
+    # Children of hierarchical clustering
+    children = model.children_
+    # Distances between each pair of children
+    distance = cusca.dendodist(children, dist)
+    if all(value == 0 for value in distance):
+        # If all distances are zero, then use uniform distance
+        distance = np.arange(len(distance))
+
+    # The number of observations contained in each cluster level
+    no_of_observations = np.arange(2, children.shape[0]+2)
+    # Create linkage matrix and then plot the dendrogram
+    linkage_matrix = np.column_stack([children, distance, no_of_observations]).astype(float)
+    # Plot the corresponding dendrogram
+    R = dendrogram(linkage_matrix, color_threshold=0, orientation='left', **kwargs)
+    # [label.set_rotation(90) for label in plt.gca().get_xticklabels()]
+    order_of_rows = R['ivl']
+    # print(order_of_columns)
+    plt.gca().get_xaxis().set_visible(False)
+
+    return list(reversed(order_of_rows))
+
+
 def my_affinity_i(M):
     return np.array([[cusca.information_coefficient(a, b) for a in M]for b in M])
+
+
+def my_affinity_ai(M):
+    return np.array([[cusca.absolute_information_coefficient(a, b) for a in M]for b in M])
 
 
 def my_affinity_p(M):
@@ -168,13 +222,17 @@ def count_mislabels(labels, true_labels):
     return np.count_nonzero(longer != long_mode) + np.count_nonzero(shorter != short_mode)
 
 
-def plot_heatmap(df, col_order, top=5, title_text='differentially expressed genes per phenotype'):
+def plot_heatmap(df, col_order, row_order, top=5, title_text='differentially expressed genes per phenotype'):
     if not(len(col_order), len(list(df))):
         exit("Number of columns in dataframe do not match the columns provided for ordering.")
+    if not(len(row_order), len(df)):
+        exit("Number of rows in dataframe do not match the columns provided for ordering.")
     # print(list(df), col_order)
     df = df[col_order]
+    df = df.reindex(row_order)
+
     plt.clf()
-    sns.heatmap(df.iloc[np.r_[0:top, -top:0], :], cmap='coolwarm')
+    sns.heatmap(df.iloc[np.r_[0:top, -top:0], :], cmap='viridis')
     plt.yticks(rotation=0)
     plt.xticks(rotation=90)
     plt.title('Top {} {}'.format(top, title_text))
@@ -191,7 +249,8 @@ def parse_data(gct_name):
     data_df.columns = plot_short_labels
     plot_labels = list(data_df)
     data = data_df.as_matrix().T
-    return data, data_df, plot_labels
+    row_labels = data_df.index.values
+    return data, data_df, plot_labels, row_labels
 
 
 str2func = {
