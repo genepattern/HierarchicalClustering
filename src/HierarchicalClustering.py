@@ -9,6 +9,19 @@ Pre-release. This module should only be used for testing purposes.
 print("Disclaimer: This is a pre-release version.")
 print("This module should only be used for testing purposes.")
 
+print("*Expecto installer*")
+import pip
+
+def install(package):
+    pip.main(['install', package])
+
+# Example
+install('sklearn')
+print("...sklearn installed successfully!")
+print("Trying to install sklearn again.")
+install('cuzcatlan')
+
+
 import os
 import sys
 tasklib_path = os.path.dirname(os.path.realpath(sys.argv[0]))
