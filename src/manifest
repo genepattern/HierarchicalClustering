@@ -1,7 +1,7 @@
 #HierarchicalClustering
 #Wed Aug 23 09:49:23 PDT 2017
 JVMLevel=
-LSID=urn\:lsid\:broad.mit.edu\:cancer.software.genepattern.module.analysis\:00009\:7.0.2
+LSID=urn\:lsid\:broad.mit.edu\:cancer.software.genepattern.module.analysis\:00009\:7.0.4
 author=Edwin Juarez;Mesirov Lab -- GenePattern
 categories=Clustering
 commandLine=<python/3.6> <libdir>HierarchicalClustering.py <GCT_file> <distance_metric> <output_distance_matrix>
@@ -50,9 +50,22 @@ p3_prefix=
 p3_prefix_when_specified=
 p3_type=java.lang.String
 p3_value=True\=True;False\=False
+p4_MODE=
+p4_TYPE=TEXT
+p4_default_value=False
+p4_description=Whether or not to cluster by rows as well.
+p4_fileFormat=
+p4_flag=-O
+p4_name=cluster_by_rows
+p4_numValues=0..1
+p4_optional=on
+p4_prefix=
+p4_prefix_when_specified=
+p4_type=java.lang.String
+p4_value=True\=True;False\=False
 privacy=public
 quality=preproduction
 taskDoc=
 taskType=Clustering
 userid=edjuaro@gmail.com
-version=Initial version
+version=Adding clustering by rows functionality.
