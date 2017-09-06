@@ -18,6 +18,6 @@ assertions:
         diffCmd: diff <%gpunit.diffStripTrailingCR%> -q
         files:
             "all_aml_test.preprocessed.atr":
-                diff: "<%gpunit.resultData%>/gpunit/HierarchicalClustering/v6/output/Col_Pearson_noRow_PairwiseComplete_Diff/all_aml_test.preprocessed.atr"
+                diff: "output/Col_Pearson_noRow_PairwiseComplete_Diff/all_aml_test.preprocessed.atr"
             "all_aml_test.preprocessed.cdt":
-                diff: "<%gpunit.resultData%>/gpunit/HierarchicalClustering/v6/output/Col_Pearson_noRow_PairwiseComplete_Diff/all_aml_test.preprocessed.cdt"
+                diff: "output/Col_Pearson_noRow_PairwiseComplete_Diff/all_aml_test.preprocessed.cdt"
