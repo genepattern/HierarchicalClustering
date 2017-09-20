@@ -17,6 +17,7 @@ def install(package):
 
 # Example
 install('sklearn')
+print("[a beautifull installer appeared]")
 print("...sklearn installed successfully!")
 print("Trying to install sklearn again.")
 install('cuzcatlan')
