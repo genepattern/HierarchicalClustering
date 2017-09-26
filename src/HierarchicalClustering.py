@@ -40,7 +40,7 @@ from sklearn.cluster import AgglomerativeClustering
 sns.set_style("white")
 from hc_functions import *
 
-gct_name, distance_metric, output_distances, cluster_by_rows, clustering_method, output_base_name = parse_inputs(sys.argv)
+gct_name, distance_metric, output_distances, row_distance_metric, clustering_method, output_base_name = parse_inputs(sys.argv)
 data, data_df, plot_labels, row_lables = parse_data(gct_name)
 model = AgglomerativeClustering(linkage=linkage_dic[clustering_method], n_clusters=2,
                                 affinity=str2func[distance_metric])
@@ -61,18 +61,19 @@ plt.savefig(output_base_name+'_sample_cluster.png', dpi=300, bbox_inches='tight'
 cusca.list2cls(model.labels_, name_of_out=output_base_name+'_column_labels.cls')
 
 order_of_rows = data_df.index.values
+
 # Independent clustering by rows
-if cluster_by_rows:
-    model_T = AgglomerativeClustering(linkage=linkage_dic[clustering_method], n_clusters=2,
-                                      affinity=str2func[distance_metric])
-    model_T.fit(np.transpose(data))
-    fig.clf()
-    # order_of_rows = plot_dendrogram(row_model, dist=str2dist[distance_metric], labels=row_lables)
-    order_of_rows = two_plot_two_dendrogram(model_T, dist=str2dist[distance_metric], labels=row_lables)
-    # plt.savefig('sample_cluster.png', dpi=300, bbox_inches='tight')
-    # two_plot_two_dendrogram(model, top=int(np.floor(len(data_df)/2)), col_order=order_of_columns)
-    plt.savefig(output_base_name+'_sample_cluster_2.png', dpi=300, bbox_inches='tight')
-    cusca.list2cls(model_T.labels_, name_of_out=output_base_name+'_row_labels.cls')
+# if row_distance_metric:
+#     model_T = AgglomerativeClustering(linkage=linkage_dic[clustering_method], n_clusters=2,
+#                                       affinity=str2func[distance_metric])
+#     model_T.fit(np.transpose(data))
+#     fig.clf()
+#     # order_of_rows = plot_dendrogram(row_model, dist=str2dist[distance_metric], labels=row_lables)
+#     order_of_rows = two_plot_two_dendrogram(model_T, dist=str2dist[distance_metric], labels=row_lables)
+#     # plt.savefig('sample_cluster.png', dpi=300, bbox_inches='tight')
+#     # two_plot_two_dendrogram(model, top=int(np.floor(len(data_df)/2)), col_order=order_of_columns)
+#     plt.savefig(output_base_name+'_sample_cluster_2.png', dpi=300, bbox_inches='tight')
+#     cusca.list2cls(model_T.labels_, name_of_out=output_base_name+'_row_labels.cls')
 
 plot_heatmap(data_df, top=int(np.floor(len(data_df)/2)), col_order=order_of_columns, row_order=order_of_rows)
 

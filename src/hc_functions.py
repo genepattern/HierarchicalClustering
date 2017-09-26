@@ -19,35 +19,35 @@ def parse_inputs(args=sys.argv):
         gct_name = args[1]
         distance_metric = 'euclidean'
         output_distances = False
-        cluster_by_rows = False
+        row_distance_metric = False
         clustering_method = 'Pairwise average-linkage'
         output_base_name = 'HC'
         print("Using:")
         print("\tgct_name =", gct_name)
         print("\tdistance_metric = euclidean (default value)")
         print("\toutput_distances =", output_distances, "(default: not computing it and creating a file)")
-        print("\tcluster_by_rows =", cluster_by_rows, "(default: not clustering by rows)")
+        print("\trow_distance_metric =", row_distance_metric, "(default: not clustering by rows)")
         print("\tclustering_method =", clustering_method, "(default: Pairwise average-linkage)")
         print("\toutput_base_name =", output_base_name, "(default: HC)")
     elif arg_n == 3:
         gct_name = args[1]
         distance_metric = args[2]
         output_distances = False
-        cluster_by_rows = False
+        row_distance_metric = False
         clustering_method = 'Pairwise average-linkage'
         output_base_name = 'HC'
         print("Using:")
         print("\tgct_name =", gct_name)
         print("\tdistance_metric =", distance_metric)
         print("\toutput_distances =", output_distances, "(default: not computing it and creating a file)")
-        print("\tcluster_by_rows =", cluster_by_rows, "(default: not clustering by rows)")
+        print("\trow_distance_metric =", row_distance_metric, "(default: not clustering by rows)")
         print("\tclustering_method =", clustering_method, "(default: Pairwise average-linkage)")
         print("\toutput_base_name =", output_base_name, "(default: HC)")
     elif arg_n == 4:
         gct_name = args[1]
         distance_metric = args[2]
         output_distances = args[3]
-        cluster_by_rows = False
+        row_distance_metric = False
         clustering_method = 'Pairwise average-linkage'
         output_base_name = 'HC'
         if (output_distances == 'False') or (output_distances == 'F')\
@@ -59,14 +59,14 @@ def parse_inputs(args=sys.argv):
         print("\tgct_name =", gct_name)
         print("\tdistance_metric =", distance_metric)
         print("\toutput_distances =", output_distances)
-        print("\tcluster_by_rows =", cluster_by_rows, "(default: not clustering by rows)")
+        print("\trow_distance_metric =", row_distance_metric, "(default: not clustering by rows)")
         print("\tclustering_method =", clustering_method, "(default: Pairwise average-linkage)")
         print("\toutput_base_name =", output_base_name, "(default: HC)")
     elif arg_n == 5:
         gct_name = args[1]
         distance_metric = args[2]
         output_distances = args[3]
-        cluster_by_rows = args[4]
+        row_distance_metric = args[4]
         clustering_method = 'Pairwise average-linkage'
         output_base_name = 'HC'
         if (output_distances == 'False') or (output_distances == 'F') \
@@ -74,23 +74,23 @@ def parse_inputs(args=sys.argv):
             output_distances = False
         else:
             output_distances = True
-        if (cluster_by_rows == 'False') or (cluster_by_rows == 'F') \
-                or (cluster_by_rows == 'false') or (cluster_by_rows == 'f'):
-            cluster_by_rows = False
-        else:
-            cluster_by_rows = True
+        if (row_distance_metric == 'False') or (row_distance_metric == 'F') \
+                or (row_distance_metric == 'false') or (row_distance_metric == 'f')\
+                or (row_distance_metric == 'No row clustering'):
+            row_distance_metric = False
+
         print("Using:")
         print("\tgct_name =", gct_name)
         print("\tdistance_metric =", distance_metric)
         print("\toutput_distances =", output_distances)
-        print("\tcluster_by_rows =", cluster_by_rows)
+        print("\trow_distance_metric =", row_distance_metric)
         print("\tclustering_method =", clustering_method, "(default: Pairwise average-linkage)")
         print("\toutput_base_name =", output_base_name, "(default: HC)")
     elif arg_n == 6:
         gct_name = args[1]
         distance_metric = args[2]
         output_distances = args[3]
-        cluster_by_rows = args[4]
+        row_distance_metric = args[4]
         clustering_method = args[5]
         if clustering_method not in linkage_dic.keys():
             exit("Clustering method chosen not supported. This should not have happened.")
@@ -104,23 +104,23 @@ def parse_inputs(args=sys.argv):
             output_distances = False
         else:
             output_distances = True
-        if (cluster_by_rows == 'False') or (cluster_by_rows == 'F') \
-                or (cluster_by_rows == 'false') or (cluster_by_rows == 'f'):
-            cluster_by_rows = False
-        else:
-            cluster_by_rows = True
+        if (row_distance_metric == 'False') or (row_distance_metric == 'F') \
+                or (row_distance_metric == 'false') or (row_distance_metric == 'f')\
+                or (row_distance_metric == 'No row clustering'):
+            row_distance_metric = False
+
         print("Using:")
         print("\tgct_name =", gct_name)
         print("\tdistance_metric =", distance_metric)
         print("\toutput_distances =", output_distances)
-        print("\tcluster_by_rows =", cluster_by_rows)
+        print("\trow_distance_metric =", row_distance_metric)
         print("\tclustering_method =", clustering_method)
         print("\toutput_base_name =", output_base_name, "(default: HC)")
     elif arg_n == 7:
         gct_name = args[1]
         distance_metric = args[2]
         output_distances = args[3]
-        cluster_by_rows = args[4]
+        row_distance_metric = args[4]
         clustering_method = args[5]
         output_base_name = args[6]
         if (output_distances == 'False') or (output_distances == 'F') \
@@ -128,23 +128,23 @@ def parse_inputs(args=sys.argv):
             output_distances = False
         else:
             output_distances = True
-        if (cluster_by_rows == 'False') or (cluster_by_rows == 'F') \
-                or (cluster_by_rows == 'false') or (cluster_by_rows == 'f'):
-            cluster_by_rows = False
-        else:
-            cluster_by_rows = True
+        if (row_distance_metric == 'False') or (row_distance_metric == 'F') \
+                or (row_distance_metric == 'false') or (row_distance_metric == 'f')\
+                or (row_distance_metric == 'No row clustering'):
+            row_distance_metric = False
+
         print("Using:")
         print("\tgct_name =", gct_name)
         print("\tdistance_metric =", distance_metric)
         print("\toutput_distances =", output_distances)
-        print("\tcluster_by_rows =", cluster_by_rows)
+        print("\trow_distance_metric =", row_distance_metric)
         print("\tclustering_method =", clustering_method)
         print("\toutput_base_name =", output_base_name)
     else:
         sys.exit("Too many inputs. This module needs only a GCT file to work, "
                  "plus an optional input choosing between Pearson Correlation or Information Coefficient.")
 
-    return gct_name, distance_metric, output_distances, cluster_by_rows, clustering_method, output_base_name
+    return gct_name, distance_metric, output_distances, row_distance_metric, clustering_method, output_base_name
 
 
 def plot_dendrogram(model, dist=cusca.mydist, **kwargs):
