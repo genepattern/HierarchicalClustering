@@ -40,9 +40,10 @@ from sklearn.cluster import AgglomerativeClustering
 sns.set_style("white")
 from hc_functions import *
 
-gct_name, distance_metric, output_distances, cluster_by_rows = parse_inputs(sys.argv)
+gct_name, distance_metric, output_distances, cluster_by_rows, clustering_method, output_base_name = parse_inputs(sys.argv)
 data, data_df, plot_labels, row_lables = parse_data(gct_name)
-model = AgglomerativeClustering(linkage='average', n_clusters=2, affinity=str2func[distance_metric])
+model = AgglomerativeClustering(linkage=linkage_dic[clustering_method], n_clusters=2,
+                                affinity=str2func[distance_metric])
 model.fit(data)
 
 fig = plt.figure(dpi=300)
@@ -55,22 +56,23 @@ order_of_columns = plot_dendrogram(model, dist=str2dist[distance_metric], labels
 
 # Creating outputs.
 print("Creating outputs now.")
-plt.savefig('sample_cluster.png', dpi=300, bbox_inches='tight')
+plt.savefig(output_base_name+'_sample_cluster.png', dpi=300, bbox_inches='tight')
 
-cusca.list2cls(model.labels_, name_of_out='column_labels.cls')
+cusca.list2cls(model.labels_, name_of_out=output_base_name+'_column_labels.cls')
 
 order_of_rows = data_df.index.values
 # Independent clustering by rows
 if cluster_by_rows:
-    model_T = AgglomerativeClustering(linkage='average', n_clusters=2, affinity=str2func[distance_metric])
+    model_T = AgglomerativeClustering(linkage=linkage_dic[clustering_method], n_clusters=2,
+                                      affinity=str2func[distance_metric])
     model_T.fit(np.transpose(data))
     fig.clf()
     # order_of_rows = plot_dendrogram(row_model, dist=str2dist[distance_metric], labels=row_lables)
     order_of_rows = two_plot_two_dendrogram(model_T, dist=str2dist[distance_metric], labels=row_lables)
     # plt.savefig('sample_cluster.png', dpi=300, bbox_inches='tight')
     # two_plot_two_dendrogram(model, top=int(np.floor(len(data_df)/2)), col_order=order_of_columns)
-    plt.savefig('sample_cluster_2.png', dpi=300, bbox_inches='tight')
-    cusca.list2cls(model_T.labels_, name_of_out='row_labels.cls')
+    plt.savefig(output_base_name+'_sample_cluster_2.png', dpi=300, bbox_inches='tight')
+    cusca.list2cls(model_T.labels_, name_of_out=output_base_name+'_row_labels.cls')
 
 plot_heatmap(data_df, top=int(np.floor(len(data_df)/2)), col_order=order_of_columns, row_order=order_of_rows)
 
@@ -78,7 +80,7 @@ plot_heatmap(data_df, top=int(np.floor(len(data_df)/2)), col_order=order_of_colu
 if output_distances:
     row_distance_matrix = str2affinity_func[distance_metric](data)
     # col_distance_matrix = str2affinity_func[distance_metric](np.transpose(data))
-    dist_file = open('pairwise_distances.csv', 'w')
+    dist_file = open(output_base_name+'_pairwise_distances.csv', 'w')
     dist_file.write('labels,')
     dist_file.write(",".join(model.labels_.astype(str))+"\n")
     dist_file.write('samples,')
