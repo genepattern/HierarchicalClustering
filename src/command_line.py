@@ -21,6 +21,7 @@ func = 'pearson'
 # func = 'information_coefficient'
 
 # gct_name, distance_metric, output_distances, row_distance_metric, clustering_method, output_base_name
-command = "python HierarchicalClustering.py "+INPUT_FILE_DIR+gct_file+" "+func+" True "+func
+# command = "python HierarchicalClustering.py "+INPUT_FILE_DIR+gct_file+" "+func+" True "+func
+command = "python HierarchicalClustering.py "+INPUT_FILE_DIR+gct_file+" "+"No_column_clustering"+" False "+func
 print("About to make this command line call\n\t", command)
 call(command, shell=True)

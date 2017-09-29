@@ -19,37 +19,37 @@ def parse_inputs(args=sys.argv):
         sys.exit("Not enough parameters files were provided. This module needs a GCT file to work.")
     elif arg_n == 2:
         gct_name = args[1]
-        distance_metric = 'euclidean'
+        col_distance_metric = 'euclidean'
         output_distances = False
-        row_distance_metric = False
+        row_distance_metric = 'No row clustering'
         clustering_method = 'Pairwise average-linkage'
         output_base_name = 'HC'
         print("Using:")
         print("\tgct_name =", gct_name)
-        print("\tdistance_metric = euclidean (default value)")
+        print("\tcol_distance_metric = euclidean (default value)")
         print("\toutput_distances =", output_distances, "(default: not computing it and creating a file)")
-        print("\trow_distance_metric =", row_distance_metric, "(default: not clustering by rows)")
+        print("\trow_distance_metric =", row_distance_metric, "(default: No row clustering)")
         print("\tclustering_method =", clustering_method, "(default: Pairwise average-linkage)")
         print("\toutput_base_name =", output_base_name, "(default: HC)")
     elif arg_n == 3:
         gct_name = args[1]
-        distance_metric = args[2]
+        col_distance_metric = args[2]
         output_distances = False
-        row_distance_metric = False
+        row_distance_metric = 'No row clustering'
         clustering_method = 'Pairwise average-linkage'
         output_base_name = 'HC'
         print("Using:")
         print("\tgct_name =", gct_name)
-        print("\tdistance_metric =", distance_metric)
+        print("\tcol_distance_metric =", col_distance_metric)
         print("\toutput_distances =", output_distances, "(default: not computing it and creating a file)")
-        print("\trow_distance_metric =", row_distance_metric, "(default: not clustering by rows)")
+        print("\trow_distance_metric =", row_distance_metric, "(default: No row clustering)")
         print("\tclustering_method =", clustering_method, "(default: Pairwise average-linkage)")
         print("\toutput_base_name =", output_base_name, "(default: HC)")
     elif arg_n == 4:
         gct_name = args[1]
-        distance_metric = args[2]
+        col_distance_metric = args[2]
         output_distances = args[3]
-        row_distance_metric = False
+        row_distance_metric = 'No row clustering'
         clustering_method = 'Pairwise average-linkage'
         output_base_name = 'HC'
         if (output_distances == 'False') or (output_distances == 'F')\
@@ -59,14 +59,14 @@ def parse_inputs(args=sys.argv):
             output_distances = True
         print("Using:")
         print("\tgct_name =", gct_name)
-        print("\tdistance_metric =", distance_metric)
+        print("\tcol_distance_metric =", col_distance_metric)
         print("\toutput_distances =", output_distances)
-        print("\trow_distance_metric =", row_distance_metric, "(default: not clustering by rows)")
+        print("\trow_distance_metric =", row_distance_metric, "(default: No row clustering)")
         print("\tclustering_method =", clustering_method, "(default: Pairwise average-linkage)")
         print("\toutput_base_name =", output_base_name, "(default: HC)")
     elif arg_n == 5:
         gct_name = args[1]
-        distance_metric = args[2]
+        col_distance_metric = args[2]
         output_distances = args[3]
         row_distance_metric = args[4]
         clustering_method = 'Pairwise average-linkage'
@@ -77,28 +77,28 @@ def parse_inputs(args=sys.argv):
             output_distances = False
         else:
             output_distances = True
-        if (row_distance_metric == 'False') or (row_distance_metric == 'F') \
-                or (row_distance_metric == 'false') or (row_distance_metric == 'f')\
-                or (row_distance_metric == 'No row clustering'):
-            row_distance_metric = False
+        # if (row_distance_metric == 'False') or (row_distance_metric == 'F') \
+        #         or (row_distance_metric == 'false') or (row_distance_metric == 'f')\
+        #         or (row_distance_metric == 'No row clustering'):
+        #     row_distance_metric = False
 
         print("Using:")
         print("\tgct_name =", gct_name)
-        print("\tdistance_metric =", distance_metric)
+        print("\tcol_distance_metric =", col_distance_metric)
         print("\toutput_distances =", output_distances)
         print("\trow_distance_metric =", row_distance_metric)
         print("\tclustering_method =", clustering_method, "(default: Pairwise average-linkage)")
         print("\toutput_base_name =", output_base_name, "(default: HC)")
     elif arg_n == 6:
         gct_name = args[1]
-        distance_metric = args[2]
+        col_distance_metric = args[2]
         output_distances = args[3]
         row_distance_metric = args[4]
         clustering_method = args[5]
         if clustering_method not in linkage_dic.keys():
             exit("Clustering method chosen not supported. This should not have happened.")
 
-        if (linkage_dic[clustering_method] == 'ward') and (distance_metric != 'average'):
+        if (linkage_dic[clustering_method] == 'ward') and (col_distance_metric != 'average'):
             exit("When choosing 'Pairwise ward-linkage' the distance metric *must* be 'average' ")
 
         output_base_name = 'HC'
@@ -107,21 +107,21 @@ def parse_inputs(args=sys.argv):
             output_distances = False
         else:
             output_distances = True
-        if (row_distance_metric == 'False') or (row_distance_metric == 'F') \
-                or (row_distance_metric == 'false') or (row_distance_metric == 'f')\
-                or (row_distance_metric == 'No row clustering'):
-            row_distance_metric = False
+        # if (row_distance_metric == 'False') or (row_distance_metric == 'F') \
+        #         or (row_distance_metric == 'false') or (row_distance_metric == 'f')\
+        #         or (row_distance_metric == 'No row clustering'):
+        #     row_distance_metric = False
 
         print("Using:")
         print("\tgct_name =", gct_name)
-        print("\tdistance_metric =", distance_metric)
+        print("\tcol_distance_metric =", col_distance_metric)
         print("\toutput_distances =", output_distances)
         print("\trow_distance_metric =", row_distance_metric)
         print("\tclustering_method =", clustering_method)
         print("\toutput_base_name =", output_base_name, "(default: HC)")
     elif arg_n == 7:
         gct_name = args[1]
-        distance_metric = args[2]
+        col_distance_metric = args[2]
         output_distances = args[3]
         row_distance_metric = args[4]
         clustering_method = args[5]
@@ -131,14 +131,14 @@ def parse_inputs(args=sys.argv):
             output_distances = False
         else:
             output_distances = True
-        if (row_distance_metric == 'False') or (row_distance_metric == 'F') \
-                or (row_distance_metric == 'false') or (row_distance_metric == 'f')\
-                or (row_distance_metric == 'No row clustering'):
-            row_distance_metric = False
+        # if (row_distance_metric == 'False') or (row_distance_metric == 'F') \
+        #         or (row_distance_metric == 'false') or (row_distance_metric == 'f')\
+        #         or (row_distance_metric == 'No row clustering'):
+        #     row_distance_metric = False
 
         print("Using:")
         print("\tgct_name =", gct_name)
-        print("\tdistance_metric =", distance_metric)
+        print("\tcol_distance_metric =", col_distance_metric)
         print("\toutput_distances =", output_distances)
         print("\trow_distance_metric =", row_distance_metric)
         print("\tclustering_method =", clustering_method)
@@ -147,7 +147,7 @@ def parse_inputs(args=sys.argv):
         sys.exit("Too many inputs. This module needs only a GCT file to work, "
                  "plus an optional input choosing between Pearson Correlation or Information Coefficient.")
 
-    return gct_name, distance_metric, output_distances, row_distance_metric, clustering_method, output_base_name
+    return gct_name, col_distance_metric, output_distances, row_distance_metric, clustering_method, output_base_name
 
 
 def plot_dendrogram(model, dist=cusca.mydist, **kwargs):
@@ -324,8 +324,8 @@ def parse_data(gct_name):
     full_gct = data_df.copy()
     full_gct.drop(['Name'], axis=1, inplace=True)
     data_df.drop(['Name', 'Description'], axis=1, inplace=True)
-    plot_short_labels = [item[1] + "{:02d}".format(i) for item, i in zip(list(data_df), range(len(list(data_df))))]
-    data_df.columns = plot_short_labels
+    # plot_short_labels = [item[1] + "{:02d}".format(i) for item, i in zip(list(data_df), range(len(list(data_df))))]
+    # data_df.columns = plot_short_labels
     plot_labels = list(full_gct.drop(['Description'], axis=1, inplace=False))
     data = data_df.as_matrix().T
     row_labels = data_df.index.values
@@ -421,38 +421,72 @@ def make_tree(model, data=None):
     # return dict(enumerate(model.children_, 1))
 
 
-def make_cdt(data, AID, order_of_columns, name='test.cdt', atr_companion=True, gtr_companion=False):
+def make_cdt(data, AID, order_of_columns, GID, order_of_rows, name='test.cdt', atr_companion=True, gtr_companion=False):
     # TODO: if order_of_columns == None, then do arange(len(list(data)))
+    # TODO: if order_of_rows == None, then do arange(len(list(data)))
 
     data.index.name = "ID"
     data.rename(columns={'Description': 'Name'}, inplace=True)
 
     temp = np.ones(len(data))
-    data.insert(loc=1, column='GWEIGHT', value=temp)
+    data.insert(loc=1, column='GWEIGHT', value=temp)  # adding an extra column
 
-    data.loc['EWEIGHT'] = np.ones(len(list(data)))
+    # These three lines add a row
+    data.loc['EWEIGHT'] = list(np.ones(len(list(data))))
     newIndex = ['EWEIGHT'] + [ind for ind in data.index if ind != 'EWEIGHT']
     data = data.reindex(index=newIndex)
 
-    new_AID = ['', '']  # two values that should be empty. Probably 3 if gtr_companion==True
-    for element in np.sort(np.unique(AID)):
-        if 'NODE' in element:
-            print(element, 'delete')
-        else:
-            new_AID.append(element)
+    if atr_companion:
+        new_AID = ['', '']
+        for element in np.sort(np.unique(AID)):
+            if 'NODE' in element:
+                pass
+            else:
+                new_AID.append(element)
 
-    data.loc['AID'] = new_AID
-    newIndex = ['AID'] + [ind for ind in data.index if ind != 'AID']
-    data = data.reindex(index=newIndex)
-    data = data[['Name', 'GWEIGHT']+order_of_columns]
-    print(data.to_csv(sep='\t', index=True, header=True))
+        data.loc['AID'] = new_AID
+        newIndex = ['AID'] + [ind for ind in data.index if ind != 'AID']
+        data = data.reindex(index=newIndex)
+        data = data[['Name', 'GWEIGHT']+order_of_columns]
+    if gtr_companion:
+        new_GID = ['']
+        if atr_companion:
+            new_GID = ['AID', 'EWEIGHT']  # This is to make sure we fit the CDT format
+        for element in np.sort(np.unique(GID)):
+            if 'NODE' in element:
+                # print(element, 'GTR delete')
+                pass
+            else:
+                new_GID.append(element)
+
+
+        data.insert(loc=0, column='GID', value=new_GID)  # adding an extra column
+        data.insert(loc=0, column=data.index.name, value=data.index)  # Making the index a column
+
+        # reorder to match dendogram
+        temp = ['AID', 'EWEIGHT'] + order_of_rows
+        data = data.loc[temp]
+        # print(list(data.index))
+        # print(data['GID'])
+        # print(data['Name'])
+
+        # Making the 'GID' the index -- for printing purposes
+        data.index = data['GID']
+        data.index.name = 'GID'
+        data.drop(['GID'], axis=1, inplace=True)
+        # print(list(data.index))
+
+    # The first three lines need to be written separately due to a quirk in the CDT file format:
+
+
+    # print(data.to_csv(sep='\t', index=True, header=True))
     f = open(name, 'w')
     f.write(data.to_csv(sep='\t', index=True, header=True))
     f.close()
     return
 
 
-def make_atr(dic, distances, file_name='test.atr'):
+def make_atr(dic, file_name='test.atr'):
     val = len(dic)
     max_val = len(dic)
     AID = []
@@ -464,32 +498,54 @@ def make_atr(dic, distances, file_name='test.atr'):
         dist = str(val/len(dic))
         # dist = str(val)
         # dist = str(1)
-        elements = [translate_tree(key, max_val), translate_tree(value[0], max_val),
-                    translate_tree(value[1], max_val), dist]
+        elements = [translate_tree(key, max_val, 'atr'), translate_tree(value[0], max_val, 'atr'),
+                    translate_tree(value[1], max_val, 'atr'), dist]
         # elements = [str(single_element) for single_element in elements]
         # print('\t'.join(elements))
-        AID.append(translate_tree(value[0], max_val))
-        AID.append(translate_tree(value[1], max_val))
+        AID.append(translate_tree(value[0], max_val, 'atr'))
+        AID.append(translate_tree(value[1], max_val, 'atr'))
         f.write('\t'.join(elements)+'\n')
         val -= 1
     f.close()
     return AID
 
 
-def translate_tree(what, length):
-    if what <= length:
-        tranlation = 'ARRAY'+str(what)+'X'
+def translate_tree(what, length, g_or_a):
+    if 'a' in g_or_a:
+        if what <= length:
+            translation = 'ARRAY'+str(what)+'X'
+        else:
+            translation = 'NODE' + str(what-length) + 'X'
+    elif 'g' in g_or_a:
+        if what <= length:
+            translation = 'GENE'+str(what)+'X'
+        else:
+            translation = 'NODE' + str(what-length) + 'X'
     else:
-        tranlation = 'NODE' + str(what-length) + 'X'
-    return tranlation
+        translation = []
+        print('This function does not support g_or_a=', g_or_a)
+    return translation
 
 
-# def make_xtr(tree, distances, extension):
-#     if extension in ['atr', "ATR", "A", 'a']:
-#         print("Doing ATR")
-#         tree2tab(tree)
-#
-#     elif extension in ['gtr', "GTR", "G", 'g']:
-#         print('doing GTR')
-#
-#     return
+def make_gtr(dic, file_name='test.gtr'):
+    val = len(dic)
+    max_val = len(dic)
+    GID = []
+    val -= 2
+    f = open(file_name, 'w')
+    for key, value in dic.items():
+        # elements = ['NODE'+str(key)+'X', 'ARRY'+str(value[0])+'X', 'ARRY'+str(value[1])+'X', str(val/len(dic))]
+
+        dist = str(val/len(dic))
+        # dist = str(val)
+        # dist = str(1)
+        elements = [translate_tree(key, max_val, 'gtr'), translate_tree(value[0], max_val, 'gtr'),
+                    translate_tree(value[1], max_val, 'gtr'), dist]
+        # elements = [str(single_element) for single_element in elements]
+        # print('\t'.join(elements))
+        GID.append(translate_tree(value[0], max_val, 'gtr'))
+        GID.append(translate_tree(value[1], max_val, 'gtr'))
+        f.write('\t'.join(elements)+'\n')
+        val -= 1
+    f.close()
+    return GID
