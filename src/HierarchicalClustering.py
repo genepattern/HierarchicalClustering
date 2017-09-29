@@ -15,12 +15,12 @@ import pip
 def install(package):
     pip.main(['install', package])
 
-# Example
-install('sklearn')
-print("[a beautifull installer appeared]")
-print("...sklearn installed successfully!")
-print("Trying to install sklearn again.")
-install('cuzcatlan')
+# # Example
+# install('sklearn')
+# print("[a beautifull installer appeared]")
+# print("...sklearn installed successfully!")
+# print("Trying to install sklearn again.")
+# install('cuzcatlan')
 
 
 import os
@@ -41,13 +41,13 @@ sns.set_style("white")
 from hc_functions import *
 
 gct_name, distance_metric, output_distances, row_distance_metric, clustering_method, output_base_name = parse_inputs(sys.argv)
-data, data_df, plot_labels, row_lables = parse_data(gct_name)
+data, data_df, plot_labels, row_lables, full_gct = parse_data(gct_name)
 model = AgglomerativeClustering(linkage=linkage_dic[clustering_method], n_clusters=2,
                                 affinity=str2func[distance_metric])
 model.fit(data)
 
-fig = plt.figure(dpi=300)
-order_of_columns = plot_dendrogram(model, dist=str2dist[distance_metric], labels=plot_labels)
+##fig = plt.figure(dpi=300)
+##order_of_columns = plot_dendrogram(model, dist=str2dist[distance_metric], labels=plot_labels)
 
 # scipy.cluster.hierarchy.linkage(col_distance_matrix, method='average')
 # plt.clf()
@@ -55,12 +55,12 @@ order_of_columns = plot_dendrogram(model, dist=str2dist[distance_metric], labels
 # plt.savefig('clustermap.png')
 
 # Creating outputs.
-print("Creating outputs now.")
-plt.savefig(output_base_name+'_sample_cluster.png', dpi=300, bbox_inches='tight')
+##print("Creating outputs now.")
+##plt.savefig(output_base_name+'_sample_cluster.png', dpi=300, bbox_inches='tight')
 
-cusca.list2cls(model.labels_, name_of_out=output_base_name+'_column_labels.cls')
+##cusca.list2cls(model.labels_, name_of_out=output_base_name+'_column_labels.cls')
 
-order_of_rows = data_df.index.values
+##order_of_rows = data_df.index.values
 
 # Independent clustering by rows
 # if row_distance_metric:
@@ -75,7 +75,7 @@ order_of_rows = data_df.index.values
 #     plt.savefig(output_base_name+'_sample_cluster_2.png', dpi=300, bbox_inches='tight')
 #     cusca.list2cls(model_T.labels_, name_of_out=output_base_name+'_row_labels.cls')
 
-plot_heatmap(data_df, top=int(np.floor(len(data_df)/2)), col_order=order_of_columns, row_order=order_of_rows)
+##plot_heatmap(data_df, top=int(np.floor(len(data_df)/2)), col_order=order_of_columns, row_order=order_of_rows)
 
 
 if output_distances:
@@ -90,3 +90,15 @@ if output_distances:
     for row in row_distance_matrix:
         dist_file.write('distances row='+str(i)+","+",".join(row.astype(str)) + "\n")
         i += 1
+
+# Create outputs compatible with HCV
+# print("making the tree")
+tree = make_tree(model, data)
+# print(tree)
+
+# my_affinity_generic(data, str2func[distance_metric])
+row_distance_matrix = my_affinity_generic(data, str2dist[distance_metric])
+col_distance_matrix = my_affinity_generic(np.transpose(data), str2dist[distance_metric])
+
+AID = make_atr(tree, col_distance_matrix, file_name='test.atr')
+make_cdt(data=full_gct, name='test.cdt', atr_companion=True, gtr_companion=False, AID=AID)
