@@ -47,7 +47,7 @@ model = AgglomerativeClustering(linkage=linkage_dic[clustering_method], n_cluste
 model.fit(data)
 
 ##fig = plt.figure(dpi=300)
-##order_of_columns = plot_dendrogram(model, dist=str2dist[distance_metric], labels=plot_labels)
+order_of_columns = plot_dendrogram(model, dist=str2dist[distance_metric], labels=plot_labels)
 
 # scipy.cluster.hierarchy.linkage(col_distance_matrix, method='average')
 # plt.clf()
@@ -101,4 +101,8 @@ row_distance_matrix = my_affinity_generic(data, str2dist[distance_metric])
 col_distance_matrix = my_affinity_generic(np.transpose(data), str2dist[distance_metric])
 
 AID = make_atr(tree, col_distance_matrix, file_name='test.atr')
-make_cdt(data=full_gct, name='test.cdt', atr_companion=True, gtr_companion=False, AID=AID)
+# print(['Description']+order_of_columns)
+# full_gct = full_gct[['Description']+order_of_columns]  # Reordering the columns
+# print(list(full_gct))
+make_cdt(data=full_gct, name='test.cdt', atr_companion=True, gtr_companion=False,
+         AID=AID, order_of_columns=order_of_columns)

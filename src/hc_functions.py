@@ -326,7 +326,7 @@ def parse_data(gct_name):
     data_df.drop(['Name', 'Description'], axis=1, inplace=True)
     plot_short_labels = [item[1] + "{:02d}".format(i) for item, i in zip(list(data_df), range(len(list(data_df))))]
     data_df.columns = plot_short_labels
-    plot_labels = list(data_df)
+    plot_labels = list(full_gct.drop(['Description'], axis=1, inplace=False))
     data = data_df.as_matrix().T
     row_labels = data_df.index.values
     return data, data_df, plot_labels, row_labels, full_gct
@@ -421,7 +421,9 @@ def make_tree(model, data=None):
     # return dict(enumerate(model.children_, 1))
 
 
-def make_cdt(data, AID, name='test.cdt', atr_companion=True, gtr_companion=False):
+def make_cdt(data, AID, order_of_columns, name='test.cdt', atr_companion=True, gtr_companion=False):
+    # TODO: if order_of_columns == None, then do arange(len(list(data)))
+
     data.index.name = "ID"
     data.rename(columns={'Description': 'Name'}, inplace=True)
 
@@ -442,7 +444,8 @@ def make_cdt(data, AID, name='test.cdt', atr_companion=True, gtr_companion=False
     data.loc['AID'] = new_AID
     newIndex = ['AID'] + [ind for ind in data.index if ind != 'AID']
     data = data.reindex(index=newIndex)
-    # print(data.to_csv(sep='\t', index=True, header=True))
+    data = data[['Name', 'GWEIGHT']+order_of_columns]
+    print(data.to_csv(sep='\t', index=True, header=True))
     f = open(name, 'w')
     f.write(data.to_csv(sep='\t', index=True, header=True))
     f.close()
@@ -457,7 +460,6 @@ def make_atr(dic, distances, file_name='test.atr'):
     f = open(file_name, 'w')
     for key, value in dic.items():
         # elements = ['NODE'+str(key)+'X', 'ARRY'+str(value[0])+'X', 'ARRY'+str(value[1])+'X', str(val/len(dic))]
-
 
         dist = str(val/len(dic))
         # dist = str(val)
