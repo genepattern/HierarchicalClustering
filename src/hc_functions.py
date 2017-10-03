@@ -154,7 +154,7 @@ def parse_inputs(args=sys.argv):
     return gct_name, col_distance_metric, output_distances, row_distance_metric, clustering_method, output_base_name
 
 
-def plot_dendrogram(model, dist=cusca.mydist, **kwargs):
+def plot_dendrogram(model, data, dist=cusca.mydist, title='no_title.png', **kwargs):
     #modified from https://github.com/scikit-learn/scikit-learn/pull/3464/files
     # Children of hierarchical clustering
     children = model.children_
@@ -164,6 +164,8 @@ def plot_dendrogram(model, dist=cusca.mydist, **kwargs):
     if all(value == 0 for value in distance):
         # If all distances are zero, then use uniform distance
         distance = np.arange(len(distance))
+
+    print(distance)
 
     # The number of observations contained in each cluster level
     no_of_observations = np.arange(2, children.shape[0]+2)
@@ -176,7 +178,7 @@ def plot_dendrogram(model, dist=cusca.mydist, **kwargs):
     # print(order_of_columns)
 
     plt.gca().get_yaxis().set_visible(False)
-    plt.savefig("DELETE_ME.png", dpi=300)
+    plt.savefig(title, dpi=300)
     return order_of_columns
 
 
