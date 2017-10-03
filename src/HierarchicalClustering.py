@@ -54,11 +54,13 @@ if (col_distance_metric != 'No column clustering') and (col_distance_metric != '
                                     affinity=str2func[col_distance_metric], compute_full_tree=True)
     # col_model.fit(data)
     y = col_model.fit_predict(data)
-    print(y)
+    # print(y)
     col_tree = make_tree(col_model, data)
     order_of_columns = plot_dendrogram(col_model, tree=col_tree, data=data, title='cols.png', axis=1,
-                                       dist=str2dist[col_distance_metric], labels=col_labels)
+                                       dist=str2dist[col_distance_metric], labels=col_labels,
+                                       count_sort='ascending', distance_sort=False)
     # order_of_columns = plot_dendrogram(col_model, dist=str2dist[col_distance_metric], labels=col_labels)
+    print(order_of_columns)
 
 
 if (row_distance_metric != 'No row clustering') and (row_distance_metric != 'No_row_clustering'):
@@ -66,10 +68,10 @@ if (row_distance_metric != 'No row clustering') and (row_distance_metric != 'No_
                                     affinity=str2func[row_distance_metric])
     # row_model.fit(np.transpose(data))
     y_col = row_model.fit_predict(np.transpose(data))
-    print(y_col)
+    # print(y_col)
     row_tree = make_tree(row_model, data)
     order_of_rows = plot_dendrogram(row_model, tree=row_tree, data=np.transpose(data), title='rows.png', axis=0,
-                                    dist=str2dist[row_distance_metric], labels=row_labels)
+                                    dist=str2dist[row_distance_metric], labels=row_labels, count_sort='ascending')
 
 if output_distances:
     #TODO: check wich col or row was selected, or both
@@ -94,6 +96,7 @@ if (col_distance_metric != 'No column clustering') and (col_distance_metric != '
 
     atr_companion = True
     order_of_data_columns = [full_gct.columns.get_loc(col) for col in order_of_columns]
+    # print(order_of_data_columns)
     # print(col_tree)
     # print(data)
     AID = make_atr(col_tree, file_name='test.atr', data=data, order_of_data_columns=order_of_data_columns)

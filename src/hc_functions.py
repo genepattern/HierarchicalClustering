@@ -164,20 +164,43 @@ def plot_dendrogram(model, data, tree, axis, dist=cusca.mydist, title='no_title.
     # distance = cusca.dendodist(children, euclidian_similarity)
     # distance = cusca.dendodist(children, dist)
 
-    distance = np.cumsum(better_dendodist(children, dist, tree, data, axis=axis))
+    # distance = np.cumsum(better_dendodist(children, dist, tree, data, axis=axis))
+    distance = better_dendodist(children, dist, tree, data, axis=axis)
+
+    # norm_distances = []
+    # for value in distance:
+    #     norm_distances.append(1/value)
+    norm_distances = distance
+
+    list_of_children = list(get_children(tree, leaves_are_self_children=False).values())
+    no_of_observations = [len(i) for i in list_of_children if i]
+    no_of_observations.append(len(no_of_observations)+1)
+    # print(len(no_of_observations))
+
+    # print(children)
+
+    # print(list(tree.values()))
+
+    # print(norm_distances)
 
     # print(distance)
     if all(value == 0 for value in distance):
         # If all distances are zero, then use uniform distance
         distance = np.arange(len(distance))
 
-    print(distance)
+    # print(distance)
     # print(np.cumsum(distance))
 
     # The number of observations contained in each cluster level
-    no_of_observations = np.arange(2, children.shape[0]+2)
+    # no_of_observations = np.arange(2, children.shape[0]+2)
+    # print(no_of_observations)
+
+
     # Create linkage matrix and then plot the dendrogram
-    linkage_matrix = np.column_stack([children, distance, no_of_observations]).astype(float)
+    # linkage_matrix = np.column_stack([children, distance, no_of_observations]).astype(float)
+    linkage_matrix = np.column_stack([children, np.cumsum(norm_distances), no_of_observations]).astype(float)
+    # linkage_matrix = np.column_stack([children, norm_distances, no_of_observations]).astype(float)
+    # print(linkage_matrix)
     # Plot the corresponding dendrogram
     R = dendrogram(linkage_matrix, color_threshold=0, **kwargs)
     [label.set_rotation(90) for label in plt.gca().get_xticklabels()]
@@ -335,6 +358,7 @@ def plot_heatmap(df, col_order, row_order, top=5, title_text='differentially exp
 def parse_data(gct_name):
     data_df = pd.read_csv(gct_name, sep='\t', skiprows=2)
     data_df.set_index(data_df['Name'], inplace=True)
+
     full_gct = data_df.copy()
     full_gct.drop(['Name'], axis=1, inplace=True)
     data_df.drop(['Name', 'Description'], axis=1, inplace=True)
@@ -343,6 +367,24 @@ def parse_data(gct_name):
     plot_labels = list(full_gct.drop(['Description'], axis=1, inplace=False))
     data = data_df.as_matrix().T
     row_labels = data_df.index.values
+
+    # normalizing data -- DELETE
+    # print(data.shape)
+    # print(data.max(axis=1))
+    # print(data.min(axis=1))
+    # from numpy.linalg import norm
+    # norm_data = []
+    # for row in np.transpose(data):  # iterate over the columns of data, which are the rows of the GCT
+    #     norm_data.append(row/norm(row, axis=0, ord=2))
+    # data = np.transpose(norm_data)
+
+
+
+
+    # print(data.min(axis=1))
+
+
+
     return data, data_df, plot_labels, row_labels, full_gct
 
 
@@ -392,7 +434,8 @@ str2dist = {
     'l2': pairwise.paired_euclidean_distances,
     'manhattan': pairwise.paired_manhattan_distances,
     'cosine': pairwise.paired_cosine_distances,
-    'euclidean': pairwise.paired_euclidean_distances,
+    # 'euclidean': pairwise.paired_euclidean_distances,
+    'euclidean': cusca.mydist,
 }
 
 linkage_dic = {
@@ -512,11 +555,28 @@ def make_atr(dic, data, order_of_data_columns, file_name='test.atr'):
     for key, value in dic.items():
         # print(value[0], value[1])
         val = centroid_distances(value[0], value[1], tree=dic, data=data, axis=1, distance=cusca.mydist)
+        # val = centroid_distances(value[0], value[1], tree=dic, data=data, axis=1, distance=cusca.custom_spearman)
         # val = centroid_distances(value[0], value[1], tree=dic, data=data, axis=1, distance=norm_euclidian)
         distance_dic[key] = val
 
-    for key, value in distance_dic.items():
-        distance_dic[key] = 1/(1+distance_dic[key])
+    # for key, value in distance_dic.items():
+    #     distance_dic[key] = 1 - (distance_dic[key])
+    #     distance_dic[key] = 1/(1+distance_dic[key])
+    #     distance_dic[key] = 1/(distance_dic[key])
+
+
+    # cum_sum = 0
+    # for key in reversed(list(distance_dic.keys())):
+    #     cum_sum += distance_dic[key]
+        # print(key, cum_sum, distance_dic[key])
+        # distance_dic[key] = cum_sum
+
+
+    # maximum = 1.0
+    #
+    # for key, value in distance_dic.items():
+    #     maximum -= distance_dic[key]
+    #     distance_dic[key] = maximum
 
     f = open(file_name, 'w')
     # norm = my_affinity_generic(np.transpose(data), cusca.mydist).max()
@@ -526,7 +586,7 @@ def make_atr(dic, data, order_of_data_columns, file_name='test.atr'):
         # dist = str(centroid_distances(value[0], value[1], tree=dic, data=data, axis=1, distance=cusca.custom_pearson))
         elements = [translate_tree(key, max_val, 'atr'), translate_tree(value[0], max_val, 'atr'),
                     translate_tree(value[1], max_val, 'atr'), str(distance_dic[key])]
-        # print('\t', '\t'.join(elements))
+        print('\t', '\t'.join(elements))
         AID.append(translate_tree(value[0], max_val, 'atr'))
         AID.append(translate_tree(value[1], max_val, 'atr'))
         f.write('\t'.join(elements) + '\n')
@@ -567,8 +627,8 @@ def make_gtr(dic, data, file_name='test.gtr'):
 
     # norm = max(distance_dic.values())
 
-    for key, value in distance_dic.items():
-        distance_dic[key] = 1/(1+distance_dic[key])
+    # for key, value in distance_dic.items():
+    #     distance_dic[key] = 1/(1+distance_dic[key])
 
     # norm = min(distance_dic.values())
 
@@ -719,10 +779,10 @@ def centroid_distances(node_a, node_b, tree, data, axis=0, distance=cusca.mydist
             # print(pair[0], pair[1])
             distances_list.append(distance(pair[0], pair[1]))
         # return 1 / sum(distances_list)
-        # return np.average([1/dist for dist in distances_list])
+        return np.average([1/(1+dist) for dist in distances_list])
         # return 1 / np.average(distances_list)
         # return max(distances_list)
-        return np.average(distances_list)
+        # return np.average(distances_list)
 
     elif distance in [cusca.custom_pearson]:
         for pair in itertools.product(data[children_of_a], data[children_of_b]):
@@ -749,6 +809,7 @@ def better_dendodist(children, distance, tree, data, axis):
     for pair in children:
         # print(pair[0], pair[1], data.shape)
         # print(distance)
-        distances_list.append(centroid_distances(pair[0], pair[1], tree, data, axis, distance=euclidian_similarity))
+        # distances_list.append(centroid_distances(pair[0], pair[1], tree, data, axis, distance=euclidian_similarity))
+        distances_list.append(centroid_distances(pair[0], pair[1], tree, data, axis, distance=distance))
 
     return distances_list
