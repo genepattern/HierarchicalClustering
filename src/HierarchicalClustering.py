@@ -55,7 +55,9 @@ if (col_distance_metric != 'No column clustering') and (col_distance_metric != '
     # col_model.fit(data)
     y = col_model.fit_predict(data)
     print(y)
-    order_of_columns = plot_dendrogram(col_model, data=data, title='cols.png', dist=str2dist[col_distance_metric], labels=col_labels)
+    col_tree = make_tree(col_model, data)
+    order_of_columns = plot_dendrogram(col_model, tree=col_tree, data=data, title='cols.png', axis=1,
+                                       dist=str2dist[col_distance_metric], labels=col_labels)
     # order_of_columns = plot_dendrogram(col_model, dist=str2dist[col_distance_metric], labels=col_labels)
 
 
@@ -65,7 +67,9 @@ if (row_distance_metric != 'No row clustering') and (row_distance_metric != 'No_
     # row_model.fit(np.transpose(data))
     y_col = row_model.fit_predict(np.transpose(data))
     print(y_col)
-    order_of_rows = plot_dendrogram(row_model, data=np.transpose(data), title='rows.png', dist=str2dist[row_distance_metric], labels=row_labels)
+    row_tree = make_tree(row_model, data)
+    order_of_rows = plot_dendrogram(row_model, tree=row_tree, data=np.transpose(data), title='rows.png', axis=0,
+                                    dist=str2dist[row_distance_metric], labels=row_labels)
 
 if output_distances:
     #TODO: check wich col or row was selected, or both
@@ -87,22 +91,18 @@ gtr_companion = False
 AID = None
 GID = None
 if (col_distance_metric != 'No column clustering') and (col_distance_metric != 'No_column_clustering'):
-    col_tree = make_tree(col_model, data)
-    atr_companion = True
 
+    atr_companion = True
     order_of_data_columns = [full_gct.columns.get_loc(col) for col in order_of_columns]
     # print(col_tree)
-
     # print(data)
-
     AID = make_atr(col_tree, file_name='test.atr', data=data, order_of_data_columns=order_of_data_columns)
 
 
 if (row_distance_metric != 'No row clustering') and (row_distance_metric != 'No_row_clustering'):
-    row_tree = make_tree(row_model, data)
     # print(data)
     # print(col_tree)
-    print(row_tree)
+    # print(row_tree)
     # print(np.transpose(data))
     gtr_companion = True
     GID = make_gtr(row_tree, data=data, file_name='test.gtr')
