@@ -3,12 +3,16 @@ import cuzcatlan as cusca
 import numpy as np
 from statistics import mode
 from sklearn.metrics import pairwise
+from sklearn import metrics
+
 from scipy.cluster.hierarchy import dendrogram
 import matplotlib.pyplot as plt
 import seaborn as sns
 import pandas as pd
 import itertools
 from sklearn.cluster import AgglomerativeClustering
+import scipy
+import itertools
 
 def parse_inputs(args=sys.argv):
     # inp = []
@@ -156,7 +160,7 @@ def plot_dendrogram(model, dist=cusca.mydist, **kwargs):
     children = model.children_
     # Distances between each pair of children
     #TODO: Fix this cusca.mydist
-    distance = cusca.dendodist(children, cusca.mydist)
+    distance = cusca.dendodist(children, euclidian_similarity)
     if all(value == 0 for value in distance):
         # If all distances are zero, then use uniform distance
         distance = np.arange(len(distance))
@@ -172,6 +176,7 @@ def plot_dendrogram(model, dist=cusca.mydist, **kwargs):
     # print(order_of_columns)
 
     plt.gca().get_yaxis().set_visible(False)
+    plt.savefig("DELETE_ME.png", dpi=300)
     return order_of_columns
 
 
@@ -486,29 +491,67 @@ def make_cdt(data, AID, order_of_columns, GID, order_of_rows, name='test.cdt', a
     return
 
 
-def make_atr(dic, file_name='test.atr'):
+def make_atr(dic, data, order_of_data_columns, file_name='test.atr'):
+    print('Current ATR:')
     val = len(dic)
     max_val = len(dic)
     AID = []
     val -= 2
     f = open(file_name, 'w')
-    for key, value in dic.items():
-        # elements = ['NODE'+str(key)+'X', 'ARRY'+str(value[0])+'X', 'ARRY'+str(value[1])+'X', str(val/len(dic))]
+    # print(np.transpose(data))
 
-        dist = str(val/len(dic))
-        # dist = str(val)
-        # dist = str(1)
+    # print()
+    # for key, value in dic.items():
+    #     # elements = ['NODE'+str(key)+'X', 'ARRY'+str(value[0])+'X', 'ARRY'+str(value[1])+'X', str(val/len(dic))]
+    #
+    #     dist = str(val/len(dic))
+    #     # print(dist, cusca.custom_pearson(data[:, value[0]], data[:, value[1]]))
+    #     # print(data[:, value[0]])
+    #
+    #     # print(dist, cusca.mydist(data[:, value[0]], data[:, value[1]])/norm)
+    #     # print(dist, cusca.mydist(value[0], value[1]))
+    #     # dist = str(cusca.mydist(data[:, value[0]], data[:, value[1]])/norm)
+    #     # dist = str(val)
+    #     # dist = str(1)
+    #     elements = [translate_tree(key, max_val, 'atr'), translate_tree(value[0], max_val, 'atr'),
+    #                 translate_tree(value[1], max_val, 'atr'), dist]
+    #     # elements = [str(single_element) for single_element in elements]
+    #     # print('\t'.join(elements))
+    #     print('\t', '\t'.join(elements))
+    #     AID.append(translate_tree(value[0], max_val, 'atr'))
+    #     AID.append(translate_tree(value[1], max_val, 'atr'))
+    #     f.write('\t'.join(elements)+'\n')
+    #     val -= 1
+    # f.close()
+
+    # print('New ATR:')
+
+    # compute distances
+    distance_dic = {}
+    for key, value in dic.items():
+        # print(value[0], value[1])
+        val = centroid_distances(value[0], value[1], tree=dic, data=data, axis=1, distance=cusca.mydist)
+        # val = centroid_distances(value[0], value[1], tree=dic, data=data, axis=1, distance=norm_euclidian)
+        distance_dic[key] = val
+
+    for key, value in distance_dic.items():
+        distance_dic[key] = 1/(1+distance_dic[key])
+
+    f = open(file_name, 'w')
+    # norm = my_affinity_generic(np.transpose(data), cusca.mydist).max()
+    for key, value in dic.items():
+        # print(value[0], value[1])
+        # dist = str(centroid_distances(value[0], value[1], tree=dic, data=data, axis=1, distance=cusca.mydist))
+        # dist = str(centroid_distances(value[0], value[1], tree=dic, data=data, axis=1, distance=cusca.custom_pearson))
         elements = [translate_tree(key, max_val, 'atr'), translate_tree(value[0], max_val, 'atr'),
-                    translate_tree(value[1], max_val, 'atr'), dist]
-        # elements = [str(single_element) for single_element in elements]
-        # print('\t'.join(elements))
+                    translate_tree(value[1], max_val, 'atr'), str(distance_dic[key])]
+        print('\t', '\t'.join(elements))
         AID.append(translate_tree(value[0], max_val, 'atr'))
         AID.append(translate_tree(value[1], max_val, 'atr'))
-        f.write('\t'.join(elements)+'\n')
-        val -= 1
+        f.write('\t'.join(elements) + '\n')
     f.close()
-    return AID
 
+    return AID
 
 def translate_tree(what, length, g_or_a):
     if 'a' in g_or_a:
@@ -527,25 +570,193 @@ def translate_tree(what, length, g_or_a):
     return translation
 
 
-def make_gtr(dic, file_name='test.gtr'):
+def make_gtr(dic, data, file_name='test.gtr'):
     val = len(dic)
     max_val = len(dic)
     GID = []
     val -= 2
+
+    # compute distances
+    distance_dic = {}
+    for key, value in dic.items():
+        # print(value[0], value[1])
+        val = centroid_distances(value[0], value[1], tree=dic, data=data, axis=0, distance=cusca.mydist)
+        # val = centroid_distances(value[0], value[1], tree=dic, data=data, axis=0, distance=norm_euclidian)
+        distance_dic[key] = val
+
+    # norm = max(distance_dic.values())
+
+    for key, value in distance_dic.items():
+        distance_dic[key] = 1/(1+distance_dic[key])
+
+    # norm = min(distance_dic.values())
+
+    # for key, value in distance_dic.items():
+    #     distance_dic[key] = distance_dic[key]/norm
+
     f = open(file_name, 'w')
     for key, value in dic.items():
         # elements = ['NODE'+str(key)+'X', 'ARRY'+str(value[0])+'X', 'ARRY'+str(value[1])+'X', str(val/len(dic))]
 
-        dist = str(val/len(dic))
+        # dist = str(val/len(dic))
+
         # dist = str(val)
         # dist = str(1)
         elements = [translate_tree(key, max_val, 'gtr'), translate_tree(value[0], max_val, 'gtr'),
-                    translate_tree(value[1], max_val, 'gtr'), dist]
+                    translate_tree(value[1], max_val, 'gtr'), str(distance_dic[key])]
         # elements = [str(single_element) for single_element in elements]
-        # print('\t'.join(elements))
+        print('\t'.join(elements))
         GID.append(translate_tree(value[0], max_val, 'gtr'))
         GID.append(translate_tree(value[1], max_val, 'gtr'))
         f.write('\t'.join(elements)+'\n')
         val -= 1
     f.close()
+    # print(GID)
     return GID
+
+
+# def get_children_recursively(k, model, node_dict, leaf_count, n_samples, data, verbose=False, left=None, right=None):
+#     # print(k)
+#     i, j = model.children_[k]
+#
+#     if k in node_dict:
+#         return node_dict[k]['children']
+#
+#     if i < leaf_count:
+#         # print("i if")
+#         left = [i]
+#     else:
+#         # print("i else")
+#         # read the AgglomerativeClustering doc. to see why I select i-n_samples
+#         left, node_dict = get_children_recursively(i - n_samples, model, node_dict,
+#                                                    leaf_count, n_samples, data, verbose, left, right)
+#
+#     if j < leaf_count:
+#         # print("j if")
+#         right = [j]
+#     else:
+#         # print("j else")
+#         right, node_dict = get_children_recursively(j - n_samples, model, node_dict,
+#                                                     leaf_count, n_samples, data, verbose, left, right)
+#
+#     if verbose:
+#         print(k, i, j, left, right)
+#     temp = map(lambda ii: data[ii], left)
+#     left_pos = np.mean(list(temp), axis=0)
+#     temp = map(lambda ii: data[ii], right)
+#     right_pos = np.mean(list(temp), axis=0)
+#
+#     # this assumes that agg_cluster used euclidean distances
+#     dist = metrics.pairwise_distances([left_pos, right_pos], metric='euclidean')[0, 1]
+#
+#     all_children = [x for y in [left, right] for x in y]
+#     pos = np.mean(list(map(lambda ii: data[ii], all_children)), axis=0)
+#
+#     # store the results to speed up any additional or recursive evaluations
+#     node_dict[k] = {'top_child': [i, j], 'children': all_children, 'pos': pos, 'dist': dist,
+#                     'node_i': k + n_samples}
+#     return all_children, node_dict
+
+# def recursive_atr
+
+
+def get_children(tree, leaves_are_self_children=False):
+    # this is a recursive function
+    expanded_tree = {}
+    for node in range(max(tree.keys())):
+        if node <= len(tree):
+            if leaves_are_self_children:
+                expanded_tree[node] = [node]
+            else:
+                expanded_tree[node] = []
+
+        else:
+            # expanded_tree[node] = list_children_single_node(node, tree)
+            expanded_tree[node] = list_children_single_node(node, tree, leaves_are_self_children)
+
+    return expanded_tree
+
+
+def list_children_single_node(node, tree, leaves_are_self_children=False, only_leaves_are_children=True):
+    # children = []
+    if node <= len(tree):
+        if leaves_are_self_children:
+            children = [node]
+        else:
+            children = []
+
+    else:
+        children = list(tree[node])
+
+        # Check each child, and add their children to the list
+        for child in children:
+            if child <= len(tree):
+                pass
+            else:
+                children += list_children_single_node(child, tree, only_leaves_are_children=True)
+    if only_leaves_are_children:
+        # print(sorted(np.unique(i for i in children if i <= len(tree))))
+        # print()
+        return [i for i in sorted(np.unique(children))if i <= len(tree)]
+    else:
+        return sorted(np.unique(children))
+
+
+def centroid_distances(node_a, node_b, tree, data, axis=0, distance=cusca.mydist):
+    if axis == 0:
+        data = np.transpose(data)
+        # print("no changes", data.shape)
+    elif axis == 1:
+        # data = np.transpose(data)
+        # print("Transpose", data.shape)
+        pass
+    else:
+        exit("Variable 'data' does not have that many axises (╯°□°)╯︵ ┻━┻")
+
+    # data = np.transpose(data)
+
+    # number_of_leaves = len(tree)
+    children_of_a = list_children_single_node(node_a, tree=tree, leaves_are_self_children=True)
+    children_of_b = list_children_single_node(node_b, tree=tree, leaves_are_self_children=True)
+    # print(data[children_of_a])
+    # centroid_of_a = np.mean(data[children_of_a], axis=0)
+    # print(data[children_of_b])
+    # centroid_of_b = np.mean(data[children_of_b], axis=0)
+
+    # print(distance(centroid_of_a, centroid_of_b))
+    # print(axis)
+    # print(data.shape)
+    # print(children_of_a, children_of_b)
+    # print(data)
+    # print(data[children_of_a])
+    # print(children_of_b)
+
+    distances_list = []
+
+    if distance in [cusca.mydist]:
+        for pair in itertools.product(data[children_of_a][:], data[children_of_b][:]):
+            # print(pair[0], pair[1])
+            distances_list.append(distance(pair[0], pair[1]))
+        # return 1 / sum(distances_list)
+        # return np.average([1/dist for dist in distances_list])
+        # return 1 / np.average(distances_list)
+        # return max(distances_list)
+        return np.average(distances_list)
+
+    elif distance in [cusca.custom_pearson]:
+        for pair in itertools.product(data[children_of_a], data[children_of_b]):
+            distances_list.append(abs(distance(pair[0], pair[1])))
+        print(distances_list)
+        return np.prod(distances_list)
+        # return np.average(distances_list)
+
+    else:
+        Warning('Using a custom distance.')
+        for pair in itertools.product(data[children_of_a], data[children_of_b]):
+            distances_list.append(distance(pair[0], pair[1]))
+        return sum(distances_list)
+
+
+def euclidian_similarity(x, y):
+    dist = cusca.mydist(x, y)
+    return 1/(1+dist)
