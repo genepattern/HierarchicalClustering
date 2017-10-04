@@ -33,7 +33,7 @@ import itertools
 # }
 
 
-input_distance_dict = {
+input_col_distance_dict = {
     # These are the values I expect
     "No column clustering": "No_column_clustering",
     "Uncentered correlation": "uncentered_pearson",
@@ -44,8 +44,33 @@ input_distance_dict = {
     "Kendall's tau": "kendall",
     "Euclidean distance": "euclidean",
     "City-block distance": "manhattan",
+    "No_column_clustering": "No_column_clustering",
     # These are the values the GpUnit tests give
     "0": "No_column_clustering",
+    "1": "uncentered_pearson",
+    "2": "pearson",
+    "3": "absolute_uncentered_pearson",
+    "4": "absolute_pearson",
+    "5": "spearman",
+    "6": "kendall",
+    "7": "euclidean",
+    "8": "manhattan",
+}
+
+input_row_distance_dict = {
+    # These are the values I expect
+    "No row clustering": "No_row_clustering",
+    "Uncentered correlation": "uncentered_pearson",
+    "Pearson correlation": "pearson",
+    "Uncentered correlation, absolute value": "absolute_uncentered_pearson",
+    "Pearson correlation, absolute value": "absolute_pearson",
+    "Spearman's rank correlation": "spearman",
+    "Kendall's tau": "kendall",
+    "Euclidean distance": "euclidean",
+    "City-block distance": "manhattan",
+    "No_row_clustering": "No_row_clustering",
+    # These are the values the GpUnit tests give
+    "0": "No_row_clustering",
     "1": "uncentered_pearson",
     "2": "pearson",
     "3": "absolute_uncentered_pearson",
@@ -86,7 +111,7 @@ def parse_inputs(args=sys.argv):
         output_base_name = 'HC'
         print("Using:")
         print("\tgct_name =", gct_name)
-        print("\tcol_distance_metric =", input_distance_dict[col_distance_metric])
+        print("\tcol_distance_metric =", input_col_distance_dict[col_distance_metric])
         print("\toutput_distances =", output_distances, "(default: not computing it and creating a file)")
         print("\trow_distance_metric =", row_distance_metric, "(default: No row clustering)")
         print("\tclustering_method =", clustering_method, "(default: Pairwise average-linkage)")
@@ -98,6 +123,8 @@ def parse_inputs(args=sys.argv):
         row_distance_metric = 'No row clustering'
         clustering_method = 'Pairwise average-linkage'
         output_base_name = 'HC'
+
+        col_distance_metric = input_col_distance_dict[col_distance_metric]
         if (output_distances == 'False') or (output_distances == 'F')\
                 or (output_distances == 'false') or (output_distances == 'f'):
             output_distances = False
@@ -105,7 +132,7 @@ def parse_inputs(args=sys.argv):
             output_distances = True
         print("Using:")
         print("\tgct_name =", gct_name)
-        print("\tcol_distance_metric =", input_distance_dict[col_distance_metric])
+        print("\tcol_distance_metric =", col_distance_metric)
         print("\toutput_distances =", output_distances)
         print("\trow_distance_metric =", row_distance_metric, "(default: No row clustering)")
         print("\tclustering_method =", clustering_method, "(default: Pairwise average-linkage)")
@@ -118,6 +145,9 @@ def parse_inputs(args=sys.argv):
         clustering_method = 'Pairwise average-linkage'
         # clustering_method = 'Pairwise complete-linkage'
         output_base_name = 'HC'
+
+        col_distance_metric = input_col_distance_dict[col_distance_metric]
+        row_distance_metric = input_row_distance_dict[row_distance_metric]
         if (output_distances == 'False') or (output_distances == 'F') \
                 or (output_distances == 'false') or (output_distances == 'f'):
             output_distances = False
@@ -130,7 +160,7 @@ def parse_inputs(args=sys.argv):
 
         print("Using:")
         print("\tgct_name =", gct_name)
-        print("\tcol_distance_metric =", input_distance_dict[col_distance_metric])
+        print("\tcol_distance_metric =", col_distance_metric)
         print("\toutput_distances =", output_distances)
         print("\trow_distance_metric =", row_distance_metric)
         print("\tclustering_method =", clustering_method, "(default: Pairwise average-linkage)")
@@ -141,6 +171,9 @@ def parse_inputs(args=sys.argv):
         output_distances = args[3]
         row_distance_metric = args[4]
         clustering_method = args[5]
+
+        col_distance_metric = input_col_distance_dict[col_distance_metric]
+        row_distance_metric = input_row_distance_dict[row_distance_metric]
         if clustering_method not in linkage_dic.keys():
             exit("Clustering method chosen not supported. This should not have happened.")
 
@@ -160,7 +193,7 @@ def parse_inputs(args=sys.argv):
 
         print("Using:")
         print("\tgct_name =", gct_name)
-        print("\tcol_distance_metric =", input_distance_dict[col_distance_metric])
+        print("\tcol_distance_metric =", col_distance_metric)
         print("\toutput_distances =", output_distances)
         print("\trow_distance_metric =", row_distance_metric)
         print("\tclustering_method =", clustering_method)
@@ -172,6 +205,9 @@ def parse_inputs(args=sys.argv):
         row_distance_metric = args[4]
         clustering_method = args[5]
         output_base_name = args[6]
+
+        col_distance_metric = input_col_distance_dict[col_distance_metric]
+        row_distance_metric = input_row_distance_dict[row_distance_metric]
         if (output_distances == 'False') or (output_distances == 'F') \
                 or (output_distances == 'false') or (output_distances == 'f'):
             output_distances = False
@@ -184,7 +220,7 @@ def parse_inputs(args=sys.argv):
 
         print("Using:")
         print("\tgct_name =", gct_name)
-        print("\tcol_distance_metric =", input_distance_dict[col_distance_metric])
+        print("\tcol_distance_metric =", col_distance_metric)
         print("\toutput_distances =", output_distances)
         print("\trow_distance_metric =", row_distance_metric)
         print("\tclustering_method =", clustering_method)
