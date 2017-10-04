@@ -183,6 +183,7 @@ def parse_inputs(args=sys.argv):
 
         col_distance_metric = input_col_distance_dict[col_distance_metric]
         row_distance_metric = input_row_distance_dict[row_distance_metric]
+        clustering_method = input_clustering_method[clustering_method]
         if clustering_method not in linkage_dic.keys():
             exit("Clustering method chosen not supported. This should not have happened.")
 
@@ -217,6 +218,7 @@ def parse_inputs(args=sys.argv):
 
         col_distance_metric = input_col_distance_dict[col_distance_metric]
         row_distance_metric = input_row_distance_dict[row_distance_metric]
+        clustering_method = input_clustering_method[clustering_method]
         if (output_distances == 'False') or (output_distances == 'F') \
                 or (output_distances == 'false') or (output_distances == 'f'):
             output_distances = False
