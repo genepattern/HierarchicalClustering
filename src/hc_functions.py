@@ -14,6 +14,48 @@ from sklearn.cluster import AgglomerativeClustering
 import scipy
 import itertools
 
+
+# str2dist = {
+#     'custom_euclidean': cusca.mydist,
+#     'uncentered_pearson': cusca.uncentered_pearson,
+#     'absolute_uncentered_pearson': cusca.absolute_pearson,
+#     'information_coefficient': cusca.information_coefficient,
+#     'pearson': cusca.custom_pearson,
+#     'spearman': cusca.custom_spearman,
+#     'kendall': cusca.custom_kendall_tau,
+#     'absolute_pearson': cusca.absolute_pearson,
+#     'l1': pairwise.paired_manhattan_distances,
+#     'l2': pairwise.paired_euclidean_distances,
+#     'manhattan': pairwise.paired_manhattan_distances,
+#     'cosine': pairwise.paired_cosine_distances,
+#     # 'euclidean': pairwise.paired_euclidean_distances,
+#     'euclidean': cusca.mydist,
+# }
+
+
+input_distance_dict = {
+    # These are the values I expect
+    "No column clustering": "No_column_clustering",
+    "Uncentered correlation": "uncentered_pearson",
+    "Pearson correlation": "pearson",
+    "Uncentered correlation, absolute value": "absolute_uncentered_pearson",
+    "Pearson correlation, absolute value": "absolute_pearson",
+    "Spearman's rank correlation": "spearman",
+    "Kendall's tau": "kendall",
+    "Euclidean distance": "euclidean",
+    "City-block distance": "manhattan",
+    # These are the values the GpUnit tests give
+    "0": "No_column_clustering",
+    "1": "uncentered_pearson",
+    "2": "pearson",
+    "3": "absolute_uncentered_pearson",
+    "4": "absolute_pearson",
+    "5": "spearman",
+    "6": "kendall",
+    "7": "euclidean",
+    "8": "manhattan",
+}
+
 def parse_inputs(args=sys.argv):
     # inp = []
     # inp = args
@@ -44,7 +86,7 @@ def parse_inputs(args=sys.argv):
         output_base_name = 'HC'
         print("Using:")
         print("\tgct_name =", gct_name)
-        print("\tcol_distance_metric =", col_distance_metric)
+        print("\tcol_distance_metric =", input_distance_dict[col_distance_metric])
         print("\toutput_distances =", output_distances, "(default: not computing it and creating a file)")
         print("\trow_distance_metric =", row_distance_metric, "(default: No row clustering)")
         print("\tclustering_method =", clustering_method, "(default: Pairwise average-linkage)")
@@ -63,7 +105,7 @@ def parse_inputs(args=sys.argv):
             output_distances = True
         print("Using:")
         print("\tgct_name =", gct_name)
-        print("\tcol_distance_metric =", col_distance_metric)
+        print("\tcol_distance_metric =", input_distance_dict[col_distance_metric])
         print("\toutput_distances =", output_distances)
         print("\trow_distance_metric =", row_distance_metric, "(default: No row clustering)")
         print("\tclustering_method =", clustering_method, "(default: Pairwise average-linkage)")
@@ -88,7 +130,7 @@ def parse_inputs(args=sys.argv):
 
         print("Using:")
         print("\tgct_name =", gct_name)
-        print("\tcol_distance_metric =", col_distance_metric)
+        print("\tcol_distance_metric =", input_distance_dict[col_distance_metric])
         print("\toutput_distances =", output_distances)
         print("\trow_distance_metric =", row_distance_metric)
         print("\tclustering_method =", clustering_method, "(default: Pairwise average-linkage)")
@@ -118,7 +160,7 @@ def parse_inputs(args=sys.argv):
 
         print("Using:")
         print("\tgct_name =", gct_name)
-        print("\tcol_distance_metric =", col_distance_metric)
+        print("\tcol_distance_metric =", input_distance_dict[col_distance_metric])
         print("\toutput_distances =", output_distances)
         print("\trow_distance_metric =", row_distance_metric)
         print("\tclustering_method =", clustering_method)
@@ -142,7 +184,7 @@ def parse_inputs(args=sys.argv):
 
         print("Using:")
         print("\tgct_name =", gct_name)
-        print("\tcol_distance_metric =", col_distance_metric)
+        print("\tcol_distance_metric =", input_distance_dict[col_distance_metric])
         print("\toutput_distances =", output_distances)
         print("\trow_distance_metric =", row_distance_metric)
         print("\tclustering_method =", clustering_method)
@@ -151,6 +193,7 @@ def parse_inputs(args=sys.argv):
         sys.exit("Too many inputs. This module needs only a GCT file to work, "
                  "plus an optional input choosing between Pearson Correlation or Information Coefficient.")
 
+    print(args)
     return gct_name, col_distance_metric, output_distances, row_distance_metric, clustering_method, output_base_name
 
 
@@ -424,7 +467,7 @@ str2affinity_func = {
 str2dist = {
     'custom_euclidean': cusca.mydist,
     'uncentered_pearson': cusca.uncentered_pearson,
-    'absolute_uncentered_pearson': cusca.absolute_pearson,
+    'absolute_uncentered_pearson': cusca.absolute_uncentered_pearson,
     'information_coefficient': cusca.information_coefficient,
     'pearson': cusca.custom_pearson,
     'spearman': cusca.custom_spearman,
