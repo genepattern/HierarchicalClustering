@@ -81,6 +81,15 @@ input_row_distance_dict = {
     "8": "manhattan",
 }
 
+input_clustering_method = {
+    # These are the values I expect
+    'Pairwise complete-linkage': 'complete',
+    'Pairwise average-linkage': 'average',
+    'Pairwise ward-linkage': 'ward',
+    # These are the values the GpUnit test give
+    'm': 'complete'
+}
+
 def parse_inputs(args=sys.argv):
     # inp = []
     # inp = args
