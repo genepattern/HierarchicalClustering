@@ -55,6 +55,16 @@ input_col_distance_dict = {
     "6": "kendall",
     "7": "euclidean",
     "8": "manhattan",
+    # These are the values I expect from the comand line
+    "no_col": "No_column_clustering",
+    "Uncentered_pearson": "uncentered_pearson",
+    "pearson": "pearson",
+    "absolute_uncentered_pearson": "absolute_uncentered_pearson",
+    "absolute_pearson": "absolute_pearson",
+    "spearman": "spearman",
+    "kendall": "kendall",
+    "euclidean": "euclidean",
+    "manhattan": "manhattan",
 }
 
 input_row_distance_dict = {
@@ -79,6 +89,16 @@ input_row_distance_dict = {
     "6": "kendall",
     "7": "euclidean",
     "8": "manhattan",
+    # These are the values I expect from the comand line
+    "no_row": "No_row_clustering",
+    "Uncentered_pearson": "uncentered_pearson",
+    "pearson": "pearson",
+    "absolute_uncentered_pearson": "absolute_uncentered_pearson",
+    "absolute_pearson": "absolute_pearson",
+    "spearman": "spearman",
+    "kendall": "kendall",
+    "euclidean": "euclidean",
+    "manhattan": "manhattan",
 }
 
 input_clustering_method = {
@@ -87,7 +107,8 @@ input_clustering_method = {
     'Pairwise average-linkage': 'average',
     'Pairwise ward-linkage': 'ward',
     # These are the values the GpUnit test give
-    'm': 'complete'
+    'm': 'complete',
+    'a': 'complete',  # I think this is the default
 }
 
 def parse_inputs(args=sys.argv):
@@ -299,6 +320,18 @@ def plot_dendrogram(model, data, tree, axis, dist=cusca.mydist, title='no_title.
 
     plt.gca().get_yaxis().set_visible(False)
     plt.savefig(title, dpi=300)
+
+    Z = linkage_matrix
+    n = len(Z) + 1
+    cache = dict()
+    for k in range(len(Z)):
+        c1, c2 = int(Z[k][0]), int(Z[k][1])
+        c1 = [c1] if c1 < n else cache.pop(c1)
+        c2 = [c2] if c2 < n else cache.pop(c2)
+        cache[n + k] = c1 + c2
+    print(cache[2 * len(Z)])
+
+
     return order_of_columns
 
 
@@ -532,6 +565,9 @@ linkage_dic = {
     'Pairwise average-linkage': 'average',
     'Pairwise complete-linkage': 'complete',
     'Pairwise ward-linkage': 'ward',
+    'average': 'average',
+    'complete': 'complete',
+    'ward': 'ward',
 }
 
 
@@ -644,8 +680,8 @@ def make_atr(dic, data, order_of_data_columns, file_name='test.atr'):
     distance_dic = {}
     for key, value in dic.items():
         # print(value[0], value[1])
-        val = centroid_distances(value[0], value[1], tree=dic, data=data, axis=1, distance=cusca.mydist)
-        # val = centroid_distances(value[0], value[1], tree=dic, data=data, axis=1, distance=cusca.custom_spearman)
+        # val = centroid_distances(value[0], value[1], tree=dic, data=data, axis=1, distance=cusca.mydist)
+        val = centroid_distances(value[0], value[1], tree=dic, data=data, axis=1, distance=cusca.custom_pearson)
         # val = centroid_distances(value[0], value[1], tree=dic, data=data, axis=1, distance=norm_euclidian)
         distance_dic[key] = val
 
@@ -878,8 +914,8 @@ def centroid_distances(node_a, node_b, tree, data, axis=0, distance=cusca.mydist
         for pair in itertools.product(data[children_of_a], data[children_of_b]):
             distances_list.append(abs(distance(pair[0], pair[1])))
         # print(distances_list)
-        return np.prod(distances_list)
-        # return np.average(distances_list)
+        # return np.prod(distances_list)
+        return np.average(distances_list)
 
     else:
         Warning('Using a custom distance.')

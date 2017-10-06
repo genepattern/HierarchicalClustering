@@ -49,6 +49,8 @@ order_of_rows = list(data_df.index)
 
 print(col_distance_metric, (col_distance_metric != 'No column clustering'), (col_distance_metric != 'No_column_clustering'))
 
+print(data)
+
 if (col_distance_metric != 'No column clustering') and (col_distance_metric != 'No_column_clustering'):
     col_model = AgglomerativeClustering(linkage=linkage_dic[clustering_method], n_clusters=2,
                                     affinity=str2func[col_distance_metric], compute_full_tree=True)
@@ -58,8 +60,20 @@ if (col_distance_metric != 'No column clustering') and (col_distance_metric != '
     col_tree = make_tree(col_model, data)
     order_of_columns = plot_dendrogram(col_model, tree=col_tree, data=data, title='cols.png', axis=1,
                                        dist=str2dist[col_distance_metric], labels=col_labels,
-                                       count_sort='ascending', distance_sort=False)
+                                       count_sort='descending', distance_sort=False)
+                                       # count_sort=False, distance_sort=False)
     # order_of_columns = plot_dendrogram(col_model, dist=str2dist[col_distance_metric], labels=col_labels)
+
+    temp = []
+    for a in range(data.shape[1]):
+        for b in range(a+1, data.shape[1]-1):
+            temp.append(centroid_distances(a, b, col_tree,
+                                     np.transpose(data), axis=0, distance=str2dist[col_distance_metric]))
+
+    print(sorted(temp, reverse=True))
+
+    exit("line 65-ish")
+
     print(order_of_columns)
 
 
