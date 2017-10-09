@@ -396,7 +396,7 @@ def my_affinity_s(M):
 
 
 def my_affinity_k(M):
-    return np.array([[cusca.custom_kendall_tau(a, b) for a in M]for b in M])
+    return np.array([[cusca.custom_kendall_tau_dist(a, b) for a in M]for b in M])
 
 
 def my_affinity_ap(M):
@@ -560,7 +560,7 @@ str2dist = {
     'information_coefficient': cusca.information_coefficient,
     'pearson': cusca.custom_pearson_dist,
     'spearman': cusca.custom_spearman_dist,
-    'kendall': cusca.custom_kendall_tau,
+    'kendall': cusca.custom_kendall_tau_dist,
     'absolute_pearson': cusca.absolute_pearson_dist,
     'l1': pairwise.paired_manhattan_distances,
     'l2': pairwise.paired_euclidean_distances,
@@ -576,7 +576,7 @@ str2similarity = {
     'information_coefficient': cusca.information_coefficient,
     'pearson': cusca.custom_pearson_corr,
     'spearman': cusca.custom_spearman_corr,
-    'kendall': cusca.custom_kendall_tau,
+    'kendall': cusca.custom_kendall_tau_corr,
     'absolute_pearson': cusca.absolute_pearson_corr,
     'l1': pairwise.paired_manhattan_distances,
     'l2': pairwise.paired_euclidean_distances,
