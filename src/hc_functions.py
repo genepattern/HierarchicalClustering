@@ -15,24 +15,6 @@ import scipy
 import itertools
 
 
-# str2dist = {
-#     'custom_euclidean': cusca.mydist,
-#     'uncentered_pearson': cusca.uncentered_pearson,
-#     'absolute_uncentered_pearson': cusca.absolute_pearson,
-#     'information_coefficient': cusca.information_coefficient,
-#     'pearson': cusca.custom_pearson,
-#     'spearman': cusca.custom_spearman,
-#     'kendall': cusca.custom_kendall_tau,
-#     'absolute_pearson': cusca.absolute_pearson,
-#     'l1': pairwise.paired_manhattan_distances,
-#     'l2': pairwise.paired_euclidean_distances,
-#     'manhattan': pairwise.paired_manhattan_distances,
-#     'cosine': pairwise.paired_cosine_distances,
-#     # 'euclidean': pairwise.paired_euclidean_distances,
-#     'euclidean': cusca.mydist,
-# }
-
-
 input_col_distance_dict = {
     # These are the values I expect
     "No column clustering": "No_column_clustering",
@@ -57,7 +39,7 @@ input_col_distance_dict = {
     "8": "manhattan",
     # These are the values I expect from the comand line
     "no_col": "No_column_clustering",
-    "Uncentered_pearson": "uncentered_pearson",
+    "uncentered_pearson": "uncentered_pearson",
     "pearson": "pearson",
     "absolute_uncentered_pearson": "absolute_uncentered_pearson",
     "absolute_pearson": "absolute_pearson",
@@ -91,7 +73,7 @@ input_row_distance_dict = {
     "8": "manhattan",
     # These are the values I expect from the comand line
     "no_row": "No_row_clustering",
-    "Uncentered_pearson": "uncentered_pearson",
+    "uncentered_pearson": "uncentered_pearson",
     "pearson": "pearson",
     "absolute_uncentered_pearson": "absolute_uncentered_pearson",
     "absolute_pearson": "absolute_pearson",
@@ -111,6 +93,7 @@ input_clustering_method = {
     'a': 'complete',  # I think this is the default
 }
 
+
 def parse_inputs(args=sys.argv):
     # inp = []
     # inp = args
@@ -122,7 +105,7 @@ def parse_inputs(args=sys.argv):
         gct_name = args[1]
         col_distance_metric = 'euclidean'
         output_distances = False
-        row_distance_metric = 'No row clustering'
+        row_distance_metric = 'No_row_clustering'
         clustering_method = 'Pairwise average-linkage'
         output_base_name = 'HC'
         print("Using:")
@@ -136,7 +119,7 @@ def parse_inputs(args=sys.argv):
         gct_name = args[1]
         col_distance_metric = args[2]
         output_distances = False
-        row_distance_metric = 'No row clustering'
+        row_distance_metric = 'No_row_clustering'
         clustering_method = 'Pairwise average-linkage'
         output_base_name = 'HC'
         print("Using:")
@@ -150,7 +133,7 @@ def parse_inputs(args=sys.argv):
         gct_name = args[1]
         col_distance_metric = args[2]
         output_distances = args[3]
-        row_distance_metric = 'No row clustering'
+        row_distance_metric = 'No_row_clustering'
         clustering_method = 'Pairwise average-linkage'
         output_base_name = 'HC'
 
@@ -409,7 +392,7 @@ def my_affinity_p(M):
 
 
 def my_affinity_s(M):
-    return np.array([[cusca.custom_spearman(a, b) for a in M]for b in M])
+    return np.array([[cusca.custom_spearman_dist(a, b) for a in M]for b in M])
 
 
 def my_affinity_k(M):
@@ -417,15 +400,15 @@ def my_affinity_k(M):
 
 
 def my_affinity_ap(M):
-    return np.array([[cusca.absolute_pearson(a, b) for a in M]for b in M])
+    return np.array([[cusca.absolute_pearson_dist(a, b) for a in M]for b in M])
 
 
 def my_affinity_u(M):
-    return np.array([[cusca.uncentered_pearson(a, b) for a in M]for b in M])
+    return np.array([[cusca.uncentered_pearson_dist(a, b) for a in M]for b in M])
 
 
 def my_affinity_au(M):
-    return np.array([[cusca.absolute_uncentered_pearson(a, b) for a in M]for b in M])
+    return np.array([[cusca.absolute_uncentered_pearson_dist(a, b) for a in M]for b in M])
 
 
 def my_affinity_l1(M):
@@ -572,30 +555,29 @@ str2affinity_func = {
 
 str2dist = {
     'custom_euclidean': cusca.mydist,
-    'uncentered_pearson': cusca.uncentered_pearson,
-    'absolute_uncentered_pearson': cusca.absolute_uncentered_pearson,
+    'uncentered_pearson': cusca.uncentered_pearson_dist,
+    'absolute_uncentered_pearson': cusca.absolute_uncentered_pearson_dist,
     'information_coefficient': cusca.information_coefficient,
     'pearson': cusca.custom_pearson_dist,
-    'spearman': cusca.custom_spearman,
+    'spearman': cusca.custom_spearman_dist,
     'kendall': cusca.custom_kendall_tau,
-    'absolute_pearson': cusca.absolute_pearson,
+    'absolute_pearson': cusca.absolute_pearson_dist,
     'l1': pairwise.paired_manhattan_distances,
     'l2': pairwise.paired_euclidean_distances,
     'manhattan': pairwise.paired_manhattan_distances,
     'cosine': pairwise.paired_cosine_distances,
-    # 'euclidean': pairwise.paired_euclidean_distances,
     'euclidean': cusca.mydist,
 }
 
 str2similarity = {
     'custom_euclidean': cusca.mydist,
-    'uncentered_pearson': cusca.uncentered_pearson,
-    'absolute_uncentered_pearson': cusca.absolute_uncentered_pearson,
+    'uncentered_pearson': cusca.uncentered_pearson_corr,
+    'absolute_uncentered_pearson': cusca.absolute_uncentered_pearson_corr,
     'information_coefficient': cusca.information_coefficient,
     'pearson': cusca.custom_pearson_corr,
-    'spearman': cusca.custom_spearman,
+    'spearman': cusca.custom_spearman_corr,
     'kendall': cusca.custom_kendall_tau,
-    'absolute_pearson': cusca.absolute_pearson,
+    'absolute_pearson': cusca.absolute_pearson_corr,
     'l1': pairwise.paired_manhattan_distances,
     'l2': pairwise.paired_euclidean_distances,
     'manhattan': pairwise.paired_manhattan_distances,
@@ -647,7 +629,7 @@ def make_tree(model, data=None):
     # return dict(enumerate(model.children_, 1))
 
 
-def make_cdt(data, AID, order_of_columns, GID, order_of_rows, name='test.cdt', atr_companion=True, gtr_companion=False):
+def make_cdt(data, order_of_columns, order_of_rows, name='test.cdt', atr_companion=True, gtr_companion=False):
     # TODO: if order_of_columns == None, then do arange(len(list(data)))
     # TODO: if order_of_rows == None, then do arange(len(list(data)))
 
@@ -704,7 +686,6 @@ def make_cdt(data, AID, order_of_columns, GID, order_of_rows, name='test.cdt', a
 
     # The first three lines need to be written separately due to a quirk in the CDT file format:
 
-
     # print(data.to_csv(sep='\t', index=True, header=True))
     f = open(name, 'w')
     f.write(data.to_csv(sep='\t', index=True, header=True))
@@ -712,59 +693,53 @@ def make_cdt(data, AID, order_of_columns, GID, order_of_rows, name='test.cdt', a
     return
 
 
-def make_atr(col_tree_dic, data, dist, file_name='test.atr'):
-    # print('Current ATR:')
-    # val = len(col_tree_dic)
+def make_atr(col_tree_dic, data, dist, clustering_method='average', file_name='test.atr'):
     max_val = len(col_tree_dic)
-    AID = []
-    # val -= 2
+    # AID = []
 
     # compute distances
     distance_dic = {}
     for node, children in col_tree_dic.items():
-        # print(value[0], value[1])
-        # val = centroid_distances(value[0], value[1], tree=dic, data=data, axis=1, distance=cusca.mydist)
-        val = centroid_distances(children[0], children[1], tree=col_tree_dic, data=data, axis=1, distance=dist)
-        # val = centroid_distances(value[0], value[1], tree=dic, data=data, axis=1, distance=norm_euclidian)
+        val = centroid_distances(children[0], children[1], tree=col_tree_dic, data=data, axis=1,
+                                 distance=dist, clustering_method=clustering_method)
         distance_dic[node] = val
 
-    # exit(distance_dic)
-    #TODO: negative?
-
-    # for key, value in distance_dic.items():
-    #     distance_dic[key] = 1 - (distance_dic[key])
-    #     distance_dic[key] = 1/(1+distance_dic[key])
-    #     distance_dic[key] = 1/(distance_dic[key])
-
-
-    # cum_sum = 0
-    # for key in reversed(list(distance_dic.keys())):
-    #     cum_sum += distance_dic[key]
-        # print(key, cum_sum, distance_dic[key])
-        # distance_dic[key] = cum_sum
-
-
-    # maximum = 1.0
-    #
-    # for key, value in distance_dic.items():
-    #     maximum -= distance_dic[key]
-    #     distance_dic[key] = maximum
-
     f = open(file_name, 'w')
-    # norm = my_affinity_generic(np.transpose(data), cusca.mydist).max()
     for node, children in col_tree_dic.items():
-        # print(value[0], value[1])
-        # dist = str(centroid_distances(value[0], value[1], tree=dic, data=data, axis=1, distance=cusca.mydist))
-        # dist = str(centroid_distances(value[0], value[1], tree=dic, data=data, axis=1, distance=cusca.custom_pearson))
         elements = [translate_tree(node, max_val, 'atr'), translate_tree(children[0], max_val, 'atr'),
                     translate_tree(children[1], max_val, 'atr'), str(distance_dic[node])]
         # print('\t', '\t'.join(elements))
-        AID.append(translate_tree(children[0], max_val, 'atr'))
-        AID.append(translate_tree(children[1], max_val, 'atr'))
+        # AID.append(translate_tree(children[0], max_val, 'atr'))
+        # AID.append(translate_tree(children[1], max_val, 'atr'))
         f.write('\t'.join(elements) + '\n')
     f.close()
 
-    return AID
+    return
+
+
+def make_gtr(row_tree_dic, data, dist, clustering_method='average',  file_name='test.gtr'):
+    max_val = len(row_tree_dic)
+    # GID = []
+
+    # compute distances
+    distance_dic = {}
+    for node, children in row_tree_dic.items():
+        val = centroid_distances(children[0], children[1], tree=row_tree_dic, data=data, axis=0,
+                                 distance=dist, clustering_method=clustering_method)
+        distance_dic[node] = val
+
+    f = open(file_name, 'w')
+    for node, children in row_tree_dic.items():
+
+        elements = [translate_tree(node, max_val, 'gtr'), translate_tree(children[0], max_val, 'gtr'),
+                    translate_tree(children[1], max_val, 'gtr'), str(distance_dic[node])]
+        # GID.append(translate_tree(children[0], max_val, 'gtr'))
+        # GID.append(translate_tree(children[1], max_val, 'gtr'))
+        f.write('\t'.join(elements)+'\n')
+        # val -= 1
+    f.close()
+
+    return
 
 
 def translate_tree(what, length, g_or_a):
@@ -782,51 +757,6 @@ def translate_tree(what, length, g_or_a):
         translation = []
         print('This function does not support g_or_a=', g_or_a)
     return translation
-
-
-def make_gtr(row_tree_dic, data, dist, file_name='test.gtr'):
-    # val = len(row_tree_dic)
-    max_val = len(row_tree_dic)
-    GID = []
-    # val -= 2
-
-    # compute distances
-    distance_dic = {}
-    for node, children in row_tree_dic.items():
-        # print(value[0], value[1])
-        val = centroid_distances(children[0], children[1], tree=row_tree_dic, data=data, axis=0, distance=dist)
-        # val = centroid_distances(value[0], value[1], tree=dic, data=data, axis=0, distance=norm_euclidian)
-        distance_dic[node] = val
-
-    # norm = max(distance_dic.values())
-
-    # for key, value in distance_dic.items():
-    #     distance_dic[key] = 1/(1+distance_dic[key])
-
-    # norm = min(distance_dic.values())
-
-    # for key, value in distance_dic.items():
-    #     distance_dic[key] = distance_dic[key]/norm
-
-    f = open(file_name, 'w')
-    for node, children in row_tree_dic.items():
-        # elements = ['NODE'+str(key)+'X', 'ARRY'+str(value[0])+'X', 'ARRY'+str(value[1])+'X', str(val/len(dic))]
-
-        # dist = str(val/len(dic))
-
-        # dist = str(val)
-        # dist = str(1)
-        elements = [translate_tree(node, max_val, 'gtr'), translate_tree(children[0], max_val, 'gtr'),
-                    translate_tree(children[1], max_val, 'gtr'), str(distance_dic[node])]
-        # elements = [str(single_element) for single_element in elements]
-        # print('\t'.join(elements))
-        GID.append(translate_tree(children[0], max_val, 'gtr'))
-        GID.append(translate_tree(children[1], max_val, 'gtr'))
-        f.write('\t'.join(elements)+'\n')
-        # val -= 1
-    f.close()
-    # print(GID)
-    return GID
 
 
 # def get_children_recursively(k, model, node_dict, leaf_count, n_samples, data, verbose=False, left=None, right=None):
@@ -932,21 +862,12 @@ def centroid_distances(node_a, node_b, tree, data, axis=0, distance=cusca.mydist
         for pair in itertools.product(data[children_of_a], data[children_of_b]):
             distances_list.append(distance(pair[0], pair[1]))
         return np.average(distances_list)
-    # if distance in [cusca.mydist, euclidian_similarity]:
-    #     for pair in itertools.product(data[children_of_a][:], data[children_of_b][:]):
-    #         distances_list.append(distance(pair[0], pair[1]))
-    #     return np.average([1/(1+dist) for dist in distances_list])
-    #
-    # elif distance in [cusca.custom_pearson_dist, cusca.custom_pearson_corr]:
-    #     for pair in itertools.product(data[children_of_a], data[children_of_b]):
-    #         distances_list.append(distance(pair[0], pair[1]))
-    #     return np.average(distances_list)
-    #
-    # else:
-    #     Warning('Using a custom distance.')
-    #     for pair in itertools.product(data[children_of_a], data[children_of_b]):
-    #         distances_list.append(distance(pair[0], pair[1]))
-    #     return sum(distances_list)
+    elif clustering_method == 'complete':
+        for pair in itertools.product(data[children_of_a], data[children_of_b]):
+            distances_list.append(distance(pair[0], pair[1]))
+        return np.max(distances_list)
+    else:
+        exit("Ony 'average' and 'complete' clustering methods are accepted at the moment (>_<)")
 
 
 def euclidian_similarity(x, y):

@@ -58,30 +58,27 @@ GID = None
 if col_distance_metric != 'No_column_clustering':
     atr_companion = True
     col_model = AgglomerativeClustering(linkage=linkage_dic[clustering_method], n_clusters=2,
-                                        affinity=str2func[col_distance_metric], compute_full_tree=True)
+                                        affinity=str2func[col_distance_metric])
 
     col_model.fit(data_transpose)
     col_tree = make_tree(col_model)
     order_of_columns = order_leaves(col_model, tree=col_tree, data=data_transpose,
                                     dist=str2similarity[col_distance_metric], labels=col_labels, reverse=True)
 
-    AID = make_atr(col_tree, file_name='test.atr', data=data, dist=str2similarity[col_distance_metric])
+    make_atr(col_tree, file_name='test.atr', data=data,
+             dist=str2similarity[col_distance_metric], clustering_method=linkage_dic[clustering_method])
 
-# if (row_distance_metric != 'No row clustering') and (row_distance_metric != 'No_row_clustering'):
 if row_distance_metric != 'No_row_clustering':
     gtr_companion = True
     row_model = AgglomerativeClustering(linkage=linkage_dic[clustering_method], n_clusters=2,
                                         affinity=str2func[row_distance_metric])
-    row_model.fit(data)
     # y_col = row_model.fit_predict(np.transpose(data))
     # print(y_col)
+    row_model.fit(data)
     row_tree = make_tree(row_model)
-    # order_of_rows = plot_dendrogram(row_model, tree=row_tree, data=np.transpose(data), title='rows.png', axis=0,
-    #                                 dist=str2dist[row_distance_metric], labels=row_labels, count_sort='ascending')
     order_of_rows = order_leaves(row_model, tree=row_tree, data=data,
                                  dist=str2similarity[row_distance_metric], labels=row_labels)
-    GID = make_gtr(row_tree, data=data, file_name='test.gtr', dist=str2similarity[row_distance_metric])
-    # exit(order_of_rows)
+    make_gtr(row_tree, data=data, file_name='test.gtr', dist=str2similarity[row_distance_metric])
 
 if output_distances:
     #TODO: check wich col or row was selected, or both
@@ -97,16 +94,5 @@ if output_distances:
         dist_file.write('distances row='+str(i)+","+",".join(row.astype(str)) + "\n")
         i += 1
 
-# if (row_distance_metric != 'No row clustering') and (row_distance_metric != 'No_row_clustering'):
-    # print(data)
-    # print(col_tree)
-    # print(row_tree)
-    # print(np.transpose(data))
-    # gtr_companion = True
-    # GID = make_gtr(row_tree, data=data, file_name='test.gtr')
-# print(['Description']+order_of_columns)
-# full_gct = full_gct[['Description']+order_of_columns]  # Reordering the columns
-# print(list(full_gct))
-
 make_cdt(data=full_gct, name='test.cdt', atr_companion=atr_companion, gtr_companion=gtr_companion,
-         AID=AID, order_of_columns=order_of_columns, GID=GID, order_of_rows=order_of_rows)
+         order_of_columns=order_of_columns, order_of_rows=order_of_rows)
