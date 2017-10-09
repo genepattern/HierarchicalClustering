@@ -335,31 +335,37 @@ def plot_dendrogram(model, data, tree, axis, dist=cusca.mydist, title='no_title.
     return order_of_columns
 
 
-def order_columns(model, data, tree, labels, axis=0, dist=cusca.mydist):
+def order_leaves(model, data, tree, labels, axis=0, dist=cusca.mydist, reverse = False):
     # Adapted from here: https://stackoverflow.com/questions/12572436/calculate-ordering-of-dendrogram-leaves
 
     children = model.children_
-    distance = better_dendodist(children, dist, tree, data, axis=axis)
-    if all(value == 0 for value in distance):
-        distance = np.arange(len(distance))
+    # distance = better_dendodist(children, dist, tree, data, axis=axis)
+    # if all(value == 0 for value in distance):
+    #     distance = np.arange(len(distance))
 
-    list_of_children = list(get_children(tree, leaves_are_self_children=False).values())
-    no_of_observations = [len(i) for i in list_of_children if i]
-    no_of_observations.append(len(no_of_observations)+1)
+    # list_of_children = list(get_children(tree, leaves_are_self_children=False).values())
+    # no_of_observations = [len(i) for i in list_of_children if i]
+    # no_of_observations.append(len(no_of_observations)+1)
 
     # Create linkage matrix and then plot the dendrogram
-    linkage_matrix = np.column_stack([children, distance, no_of_observations]).astype(float)
+    # linkage_matrix = np.column_stack([children, distance, no_of_observations]).astype(float)
+    pseudo_linkage_matrix = np.column_stack([children]).astype(float)
 
-    n = len(linkage_matrix) + 1
+    n = len(pseudo_linkage_matrix) + 1
+
+    # This orders leaves by number of clusters
     cache = dict()
-    for k in range(len(linkage_matrix)):
-        c1, c2 = int(linkage_matrix[k][0]), int(linkage_matrix[k][1])
+    for k in range(len(pseudo_linkage_matrix)):
+        c1, c2 = int(pseudo_linkage_matrix[k][0]), int(pseudo_linkage_matrix[k][1])
         c1 = [c1] if c1 < n else cache.pop(c1)
         c2 = [c2] if c2 < n else cache.pop(c2)
         cache[n + k] = c1 + c2
-    numeric_order_of_columns = cache[2 * len(linkage_matrix)]
+    numeric_order_of_leaves = cache[2 * len(pseudo_linkage_matrix)]
 
-    return [labels[i] for i in numeric_order_of_columns]
+    if reverse:
+        numeric_order_of_leaves = list(reversed(numeric_order_of_leaves))
+
+    return [labels[i] for i in numeric_order_of_leaves]
 
 
 def two_plot_two_dendrogram(model, dist=cusca.mydist, **kwargs):
@@ -750,11 +756,11 @@ def make_atr(col_tree_dic, data, dist, file_name='test.atr'):
         # print(value[0], value[1])
         # dist = str(centroid_distances(value[0], value[1], tree=dic, data=data, axis=1, distance=cusca.mydist))
         # dist = str(centroid_distances(value[0], value[1], tree=dic, data=data, axis=1, distance=cusca.custom_pearson))
-        elements = [translate_tree(node, max_val, 'atr'), translate_tree(children[1], max_val, 'atr'),
-                    translate_tree(children[0], max_val, 'atr'), str(distance_dic[node])]
+        elements = [translate_tree(node, max_val, 'atr'), translate_tree(children[0], max_val, 'atr'),
+                    translate_tree(children[1], max_val, 'atr'), str(distance_dic[node])]
         # print('\t', '\t'.join(elements))
-        AID.append(translate_tree(children[1], max_val, 'atr'))
         AID.append(translate_tree(children[0], max_val, 'atr'))
+        AID.append(translate_tree(children[1], max_val, 'atr'))
         f.write('\t'.join(elements) + '\n')
     f.close()
 
@@ -778,19 +784,19 @@ def translate_tree(what, length, g_or_a):
     return translation
 
 
-def make_gtr(dic, data, file_name='test.gtr'):
-    val = len(dic)
-    max_val = len(dic)
+def make_gtr(row_tree_dic, data, dist, file_name='test.gtr'):
+    # val = len(row_tree_dic)
+    max_val = len(row_tree_dic)
     GID = []
-    val -= 2
+    # val -= 2
 
     # compute distances
     distance_dic = {}
-    for key, value in dic.items():
+    for node, children in row_tree_dic.items():
         # print(value[0], value[1])
-        val = centroid_distances(value[0], value[1], tree=dic, data=data, axis=0, distance=cusca.mydist)
+        val = centroid_distances(children[0], children[1], tree=row_tree_dic, data=data, axis=0, distance=dist)
         # val = centroid_distances(value[0], value[1], tree=dic, data=data, axis=0, distance=norm_euclidian)
-        distance_dic[key] = val
+        distance_dic[node] = val
 
     # norm = max(distance_dic.values())
 
@@ -803,21 +809,21 @@ def make_gtr(dic, data, file_name='test.gtr'):
     #     distance_dic[key] = distance_dic[key]/norm
 
     f = open(file_name, 'w')
-    for key, value in dic.items():
+    for node, children in row_tree_dic.items():
         # elements = ['NODE'+str(key)+'X', 'ARRY'+str(value[0])+'X', 'ARRY'+str(value[1])+'X', str(val/len(dic))]
 
         # dist = str(val/len(dic))
 
         # dist = str(val)
         # dist = str(1)
-        elements = [translate_tree(key, max_val, 'gtr'), translate_tree(value[0], max_val, 'gtr'),
-                    translate_tree(value[1], max_val, 'gtr'), str(distance_dic[key])]
+        elements = [translate_tree(node, max_val, 'gtr'), translate_tree(children[0], max_val, 'gtr'),
+                    translate_tree(children[1], max_val, 'gtr'), str(distance_dic[node])]
         # elements = [str(single_element) for single_element in elements]
         # print('\t'.join(elements))
-        GID.append(translate_tree(value[0], max_val, 'gtr'))
-        GID.append(translate_tree(value[1], max_val, 'gtr'))
+        GID.append(translate_tree(children[0], max_val, 'gtr'))
+        GID.append(translate_tree(children[1], max_val, 'gtr'))
         f.write('\t'.join(elements)+'\n')
-        val -= 1
+        # val -= 1
     f.close()
     # print(GID)
     return GID
