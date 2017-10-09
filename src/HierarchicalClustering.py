@@ -47,35 +47,68 @@ data, data_df, col_labels, row_labels, full_gct = parse_data(gct_name)
 order_of_columns = list(data_df)
 order_of_rows = list(data_df.index)
 
-print(col_distance_metric, (col_distance_metric != 'No column clustering'), (col_distance_metric != 'No_column_clustering'))
+data_transpose = np.transpose(data)
 
-print(data)
+atr_companion = False
+gtr_companion = False
 
-if (col_distance_metric != 'No column clustering') and (col_distance_metric != 'No_column_clustering'):
+AID = None
+GID = None
+
+# import time
+
+# if (col_distance_metric != 'No column clustering') and (col_distance_metric != 'No_column_clustering'):
+if col_distance_metric != 'No_column_clustering':
+    atr_companion = True
     col_model = AgglomerativeClustering(linkage=linkage_dic[clustering_method], n_clusters=2,
-                                    affinity=str2func[col_distance_metric], compute_full_tree=True)
-    # col_model.fit(data)
-    y = col_model.fit_predict(data)
+                                        affinity=str2func[col_distance_metric], compute_full_tree=True)
+    col_model.fit(data_transpose)
+    # y = col_model.fit_predict(data_transpose)
     # print(y)
-    col_tree = make_tree(col_model, data)
-    order_of_columns = plot_dendrogram(col_model, tree=col_tree, data=data, title='cols.png', axis=1,
-                                       dist=str2dist[col_distance_metric], labels=col_labels,
-                                       count_sort='descending', distance_sort=False)
-                                       # count_sort=False, distance_sort=False)
-    # order_of_columns = plot_dendrogram(col_model, dist=str2dist[col_distance_metric], labels=col_labels)
+    col_tree = make_tree(col_model)
 
-    temp = []
-    for a in range(data.shape[1]):
-        for b in range(a+1, data.shape[1]-1):
-            temp.append(centroid_distances(a, b, col_tree,
-                                     np.transpose(data), axis=0, distance=str2dist[col_distance_metric]))
+    # start = time.time()
+    order_of_columns = order_columns(col_model, tree=col_tree, data=data_transpose,
+                                     dist=str2similarity[col_distance_metric], labels=col_labels)
+    # end = time.time()
+    # print(end - start)
 
-    print(sorted(temp, reverse=True))
-
-    exit("line 65-ish")
+    # # This is more customizable but way slower about 6x slower after plot is suppresed
+    # start = time.time()
+    # order_of_columns = plot_dendrogram(col_model, tree=col_tree, data=data, title='cols.png', axis=1,
+    #                                    dist=str2dist[col_distance_metric], labels=col_labels,
+    #                                    # count_sort='descending', distance_sort=False)
+    #                                    count_sort=False, distance_sort='ascending')
+    #
+    # end = time.time()
+    # print(end - start)
 
     print(order_of_columns)
+    # exit(order_of_columns)
 
+
+    # temp = []
+    # for a in range(data.shape[1]):
+    #     for b in range(a+1, data.shape[1]-1):
+    #         temp.append(centroid_distances(a, b, col_tree,
+    #                                        data_transpose, axis=0, distance=str2similarity[col_distance_metric]))
+    # print(sorted(temp, reverse=False))
+
+    # print(centroid_distances(3, 4, col_tree, data_transpose, axis=0, distance=str2similarity[col_distance_metric]))
+
+    # print(order_of_columns)
+    # exit("line 65-ish")
+    # order_of_data_columns = [full_gct.columns.get_loc(col) for col in order_of_columns]
+    # order_of_data_columns = [full_gct.columns.get_loc(col) for col in order_of_columns]
+
+    # print(order_of_columns)
+    # print(order_of_data_columns)
+    # print(col_labels)
+    # print(numeric_order_of_columns)
+    # exit(numeric_order_of_columns)
+
+    AID = make_atr(col_tree, file_name='test.atr', data=data, dist=str2similarity[col_distance_metric])
+    # exit("After ATR")
 
 if (row_distance_metric != 'No row clustering') and (row_distance_metric != 'No_row_clustering'):
     row_model = AgglomerativeClustering(linkage=linkage_dic[clustering_method], n_clusters=2,
@@ -101,20 +134,11 @@ if output_distances:
         dist_file.write('distances row='+str(i)+","+",".join(row.astype(str)) + "\n")
         i += 1
 
-atr_companion = False
-gtr_companion = False
-
-AID = None
-GID = None
-if (col_distance_metric != 'No column clustering') and (col_distance_metric != 'No_column_clustering'):
-
-    atr_companion = True
-    order_of_data_columns = [full_gct.columns.get_loc(col) for col in order_of_columns]
-    # print(order_of_data_columns)
-    # print(col_tree)
-    # print(data)
-    AID = make_atr(col_tree, file_name='test.atr', data=data, order_of_data_columns=order_of_data_columns)
-
+# # if (col_distance_metric != 'No column clustering') and (col_distance_metric != 'No_column_clustering'):
+# if col_distance_metric != 'No_column_clustering':
+#     atr_companion = True
+#     order_of_data_columns = [full_gct.columns.get_loc(col) for col in order_of_columns]
+#     AID = make_atr(col_tree, file_name='test.atr', data=data, order_of_data_columns=order_of_data_columns)
 
 if (row_distance_metric != 'No row clustering') and (row_distance_metric != 'No_row_clustering'):
     # print(data)
@@ -129,5 +153,8 @@ if (row_distance_metric != 'No row clustering') and (row_distance_metric != 'No_
 
 # GID = ['GID_'+element for element in order_of_rows]
 
+
 make_cdt(data=full_gct, name='test.cdt', atr_companion=atr_companion, gtr_companion=gtr_companion,
          AID=AID, order_of_columns=order_of_columns, GID=GID, order_of_rows=order_of_rows)
+
+# print(AID)
