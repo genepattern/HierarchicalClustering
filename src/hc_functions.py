@@ -47,6 +47,11 @@ input_col_distance_dict = {
     "kendall": "kendall",
     "euclidean": "euclidean",
     "manhattan": "manhattan",
+    "Cosine": "cosine",
+    "cosine": "cosine",
+    "ic": "information_coefficient",
+    "information_coefficicent": "information_coefficient",
+    "Information Coefficicent": "information_coefficient",
 }
 
 input_row_distance_dict = {
@@ -81,6 +86,11 @@ input_row_distance_dict = {
     "kendall": "kendall",
     "euclidean": "euclidean",
     "manhattan": "manhattan",
+    "Cosine": "cosine",
+    "cosine": "cosine",
+    "ic": "information_coefficient",
+    "information_coefficicent": "information_coefficient",
+    "Information Coefficicent": "information_coefficient",
 }
 
 input_clustering_method = {
@@ -412,7 +422,7 @@ def my_affinity_au(M):
 
 
 def my_affinity_l1(M):
-    return np.array([[pairwise.paired_manhattan_distances(a, b) for a in M]for b in M])
+    return np.array([[cusca.custom_manhattan_dist(a, b) for a in M]for b in M])
 
 
 def my_affinity_l2(M):
@@ -420,11 +430,11 @@ def my_affinity_l2(M):
 
 
 def my_affinity_m(M):
-    return np.array([[pairwise.paired_manhattan_distances(a, b) for a in M]for b in M])
+    return np.array([[cusca.custom_manhattan_dist(a, b) for a in M]for b in M])
 
 
 def my_affinity_c(M):
-    return np.array([[pairwise.paired_cosine_distances(a, b) for a in M]for b in M])
+    return np.array([[cusca.custom_cosine_dist(a, b) for a in M]for b in M])
 
 
 def my_affinity_e(M):
@@ -569,10 +579,10 @@ str2dist = {
     'spearman': cusca.custom_spearman_dist,
     'kendall': cusca.custom_kendall_tau_dist,
     'absolute_pearson': cusca.absolute_pearson_dist,
-    'l1': pairwise.paired_manhattan_distances,
+    'l1': cusca.custom_manhattan_dist,
     'l2': cusca.custom_euclidean_dist,
-    'manhattan': pairwise.paired_manhattan_distances,
-    'cosine': pairwise.paired_cosine_distances,
+    'manhattan': cusca.custom_manhattan_dist,
+    'cosine': cusca.custom_cosine_dist,
     'euclidean': cusca.custom_euclidean_dist,
 }
 
@@ -585,10 +595,10 @@ str2similarity = {
     'spearman': cusca.custom_spearman_corr,
     'kendall': cusca.custom_kendall_tau_corr,
     'absolute_pearson': cusca.absolute_pearson_corr,
-    'l1': pairwise.paired_manhattan_distances,
+    'l1': cusca.custom_manhattan_sim,
     'l2': cusca.custom_euclidean_sim,
-    'manhattan': pairwise.paired_manhattan_distances,
-    'cosine': pairwise.paired_cosine_distances,
+    'manhattan': cusca.custom_manhattan_sim,
+    'cosine': cusca.custom_cosine_sim,
     # 'euclidean': pairwise.paired_euclidean_distances,
     'euclidean': cusca.custom_euclidean_sim,
     # 'euclidean': cusca.custom_euclidean_dist,
@@ -723,7 +733,6 @@ def make_atr(col_tree_dic, data, dist, clustering_method='average', file_name='t
     #         # distance_dic[key] = distance_dic[key]/high_norm
     #         # distance_dic[key] = ((1/distance_dic[key])-high_norm)/low_norm
     #         print(distance_dic[key])
-
 
     f = open(file_name, 'w')
     for node, children in col_tree_dic.items():

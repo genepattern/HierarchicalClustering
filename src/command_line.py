@@ -7,8 +7,8 @@ ROOT = os.path.join(WORKING_DIR, '..')
 TASKLIB = os.path.join(ROOT, 'src/')
 INPUT_FILE_DIR = os.path.join(ROOT, 'data/')
 
-gct_file = 'test_dataset_50x38.gct'
-# gct_file = 'test_dataset.gct'
+# gct_file = 'test_dataset_50x38.gct'
+gct_file = 'test_dataset.gct'
 # gct_file = 'minimal_dataset.gct'
 # func = 'euclidean'
 # func = 'pearson'
@@ -18,7 +18,8 @@ gct_file = 'test_dataset_50x38.gct'
 # func = 'absolute_uncentered_pearson'
 # func = 'spearman'
 # func = 'kendall'
-func = 'euclidean'
+# func = 'euclidean'
+func = 'cosine'
 # func = 'information_coefficient'
 
 # gct_name, distance_metric, output_distances, row_distance_metric, clustering_method, output_base_name
