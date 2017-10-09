@@ -416,7 +416,7 @@ def my_affinity_l1(M):
 
 
 def my_affinity_l2(M):
-    return np.array([[pairwise.paired_euclidean_distances(a, b) for a in M]for b in M])
+    return np.array([[cusca.custom_euclidean_dist(a, b) for a in M]for b in M])
 
 
 def my_affinity_m(M):
@@ -428,9 +428,10 @@ def my_affinity_c(M):
 
 
 def my_affinity_e(M):
-    global dist_matrix
-    dist_matrix = np.array([[cusca.mydist(a, b) for a in M]for b in M])
-    return dist_matrix
+    # global dist_matrix
+    # dist_matrix = np.array([[cusca.mydist(a, b) for a in M]for b in M])
+    # return dist_matrix
+    return np.array([[cusca.custom_euclidean_dist(a, b) for a in M] for b in M])
 
 
 def count_diff(x):
@@ -507,15 +508,21 @@ def parse_data(gct_name):
     data = data_df.as_matrix()
     row_labels = data_df.index.values
 
-    # normalizing data -- DELETE
-    # print(data.shape)
-    # print(data.max(axis=1))
-    # print(data.min(axis=1))
-    # from numpy.linalg import norm
+    # # normalizing data -- DELETE
+    # # print(data)
+    # # print(data.shape)
+    # # print(data.max(axis=1))
+    # # print(data.min(axis=1))
+    # # from numpy.linalg import norm
     # norm_data = []
-    # for row in np.transpose(data):  # iterate over the columns of data, which are the rows of the GCT
-    #     norm_data.append(row/norm(row, axis=0, ord=2))
-    # data = np.transpose(norm_data)
+    # for row in data:  # iterate over the ros of data
+    #     norm_data.append((row-min(row))/max(row))
+    #     # print(min(row))
+    # data = np.array(norm_data)
+    # # print(data.shape)
+    # # print(data.max(axis=1))
+    # # print(data.min(axis=1))
+    # # print(data)
 
     return data, data_df, plot_labels, row_labels, full_gct
 
@@ -554,7 +561,7 @@ str2affinity_func = {
 }
 
 str2dist = {
-    'custom_euclidean': cusca.mydist,
+    'custom_euclidean': cusca.custom_euclidean_dist,
     'uncentered_pearson': cusca.uncentered_pearson_dist,
     'absolute_uncentered_pearson': cusca.absolute_uncentered_pearson_dist,
     'information_coefficient': cusca.information_coefficient,
@@ -563,14 +570,14 @@ str2dist = {
     'kendall': cusca.custom_kendall_tau_dist,
     'absolute_pearson': cusca.absolute_pearson_dist,
     'l1': pairwise.paired_manhattan_distances,
-    'l2': pairwise.paired_euclidean_distances,
+    'l2': cusca.custom_euclidean_dist,
     'manhattan': pairwise.paired_manhattan_distances,
     'cosine': pairwise.paired_cosine_distances,
-    'euclidean': cusca.mydist,
+    'euclidean': cusca.custom_euclidean_dist,
 }
 
 str2similarity = {
-    'custom_euclidean': cusca.mydist,
+    'custom_euclidean': cusca.custom_euclidean_sim,
     'uncentered_pearson': cusca.uncentered_pearson_corr,
     'absolute_uncentered_pearson': cusca.absolute_uncentered_pearson_corr,
     'information_coefficient': cusca.information_coefficient,
@@ -579,11 +586,12 @@ str2similarity = {
     'kendall': cusca.custom_kendall_tau_corr,
     'absolute_pearson': cusca.absolute_pearson_corr,
     'l1': pairwise.paired_manhattan_distances,
-    'l2': pairwise.paired_euclidean_distances,
+    'l2': cusca.custom_euclidean_sim,
     'manhattan': pairwise.paired_manhattan_distances,
     'cosine': pairwise.paired_cosine_distances,
     # 'euclidean': pairwise.paired_euclidean_distances,
-    'euclidean': cusca.mydist,
+    'euclidean': cusca.custom_euclidean_sim,
+    # 'euclidean': cusca.custom_euclidean_dist,
 }
 
 linkage_dic = {
@@ -703,6 +711,19 @@ def make_atr(col_tree_dic, data, dist, clustering_method='average', file_name='t
         val = centroid_distances(children[0], children[1], tree=col_tree_dic, data=data, axis=1,
                                  distance=dist, clustering_method=clustering_method)
         distance_dic[node] = val
+
+    # if dist == cusca.custom_euclidean_sim:
+    #     print("Euclidean distance is especial, normalizing using this scheme:")
+    #     low_norm = min(distance_dic.values())
+    #     high_norm = max(distance_dic.values())
+    #     for key in distance_dic.keys():
+    #         # distance -= norm
+    #         # distance_dic[key] = distance_dic[key]/high_norm
+    #         # distance_dic[key] = (distance_dic[key]-low_norm)/high_norm
+    #         # distance_dic[key] = distance_dic[key]/high_norm
+    #         # distance_dic[key] = ((1/distance_dic[key])-high_norm)/low_norm
+    #         print(distance_dic[key])
+
 
     f = open(file_name, 'w')
     for node, children in col_tree_dic.items():
@@ -856,6 +877,10 @@ def centroid_distances(node_a, node_b, tree, data, axis=0, distance=cusca.mydist
 
     children_of_a = list_children_single_node(node_a, tree=tree, leaves_are_self_children=True)
     children_of_b = list_children_single_node(node_b, tree=tree, leaves_are_self_children=True)
+
+    # if distance == cusca.custom_euclidean_sim:
+    #     print("Euclidean distance is especial, normalizing using this scheme:")
+    #     distance = cusca.custom_euclidean_dist
 
     distances_list = []
     if clustering_method == 'average':
