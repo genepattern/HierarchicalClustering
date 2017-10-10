@@ -50,8 +50,8 @@ input_col_distance_dict = {
     "Cosine": "cosine",
     "cosine": "cosine",
     "ic": "information_coefficient",
-    "information_coefficicent": "information_coefficient",
-    "Information Coefficicent": "information_coefficient",
+    "information_coefficient": "information_coefficient",
+    "Information Coefficient": "information_coefficient",
 }
 
 input_row_distance_dict = {
@@ -89,8 +89,8 @@ input_row_distance_dict = {
     "Cosine": "cosine",
     "cosine": "cosine",
     "ic": "information_coefficient",
-    "information_coefficicent": "information_coefficient",
-    "Information Coefficicent": "information_coefficient",
+    "information_coefficient": "information_coefficient",
+    "Information Coefficient": "information_coefficient",
 }
 
 input_clustering_method = {
@@ -390,11 +390,11 @@ def my_affinity_generic(M, metric):
 
 
 def my_affinity_i(M):
-    return np.array([[cusca.information_coefficient(a, b) for a in M]for b in M])
+    return np.array([[cusca.information_coefficient_dist(a, b) for a in M]for b in M])
 
 
 def my_affinity_ai(M):
-    return np.array([[cusca.absolute_information_coefficient(a, b) for a in M]for b in M])
+    return np.array([[cusca.absolute_information_coefficient_dist(a, b) for a in M]for b in M])
 
 
 def my_affinity_p(M):
@@ -574,7 +574,7 @@ str2dist = {
     'custom_euclidean': cusca.custom_euclidean_dist,
     'uncentered_pearson': cusca.uncentered_pearson_dist,
     'absolute_uncentered_pearson': cusca.absolute_uncentered_pearson_dist,
-    'information_coefficient': cusca.information_coefficient,
+    'information_coefficient': cusca.information_coefficient_dist,
     'pearson': cusca.custom_pearson_dist,
     'spearman': cusca.custom_spearman_dist,
     'kendall': cusca.custom_kendall_tau_dist,
