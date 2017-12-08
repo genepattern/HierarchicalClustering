@@ -18,3 +18,8 @@ To run the tests ...
 To view the report ...
   open reports/current/html/index.html
 
+
+To run GpUnits locally:
+
+ant -f ${GPUNIT_HOME}/build.xml -Dgpunit.diffStripTrailingCR="--strip-trailing-cr" -Dgp.host="127.0.0.1" -Dgp.url="http://127.0.0.1:8080" -Dgp.user="edjuaro@gmail.com" -Dgp.password="" -Dgpunit.testfolder=`pwd` gpunit
+

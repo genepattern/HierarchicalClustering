@@ -65,7 +65,7 @@ if col_distance_metric != 'No_column_clustering':
     order_of_columns = order_leaves(col_model, tree=col_tree, data=data_transpose,
                                     dist=str2similarity[col_distance_metric], labels=col_labels, reverse=True)
 
-    make_atr(col_tree, file_name='test.atr', data=data,
+    make_atr(col_tree, file_name=output_base_name+'.atr', data=data,
              dist=str2similarity[col_distance_metric], clustering_method=linkage_dic[clustering_method])
 
 if row_distance_metric != 'No_row_clustering':
@@ -78,7 +78,7 @@ if row_distance_metric != 'No_row_clustering':
     row_tree = make_tree(row_model)
     order_of_rows = order_leaves(row_model, tree=row_tree, data=data,
                                  dist=str2similarity[row_distance_metric], labels=row_labels)
-    make_gtr(row_tree, data=data, file_name='test.gtr', dist=str2similarity[row_distance_metric])
+    make_gtr(row_tree, data=data, file_name=output_base_name+'.gtr', dist=str2similarity[row_distance_metric])
 
 if output_distances:
     #TODO: check wich col or row was selected, or both
@@ -94,5 +94,5 @@ if output_distances:
         dist_file.write('distances row='+str(i)+","+",".join(row.astype(str)) + "\n")
         i += 1
 
-make_cdt(data=full_gct, name='test.cdt', atr_companion=atr_companion, gtr_companion=gtr_companion,
+make_cdt(data=full_gct, name=output_base_name+'.cdt', atr_companion=atr_companion, gtr_companion=gtr_companion,
          order_of_columns=order_of_columns, order_of_rows=order_of_rows)

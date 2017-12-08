@@ -117,35 +117,35 @@ def parse_inputs(args=sys.argv):
         output_distances = False
         row_distance_metric = 'No_row_clustering'
         clustering_method = 'Pairwise average-linkage'
-        output_base_name = 'HC'
+        output_base_name = 'HC_out'
         print("Using:")
         print("\tgct_name =", gct_name)
         print("\tcol_distance_metric = euclidean (default value)")
         print("\toutput_distances =", output_distances, "(default: not computing it and creating a file)")
         print("\trow_distance_metric =", row_distance_metric, "(default: No row clustering)")
         print("\tclustering_method =", clustering_method, "(default: Pairwise average-linkage)")
-        print("\toutput_base_name =", output_base_name, "(default: HC)")
+        print("\toutput_base_name =", output_base_name, "(default: HC_out)")
     elif arg_n == 3:
         gct_name = args[1]
         col_distance_metric = args[2]
         output_distances = False
         row_distance_metric = 'No_row_clustering'
         clustering_method = 'Pairwise average-linkage'
-        output_base_name = 'HC'
+        output_base_name = 'HC_out'
         print("Using:")
         print("\tgct_name =", gct_name)
         print("\tcol_distance_metric =", input_col_distance_dict[col_distance_metric])
         print("\toutput_distances =", output_distances, "(default: not computing it and creating a file)")
         print("\trow_distance_metric =", row_distance_metric, "(default: No row clustering)")
         print("\tclustering_method =", clustering_method, "(default: Pairwise average-linkage)")
-        print("\toutput_base_name =", output_base_name, "(default: HC)")
+        print("\toutput_base_name =", output_base_name, "(default: HC_out)")
     elif arg_n == 4:
         gct_name = args[1]
         col_distance_metric = args[2]
         output_distances = args[3]
         row_distance_metric = 'No_row_clustering'
         clustering_method = 'Pairwise average-linkage'
-        output_base_name = 'HC'
+        output_base_name = 'HC_out'
 
         col_distance_metric = input_col_distance_dict[col_distance_metric]
         if (output_distances == 'False') or (output_distances == 'F')\
@@ -159,7 +159,7 @@ def parse_inputs(args=sys.argv):
         print("\toutput_distances =", output_distances)
         print("\trow_distance_metric =", row_distance_metric, "(default: No row clustering)")
         print("\tclustering_method =", clustering_method, "(default: Pairwise average-linkage)")
-        print("\toutput_base_name =", output_base_name, "(default: HC)")
+        print("\toutput_base_name =", output_base_name, "(default: HC_out)")
     elif arg_n == 5:
         gct_name = args[1]
         col_distance_metric = args[2]
@@ -167,7 +167,7 @@ def parse_inputs(args=sys.argv):
         row_distance_metric = args[4]
         clustering_method = 'Pairwise average-linkage'
         # clustering_method = 'Pairwise complete-linkage'
-        output_base_name = 'HC'
+        output_base_name = 'HC_out'
 
         col_distance_metric = input_col_distance_dict[col_distance_metric]
         row_distance_metric = input_row_distance_dict[row_distance_metric]
@@ -187,7 +187,7 @@ def parse_inputs(args=sys.argv):
         print("\toutput_distances =", output_distances)
         print("\trow_distance_metric =", row_distance_metric)
         print("\tclustering_method =", clustering_method, "(default: Pairwise average-linkage)")
-        print("\toutput_base_name =", output_base_name, "(default: HC)")
+        print("\toutput_base_name =", output_base_name, "(default: HC_out)")
     elif arg_n == 6:
         gct_name = args[1]
         col_distance_metric = args[2]
@@ -204,7 +204,7 @@ def parse_inputs(args=sys.argv):
         if (linkage_dic[clustering_method] == 'ward') and (col_distance_metric != 'average'):
             exit("When choosing 'Pairwise ward-linkage' the distance metric *must* be 'average' ")
 
-        output_base_name = 'HC'
+        output_base_name = 'HC_out'
         if (output_distances == 'False') or (output_distances == 'F') \
                 or (output_distances == 'false') or (output_distances == 'f'):
             output_distances = False
@@ -221,7 +221,7 @@ def parse_inputs(args=sys.argv):
         print("\toutput_distances =", output_distances)
         print("\trow_distance_metric =", row_distance_metric)
         print("\tclustering_method =", clustering_method)
-        print("\toutput_base_name =", output_base_name, "(default: HC)")
+        print("\toutput_base_name =", output_base_name, "(default: HC_out)")
     elif arg_n == 7:
         gct_name = args[1]
         col_distance_metric = args[2]
@@ -506,9 +506,22 @@ def plot_heatmap(df, col_order, row_order, top=5, title_text='differentially exp
 
 
 def parse_data(gct_name):
-    data_df = pd.read_csv(gct_name, sep='\t', skiprows=2)
-    data_df.set_index(data_df['Name'], inplace=True)
+    f = open(gct_name)
+    f.readline()
+    size = f.readline().strip('\n').split('\t')
 
+    data_df = pd.read_csv(gct_name, sep='\t', skiprows=2)
+    # print(size)
+    # print(list(data_df))
+    # exit(data_df.shape)
+
+    if 'Name' not in list(data_df):
+        data_df['Name'] = data_df.iloc[:, 0]
+        data_df.drop(data_df.columns[0], axis=1, inplace=True)
+    if 'Description' not in list(data_df):
+        data_df['Description'] = data_df['Name']
+
+    data_df.set_index(data_df['Name'], inplace=True)
     full_gct = data_df.copy()
     full_gct.drop(['Name'], axis=1, inplace=True)
     data_df.drop(['Name', 'Description'], axis=1, inplace=True)
@@ -517,6 +530,8 @@ def parse_data(gct_name):
     plot_labels = list(full_gct.drop(['Description'], axis=1, inplace=False))
     data = data_df.as_matrix()
     row_labels = data_df.index.values
+
+    # exit(list(data_df))
 
     # # normalizing data -- DELETE
     # # print(data)
