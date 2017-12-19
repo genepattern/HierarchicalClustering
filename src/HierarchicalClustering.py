@@ -9,11 +9,11 @@ Pre-release. This module should only be used for testing purposes.
 print("Disclaimer: This is a pre-release version.")
 print("This module should only be used for testing purposes.")
 
-print("*Expecto installer*")
-import pip
+# print("*Expecto installer*")
+# import pip
 
-def install(package):
-    pip.main(['install', package])
+# def install(package):
+#     pip.main(['install', package])
 
 # # Example
 # install('sklearn')
@@ -40,10 +40,11 @@ from sklearn.cluster import AgglomerativeClustering
 sns.set_style("white")
 from hc_functions import *
 
-gct_name, col_distance_metric, output_distances, row_distance_metric, \
-clustering_method, output_base_name = parse_inputs(sys.argv)
+gct_name, col_distance_metric, output_distances, row_distance_metric, clustering_method, output_base_name, \
+    row_normalization, col_normalization, row_centering, col_centering = parse_inputs(sys.argv)
 
-data, data_df, col_labels, row_labels, full_gct = parse_data(gct_name)
+og_data, data, data_df, col_labels, row_labels, full_gct = \
+    parse_data(gct_name, row_normalization, col_normalization, row_centering, col_centering)
 order_of_columns = list(data_df)
 order_of_rows = list(data_df.index)
 
@@ -81,7 +82,7 @@ if row_distance_metric != 'No_row_clustering':
     make_gtr(row_tree, data=data, file_name=output_base_name+'.gtr', dist=str2similarity[row_distance_metric])
 
 if output_distances:
-    #TODO: check wich col or row was selected, or both
+    #TODO: check which col or row was selected, or both
     row_distance_matrix = str2affinity_func[row_distance_metric](data)
     # col_distance_matrix = str2affinity_func[col_distance_metric](np.transpose(data))
     dist_file = open(output_base_name+'_pairwise_distances.csv', 'w')

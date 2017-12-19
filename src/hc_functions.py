@@ -118,6 +118,10 @@ def parse_inputs(args=sys.argv):
         row_distance_metric = 'No_row_clustering'
         clustering_method = 'Pairwise average-linkage'
         output_base_name = 'HC_out'
+        row_normalization = False
+        col_normalization = False
+        row_centering = None
+        col_centering = None
         print("Using:")
         print("\tgct_name =", gct_name)
         print("\tcol_distance_metric = euclidean (default value)")
@@ -125,6 +129,10 @@ def parse_inputs(args=sys.argv):
         print("\trow_distance_metric =", row_distance_metric, "(default: No row clustering)")
         print("\tclustering_method =", clustering_method, "(default: Pairwise average-linkage)")
         print("\toutput_base_name =", output_base_name, "(default: HC_out)")
+        print("\trow_normalization =", row_normalization, "(default: False)")
+        print("\tcol_normalization =", col_normalization, "(default: False)")
+        print("\trow_centering =", row_centering, "(default: None)")
+        print("\tcol_centering =", col_centering, "(default: None)")
     elif arg_n == 3:
         gct_name = args[1]
         col_distance_metric = args[2]
@@ -132,6 +140,10 @@ def parse_inputs(args=sys.argv):
         row_distance_metric = 'No_row_clustering'
         clustering_method = 'Pairwise average-linkage'
         output_base_name = 'HC_out'
+        row_normalization = False
+        col_normalization = False
+        row_centering = None
+        col_centering = None
         print("Using:")
         print("\tgct_name =", gct_name)
         print("\tcol_distance_metric =", input_col_distance_dict[col_distance_metric])
@@ -139,6 +151,10 @@ def parse_inputs(args=sys.argv):
         print("\trow_distance_metric =", row_distance_metric, "(default: No row clustering)")
         print("\tclustering_method =", clustering_method, "(default: Pairwise average-linkage)")
         print("\toutput_base_name =", output_base_name, "(default: HC_out)")
+        print("\trow_normalization =", row_normalization, "(default: False)")
+        print("\tcol_normalization =", col_normalization, "(default: False)")
+        print("\trow_centering =", row_centering, "(default: None)")
+        print("\tcol_centering =", col_centering, "(default: None)")
     elif arg_n == 4:
         gct_name = args[1]
         col_distance_metric = args[2]
@@ -146,6 +162,10 @@ def parse_inputs(args=sys.argv):
         row_distance_metric = 'No_row_clustering'
         clustering_method = 'Pairwise average-linkage'
         output_base_name = 'HC_out'
+        row_normalization = False
+        col_normalization = False
+        row_centering = None
+        col_centering = None
 
         col_distance_metric = input_col_distance_dict[col_distance_metric]
         if (output_distances == 'False') or (output_distances == 'F')\
@@ -160,6 +180,10 @@ def parse_inputs(args=sys.argv):
         print("\trow_distance_metric =", row_distance_metric, "(default: No row clustering)")
         print("\tclustering_method =", clustering_method, "(default: Pairwise average-linkage)")
         print("\toutput_base_name =", output_base_name, "(default: HC_out)")
+        print("\trow_normalization =", row_normalization, "(default: False)")
+        print("\tcol_normalization =", col_normalization, "(default: False)")
+        print("\trow_centering =", row_centering, "(default: None)")
+        print("\tcol_centering =", col_centering, "(default: None)")
     elif arg_n == 5:
         gct_name = args[1]
         col_distance_metric = args[2]
@@ -168,6 +192,10 @@ def parse_inputs(args=sys.argv):
         clustering_method = 'Pairwise average-linkage'
         # clustering_method = 'Pairwise complete-linkage'
         output_base_name = 'HC_out'
+        row_normalization = False
+        col_normalization = False
+        row_centering = None
+        col_centering = None
 
         col_distance_metric = input_col_distance_dict[col_distance_metric]
         row_distance_metric = input_row_distance_dict[row_distance_metric]
@@ -176,10 +204,6 @@ def parse_inputs(args=sys.argv):
             output_distances = False
         else:
             output_distances = True
-        # if (row_distance_metric == 'False') or (row_distance_metric == 'F') \
-        #         or (row_distance_metric == 'false') or (row_distance_metric == 'f')\
-        #         or (row_distance_metric == 'No row clustering'):
-        #     row_distance_metric = False
 
         print("Using:")
         print("\tgct_name =", gct_name)
@@ -188,6 +212,10 @@ def parse_inputs(args=sys.argv):
         print("\trow_distance_metric =", row_distance_metric)
         print("\tclustering_method =", clustering_method, "(default: Pairwise average-linkage)")
         print("\toutput_base_name =", output_base_name, "(default: HC_out)")
+        print("\trow_normalization =", row_normalization, "(default: False)")
+        print("\tcol_normalization =", col_normalization, "(default: False)")
+        print("\trow_centering =", row_centering, "(default: None)")
+        print("\tcol_centering =", col_centering, "(default: None)")
     elif arg_n == 6:
         gct_name = args[1]
         col_distance_metric = args[2]
@@ -205,15 +233,15 @@ def parse_inputs(args=sys.argv):
             exit("When choosing 'Pairwise ward-linkage' the distance metric *must* be 'average' ")
 
         output_base_name = 'HC_out'
+        row_normalization = False
+        col_normalization = False
+        row_centering = None
+        col_centering = None
         if (output_distances == 'False') or (output_distances == 'F') \
                 or (output_distances == 'false') or (output_distances == 'f'):
             output_distances = False
         else:
             output_distances = True
-        # if (row_distance_metric == 'False') or (row_distance_metric == 'F') \
-        #         or (row_distance_metric == 'false') or (row_distance_metric == 'f')\
-        #         or (row_distance_metric == 'No row clustering'):
-        #     row_distance_metric = False
 
         print("Using:")
         print("\tgct_name =", gct_name)
@@ -222,6 +250,10 @@ def parse_inputs(args=sys.argv):
         print("\trow_distance_metric =", row_distance_metric)
         print("\tclustering_method =", clustering_method)
         print("\toutput_base_name =", output_base_name, "(default: HC_out)")
+        print("\trow_normalization =", row_normalization, "(default: False)")
+        print("\tcol_normalization =", col_normalization, "(default: False)")
+        print("\trow_centering =", row_centering, "(default: None)")
+        print("\tcol_centering =", col_centering, "(default: None)")
     elif arg_n == 7:
         gct_name = args[1]
         col_distance_metric = args[2]
@@ -229,6 +261,10 @@ def parse_inputs(args=sys.argv):
         row_distance_metric = args[4]
         clustering_method = args[5]
         output_base_name = args[6]
+        row_normalization = False
+        col_normalization = False
+        row_centering = None
+        col_centering = None
 
         col_distance_metric = input_col_distance_dict[col_distance_metric]
         row_distance_metric = input_row_distance_dict[row_distance_metric]
@@ -238,10 +274,6 @@ def parse_inputs(args=sys.argv):
             output_distances = False
         else:
             output_distances = True
-        # if (row_distance_metric == 'False') or (row_distance_metric == 'F') \
-        #         or (row_distance_metric == 'false') or (row_distance_metric == 'f')\
-        #         or (row_distance_metric == 'No row clustering'):
-        #     row_distance_metric = False
 
         print("Using:")
         print("\tgct_name =", gct_name)
@@ -250,12 +282,195 @@ def parse_inputs(args=sys.argv):
         print("\trow_distance_metric =", row_distance_metric)
         print("\tclustering_method =", clustering_method)
         print("\toutput_base_name =", output_base_name)
+        print("\trow_normalization =", row_normalization, "(default: False)")
+        print("\tcol_normalization =", col_normalization, "(default: False)")
+        print("\trow_centering =", row_centering, "(default: None)")
+        print("\tcol_centering =", col_centering, "(default: None)")
+    elif arg_n == 8:
+        gct_name = args[1]
+        col_distance_metric = args[2]
+        output_distances = args[3]
+        row_distance_metric = args[4]
+        clustering_method = args[5]
+        output_base_name = args[6]
+        row_normalization = args[7]
+        col_normalization = False
+        row_centering = None
+        col_centering = None
+
+        col_distance_metric = input_col_distance_dict[col_distance_metric]
+        row_distance_metric = input_row_distance_dict[row_distance_metric]
+        clustering_method = input_clustering_method[clustering_method]
+        if (output_distances == 'False') or (output_distances == 'F') \
+                or (output_distances == 'false') or (output_distances == 'f'):
+            output_distances = False
+        else:
+            output_distances = True
+
+        if (row_normalization == 'False') or (row_normalization == 'F') \
+                or (row_normalization == 'false') or (row_normalization == 'f'):
+            row_normalization = False
+        else:
+            row_normalization = True
+
+        print("Using:")
+        print("\tgct_name =", gct_name)
+        print("\tcol_distance_metric =", col_distance_metric)
+        print("\toutput_distances =", output_distances)
+        print("\trow_distance_metric =", row_distance_metric)
+        print("\tclustering_method =", clustering_method)
+        print("\toutput_base_name =", output_base_name)
+        print("\trow_normalization =", row_normalization)
+        print("\tcol_normalization =", col_normalization, "(default: False)")
+        print("\trow_centering =", row_centering, "(default: None)")
+        print("\tcol_centering =", col_centering, "(default: None)")
+    elif arg_n == 9:
+        gct_name = args[1]
+        col_distance_metric = args[2]
+        output_distances = args[3]
+        row_distance_metric = args[4]
+        clustering_method = args[5]
+        output_base_name = args[6]
+        row_normalization = args[7]
+        col_normalization = args[8]
+        row_centering = None
+        col_centering = None
+
+        col_distance_metric = input_col_distance_dict[col_distance_metric]
+        row_distance_metric = input_row_distance_dict[row_distance_metric]
+        clustering_method = input_clustering_method[clustering_method]
+        if (output_distances == 'False') or (output_distances == 'F') \
+                or (output_distances == 'false') or (output_distances == 'f'):
+            output_distances = False
+        else:
+            output_distances = True
+
+        # Row normalization
+        if (row_normalization == 'False') or (row_normalization == 'F') \
+                or (row_normalization == 'false') or (row_normalization == 'f'):
+            row_normalization = False
+        else:
+            row_normalization = True
+
+        # Column normalization
+        if (col_normalization == 'False') or (col_normalization == 'F') \
+                or (col_normalization == 'false') or (col_normalization == 'f'):
+            col_normalization = False
+        else:
+            col_normalization = True
+
+        print("Using:")
+        print("\tgct_name =", gct_name)
+        print("\tcol_distance_metric =", col_distance_metric)
+        print("\toutput_distances =", output_distances)
+        print("\trow_distance_metric =", row_distance_metric)
+        print("\tclustering_method =", clustering_method)
+        print("\toutput_base_name =", output_base_name)
+        print("\trow_normalization =", row_normalization)
+        print("\tcol_normalization =", col_normalization)
+        print("\trow_centering =", row_centering, "(default: None)")
+        print("\tcol_centering =", col_centering, "(default: None)")
+    elif arg_n == 10:
+        gct_name = args[1]
+        col_distance_metric = args[2]
+        output_distances = args[3]
+        row_distance_metric = args[4]
+        clustering_method = args[5]
+        output_base_name = args[6]
+        row_normalization = args[7]
+        col_normalization = args[8]
+        row_centering = args[9]
+        col_centering = None
+
+        col_distance_metric = input_col_distance_dict[col_distance_metric]
+        row_distance_metric = input_row_distance_dict[row_distance_metric]
+        clustering_method = input_clustering_method[clustering_method]
+
+        if (output_distances == 'False') or (output_distances == 'F') \
+                or (output_distances == 'false') or (output_distances == 'f'):
+            output_distances = False
+        else:
+            output_distances = True
+
+        # Row normalization
+        if (row_normalization == 'False') or (row_normalization == 'F') \
+                or (row_normalization == 'false') or (row_normalization == 'f'):
+            row_normalization = False
+        else:
+            row_normalization = True
+
+        # Column normalization
+        if (col_normalization == 'False') or (col_normalization == 'F') \
+                or (col_normalization == 'false') or (col_normalization == 'f'):
+            col_normalization = False
+        else:
+            col_normalization = True
+
+        print("Using:")
+        print("\tgct_name =", gct_name)
+        print("\tcol_distance_metric =", col_distance_metric)
+        print("\toutput_distances =", output_distances)
+        print("\trow_distance_metric =", row_distance_metric)
+        print("\tclustering_method =", clustering_method)
+        print("\toutput_base_name =", output_base_name)
+        print("\trow_normalization =", row_normalization)
+        print("\tcol_normalization =", col_normalization)
+        print("\trow_centering =", row_centering)
+        print("\tcol_centering =", col_centering, "(default: None)")
+    elif arg_n == 11:
+        gct_name = args[1]
+        col_distance_metric = args[2]
+        output_distances = args[3]
+        row_distance_metric = args[4]
+        clustering_method = args[5]
+        output_base_name = args[6]
+        row_normalization = args[7]
+        col_normalization = args[8]
+        row_centering = args[9]
+        col_centering = args[10]
+
+        col_distance_metric = input_col_distance_dict[col_distance_metric]
+        row_distance_metric = input_row_distance_dict[row_distance_metric]
+        clustering_method = input_clustering_method[clustering_method]
+
+        if (output_distances == 'False') or (output_distances == 'F') \
+                or (output_distances == 'false') or (output_distances == 'f'):
+            output_distances = False
+        else:
+            output_distances = True
+
+        # Row normalization
+        if (row_normalization == 'False') or (row_normalization == 'F') \
+                or (row_normalization == 'false') or (row_normalization == 'f'):
+            row_normalization = False
+        else:
+            row_normalization = True
+
+        # Column normalization
+        if (col_normalization == 'False') or (col_normalization == 'F') \
+                or (col_normalization == 'false') or (col_normalization == 'f'):
+            col_normalization = False
+        else:
+            col_normalization = True
+
+        print("Using:")
+        print("\tgct_name =", gct_name)
+        print("\tcol_distance_metric =", col_distance_metric)
+        print("\toutput_distances =", output_distances)
+        print("\trow_distance_metric =", row_distance_metric)
+        print("\tclustering_method =", clustering_method)
+        print("\toutput_base_name =", output_base_name)
+        print("\trow_normalization =", row_normalization)
+        print("\tcol_normalization =", col_normalization)
+        print("\trow_centering =", row_centering)
+        print("\tcol_centering =", col_centering)
     else:
         sys.exit("Too many inputs. This module needs only a GCT file to work, "
                  "plus an optional input choosing between Pearson Correlation or Information Coefficient.")
 
     print(args)
-    return gct_name, col_distance_metric, output_distances, row_distance_metric, clustering_method, output_base_name
+    return gct_name, col_distance_metric, output_distances, row_distance_metric, clustering_method, output_base_name, \
+           row_normalization, col_normalization, row_centering, col_centering
 
 
 def plot_dendrogram(model, data, tree, axis, dist=cusca.mydist, title='no_title.png', **kwargs):
@@ -505,7 +720,7 @@ def plot_heatmap(df, col_order, row_order, top=5, title_text='differentially exp
     plt.savefig('heatmap.png', dpi=300, bbox_inches="tight")
 
 
-def parse_data(gct_name):
+def parse_data(gct_name, row_normalization=False, col_normalization=False, row_centering=None, col_centering=None):
     f = open(gct_name)
     f.readline()
     size = f.readline().strip('\n').split('\t')
@@ -531,6 +746,35 @@ def parse_data(gct_name):
     data = data_df.as_matrix()
     row_labels = data_df.index.values
 
+    og_data = data
+
+    if row_centering is not None:
+        if row_centering == 'Mean':
+            row_means = np.mean(data, axis=1)
+            row_means_col_vec = row_means.reshape((data.shape[0], 1))
+            data = data - row_means_col_vec
+        if row_centering == 'Median':
+            row_medians = np.median(data, axis=1)
+            row_medians_col_vec = row_medians.reshape((data.shape[0], 1))
+            data = data - row_medians_col_vec
+
+    if row_normalization:
+        row_norm = np.sum(data * data, axis=1)
+        row_norm_col_vec = row_norm.reshape((data.shape[0], 1))
+        data = data / np.sqrt(row_norm_col_vec)
+
+    if col_centering is not None:
+        if col_centering == 'Mean':
+            col_means = np.mean(data, axis=0)
+            data = data - col_means
+        if col_centering == 'Median':
+            col_medians = np.median(data, axis=0)
+            data = data - col_medians
+
+    if col_normalization:
+        col_norm = np.sum(data*data, axis=0)
+        data = data/np.sqrt(col_norm)
+
     # exit(list(data_df))
 
     # # normalizing data -- DELETE
@@ -549,7 +793,7 @@ def parse_data(gct_name):
     # # print(data.min(axis=1))
     # # print(data)
 
-    return data, data_df, plot_labels, row_labels, full_gct
+    return og_data, data, data_df, plot_labels, row_labels, full_gct
 
 
 str2func = {
