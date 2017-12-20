@@ -406,6 +406,11 @@ def parse_inputs(args=sys.argv):
         else:
             col_normalization = True
 
+        # row_centering
+        if (row_centering == 'None') or (col_normalization == 'N') \
+                or (row_centering == 'none') or (col_normalization == 'n'):
+            col_normalization = None
+
         print("Using:")
         print("\tgct_name =", gct_name)
         print("\tcol_distance_metric =", col_distance_metric)
@@ -452,6 +457,16 @@ def parse_inputs(args=sys.argv):
             col_normalization = False
         else:
             col_normalization = True
+
+        # row_centering
+        if (row_centering == 'None') or (col_normalization == 'N') \
+                or (row_centering == 'none') or (col_normalization == 'n'):
+            col_normalization = None
+
+        # col_centering
+        if (col_centering == 'None') or (col_centering == 'N') \
+                or (col_centering == 'none') or (col_centering == 'n'):
+            col_centering = None
 
         print("Using:")
         print("\tgct_name =", gct_name)
