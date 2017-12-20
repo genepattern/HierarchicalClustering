@@ -100,7 +100,7 @@ input_clustering_method = {
     'Pairwise ward-linkage': 'ward',
     # These are the values the GpUnit test give
     'm': 'complete',
-    'a': 'complete',  # I think this is the default
+    'a': 'average',  # I think this is the default
 }
 
 
@@ -110,7 +110,7 @@ input_row_centering = {
     'Subtract the mean from each row': None,
     'Subtract the median from each row': None,
     # These are the values the GpUnit test give
-    None: None,
+    'None': None,
     'Median': 'Median',
     'Mean': 'Mean',
 }
@@ -130,7 +130,7 @@ input_col_centering = {
     'Subtract the mean from each column': None,
     'Subtract the median from each column': None,
     # These are the values the GpUnit test give
-    None: None,
+    'None': None,
     'Median': 'Median',
     'Mean': 'Mean',
 }
@@ -349,11 +349,11 @@ def parse_inputs(args=sys.argv):
             output_distances = True
 
         row_normalization = input_row_normalize[row_normalization]
-        if (row_normalization == 'False') or (row_normalization == 'F') \
-                or (row_normalization == 'false') or (row_normalization == 'f'):
-            row_normalization = False
-        else:
-            row_normalization = True
+        # if (row_normalization == 'False') or (row_normalization == 'F') \
+        #         or (row_normalization == 'false') or (row_normalization == 'f'):
+        #     row_normalization = False
+        # else:
+        #     row_normalization = True
 
         print("Using:")
         print("\tgct_name =", gct_name)
@@ -389,19 +389,19 @@ def parse_inputs(args=sys.argv):
 
         # Row normalization
         row_normalization = input_row_normalize[row_normalization]
-        if (row_normalization == 'False') or (row_normalization == 'F') \
-                or (row_normalization == 'false') or (row_normalization == 'f'):
-            row_normalization = False
-        else:
-            row_normalization = True
+        # if (row_normalization == 'False') or (row_normalization == 'F') \
+        #         or (row_normalization == 'false') or (row_normalization == 'f'):
+        #     row_normalization = False
+        # else:
+        #     row_normalization = True
 
         # Column normalization
         col_normalization = input_col_normalize[col_normalization]
-        if (col_normalization == 'False') or (col_normalization == 'F') \
-                or (col_normalization == 'false') or (col_normalization == 'f'):
-            col_normalization = False
-        else:
-            col_normalization = True
+        # if (col_normalization == 'False') or (col_normalization == 'F') \
+        #         or (col_normalization == 'false') or (col_normalization == 'f'):
+        #     col_normalization = False
+        # else:
+        #     col_normalization = True
 
         print("Using:")
         print("\tgct_name =", gct_name)
@@ -438,19 +438,19 @@ def parse_inputs(args=sys.argv):
 
         # Row normalization
         row_normalization = input_row_normalize[row_normalization]
-        if (row_normalization == 'False') or (row_normalization == 'F') \
-                or (row_normalization == 'false') or (row_normalization == 'f'):
-            row_normalization = False
-        else:
-            row_normalization = True
+        # if (row_normalization == 'False') or (row_normalization == 'F') \
+        #         or (row_normalization == 'false') or (row_normalization == 'f'):
+        #     row_normalization = False
+        # else:
+        #     row_normalization = True
 
         # Column normalization
         col_normalization = input_col_normalize[col_normalization]
-        if (col_normalization == 'False') or (col_normalization == 'F') \
-                or (col_normalization == 'false') or (col_normalization == 'f'):
-            col_normalization = False
-        else:
-            col_normalization = True
+        # if (col_normalization == 'False') or (col_normalization == 'F') \
+        #         or (col_normalization == 'false') or (col_normalization == 'f'):
+        #     col_normalization = False
+        # else:
+        #     col_normalization = True
 
         # row_centering
         row_centering = input_row_centering[row_centering]
@@ -493,19 +493,19 @@ def parse_inputs(args=sys.argv):
 
         # Row normalization
         row_normalization = input_row_normalize[row_normalization]
-        if (row_normalization == 'False') or (row_normalization == 'F') \
-                or (row_normalization == 'false') or (row_normalization == 'f'):
-            row_normalization = False
-        else:
-            row_normalization = True
+        # if (row_normalization == 'False') or (row_normalization == 'F') \
+        #         or (row_normalization == 'false') or (row_normalization == 'f'):
+        #     row_normalization = False
+        # else:
+        #     row_normalization = True
 
         # Column normalization
         col_normalization = input_col_normalize[col_normalization]
-        if (col_normalization == 'False') or (col_normalization == 'F') \
-                or (col_normalization == 'false') or (col_normalization == 'f'):
-            col_normalization = False
-        else:
-            col_normalization = True
+        # if (col_normalization == 'False') or (col_normalization == 'F') \
+        #         or (col_normalization == 'false') or (col_normalization == 'f'):
+        #     col_normalization = False
+        # else:
+        #     col_normalization = True
 
         # row_centering
         row_centering = input_row_centering[row_centering]
@@ -803,16 +803,14 @@ def parse_data(gct_name, row_normalization=False, col_normalization=False, row_c
         data_df['Description'] = data_df['Name']
 
     data_df.set_index(data_df['Name'], inplace=True)
-    full_gct = data_df.copy()
-    full_gct.drop(['Name'], axis=1, inplace=True)
+    og_full_gct = data_df.copy()
+    og_full_gct.drop(['Name'], axis=1, inplace=True)
     data_df.drop(['Name', 'Description'], axis=1, inplace=True)
-    # plot_short_labels = [item[1] + "{:02d}".format(i) for item, i in zip(list(data_df), range(len(list(data_df))))]
-    # data_df.columns = plot_short_labels
-    plot_labels = list(full_gct.drop(['Description'], axis=1, inplace=False))
+    plot_labels = list(og_full_gct.drop(['Description'], axis=1, inplace=False))
     data = data_df.as_matrix()
     row_labels = data_df.index.values
 
-    og_data = data
+    og_data = data.copy()
 
     if row_centering is not None:
         if row_centering == 'Mean':
@@ -841,25 +839,17 @@ def parse_data(gct_name, row_normalization=False, col_normalization=False, row_c
         col_norm = np.sum(data*data, axis=0)
         data = data/np.sqrt(col_norm)
 
-    # exit(list(data_df))
+    # print(data_df)
+    # print(data)
+    new_data_df = pd.DataFrame(data=data, index=data_df.index, columns=list(data_df))
+    # print(new_data_df)
+    # print(og_full_gct)
+    new_full_gct = new_data_df.copy()
+    new_full_gct.insert(0, column='Description', value=og_full_gct['Description'])
+    # print(new_full_gct)
+    # exit()
 
-    # # normalizing data -- DELETE
-    # # print(data)
-    # # print(data.shape)
-    # # print(data.max(axis=1))
-    # # print(data.min(axis=1))
-    # # from numpy.linalg import norm
-    # norm_data = []
-    # for row in data:  # iterate over the ros of data
-    #     norm_data.append((row-min(row))/max(row))
-    #     # print(min(row))
-    # data = np.array(norm_data)
-    # # print(data.shape)
-    # # print(data.max(axis=1))
-    # # print(data.min(axis=1))
-    # # print(data)
-
-    return og_data, data, data_df, plot_labels, row_labels, full_gct
+    return og_data, data_df, data, new_data_df, plot_labels, row_labels, og_full_gct, new_full_gct
 
 
 str2func = {

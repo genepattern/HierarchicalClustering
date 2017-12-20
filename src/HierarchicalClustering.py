@@ -10,11 +10,11 @@ print("Disclaimer: This is a pre-release version.")
 print("This module should only be used for testing purposes.")
 
 # Debugging only
-import pip
-installed_packages = pip.get_installed_distributions()
-installed_packages_list = sorted(["%s==%s" % (i.key, i.version)
-     for i in installed_packages])
-print(installed_packages_list)
+# import pip
+# installed_packages = pip.get_installed_distributions()
+# installed_packages_list = sorted(["%s==%s" % (i.key, i.version)
+#      for i in installed_packages])
+# print(installed_packages_list)
 
 # print("*Expecto installer*")
 # import pip
@@ -50,12 +50,15 @@ from hc_functions import *
 gct_name, col_distance_metric, output_distances, row_distance_metric, clustering_method, output_base_name, \
     row_normalization, col_normalization, row_centering, col_centering = parse_inputs(sys.argv)
 
-og_data, data, data_df, col_labels, row_labels, full_gct = \
+og_data, og_data_df, data, data_df, col_labels, row_labels, og_full_gct, new_full_gct = \
     parse_data(gct_name, row_normalization, col_normalization, row_centering, col_centering)
 order_of_columns = list(data_df)
 order_of_rows = list(data_df.index)
 
 data_transpose = np.transpose(data)
+
+# print(data)
+# print(data_df)
 
 atr_companion = False
 gtr_companion = False
@@ -102,5 +105,5 @@ if output_distances:
         dist_file.write('distances row='+str(i)+","+",".join(row.astype(str)) + "\n")
         i += 1
 
-make_cdt(data=full_gct, name=output_base_name+'.cdt', atr_companion=atr_companion, gtr_companion=gtr_companion,
+make_cdt(data=new_full_gct, name=output_base_name+'.cdt', atr_companion=atr_companion, gtr_companion=gtr_companion,
          order_of_columns=order_of_columns, order_of_rows=order_of_rows)

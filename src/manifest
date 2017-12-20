@@ -1,10 +1,10 @@
 #HierarchicalClustering
 #Wed Aug 23 09:49:23 PDT 2017
 JVMLevel=
-LSID=urn\:lsid\:broad.mit.edu\:cancer.software.genepattern.module.analysis\:00009\:7.1.5
+LSID=urn\:lsid\:broad.mit.edu\:cancer.software.genepattern.module.analysis\:00009\:7.2.0
 author=Edwin Juarez;Mesirov Lab -- GenePattern
 categories=Clustering
-commandLine=<python/3.6> <libdir>HierarchicalClustering.py <input.filename> <column.distance.measure> <output_distance_matrix> <row.distance.measure> <clustering.method> <output.base.name> <row.normalize> <col.normalize> <row.centering> <col.centering>
+commandLine=<python_3.6> <libdir>HierarchicalClustering.py <input.filename> <column.distance.measure> <output_distance_matrix> <row.distance.measure> <clustering.method> <output.base.name> <row.normalize> <col.normalize> <row.centering> <col.centering>
 cpuType=any
 description=This module will replace the current HierarchicalClustering module.
 fileFormat=cls;csv;png
@@ -81,7 +81,7 @@ p6_optional=
 p6_prefix_when_specified=
 p6_type=java.lang.String
 p6_value=
-p7_default_value=None
+p7_default_value=Mean
 p7_description=whether to center each row (gene) in the data
 p7_name=row.centering
 p7_optional=
@@ -95,7 +95,7 @@ p8_optional=
 p8_prefix_when_specified=
 p8_type=java.lang.String
 p8_value=False\=No;True\=Yes
-p9_default_value=None
+p9_default_value=Mean
 p9_description=whether to center each column (sample) in the data
 p9_name=col.centering
 p9_optional=
