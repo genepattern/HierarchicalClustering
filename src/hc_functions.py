@@ -104,6 +104,47 @@ input_clustering_method = {
 }
 
 
+input_row_centering = {
+    # These are the values I expect
+    'No': None,
+    'Subtract the mean from each row': None,
+    'Subtract the median from each row': None,
+    # These are the values the GpUnit test give
+    None: None,
+    'Median': 'Median',
+    'Mean': 'Mean',
+}
+
+input_row_normalize = {
+    # These are the values I expect
+    'No': False,
+    'Yes': True,
+    # These are the values the GpUnit test give
+    'False': False,
+    'True': True,
+}
+
+input_col_centering = {
+    # These are the values I expect
+    'No': None,
+    'Subtract the mean from each column': None,
+    'Subtract the median from each column': None,
+    # These are the values the GpUnit test give
+    None: None,
+    'Median': 'Median',
+    'Mean': 'Mean',
+}
+
+input_col_normalize = {
+    # These are the values I expect
+    'No': False,
+    'Yes': True,
+    # These are the values the GpUnit test give
+    'False': False,
+    'True': True,
+}
+
+
 def parse_inputs(args=sys.argv):
     # inp = []
     # inp = args
@@ -307,6 +348,7 @@ def parse_inputs(args=sys.argv):
         else:
             output_distances = True
 
+        row_normalization = input_row_normalize[row_normalization]
         if (row_normalization == 'False') or (row_normalization == 'F') \
                 or (row_normalization == 'false') or (row_normalization == 'f'):
             row_normalization = False
@@ -346,6 +388,7 @@ def parse_inputs(args=sys.argv):
             output_distances = True
 
         # Row normalization
+        row_normalization = input_row_normalize[row_normalization]
         if (row_normalization == 'False') or (row_normalization == 'F') \
                 or (row_normalization == 'false') or (row_normalization == 'f'):
             row_normalization = False
@@ -353,6 +396,7 @@ def parse_inputs(args=sys.argv):
             row_normalization = True
 
         # Column normalization
+        col_normalization = input_col_normalize[col_normalization]
         if (col_normalization == 'False') or (col_normalization == 'F') \
                 or (col_normalization == 'false') or (col_normalization == 'f'):
             col_normalization = False
@@ -393,6 +437,7 @@ def parse_inputs(args=sys.argv):
             output_distances = True
 
         # Row normalization
+        row_normalization = input_row_normalize[row_normalization]
         if (row_normalization == 'False') or (row_normalization == 'F') \
                 or (row_normalization == 'false') or (row_normalization == 'f'):
             row_normalization = False
@@ -400,6 +445,7 @@ def parse_inputs(args=sys.argv):
             row_normalization = True
 
         # Column normalization
+        col_normalization = input_col_normalize[col_normalization]
         if (col_normalization == 'False') or (col_normalization == 'F') \
                 or (col_normalization == 'false') or (col_normalization == 'f'):
             col_normalization = False
@@ -407,6 +453,7 @@ def parse_inputs(args=sys.argv):
             col_normalization = True
 
         # row_centering
+        row_centering = input_row_centering[row_centering]
         if (row_centering == 'None') or (col_normalization == 'N') \
                 or (row_centering == 'none') or (col_normalization == 'n'):
             col_normalization = None
@@ -445,6 +492,7 @@ def parse_inputs(args=sys.argv):
             output_distances = True
 
         # Row normalization
+        row_normalization = input_row_normalize[row_normalization]
         if (row_normalization == 'False') or (row_normalization == 'F') \
                 or (row_normalization == 'false') or (row_normalization == 'f'):
             row_normalization = False
@@ -452,6 +500,7 @@ def parse_inputs(args=sys.argv):
             row_normalization = True
 
         # Column normalization
+        col_normalization = input_col_normalize[col_normalization]
         if (col_normalization == 'False') or (col_normalization == 'F') \
                 or (col_normalization == 'false') or (col_normalization == 'f'):
             col_normalization = False
@@ -459,11 +508,13 @@ def parse_inputs(args=sys.argv):
             col_normalization = True
 
         # row_centering
+        row_centering = input_row_centering[row_centering]
         if (row_centering == 'None') or (col_normalization == 'N') \
                 or (row_centering == 'none') or (col_normalization == 'n'):
             col_normalization = None
 
         # col_centering
+        col_centering = input_col_centering[col_centering]
         if (col_centering == 'None') or (col_centering == 'N') \
                 or (col_centering == 'none') or (col_centering == 'n'):
             col_centering = None
@@ -485,7 +536,7 @@ def parse_inputs(args=sys.argv):
 
     print(args)
     return gct_name, col_distance_metric, output_distances, row_distance_metric, clustering_method, output_base_name, \
-           row_normalization, col_normalization, row_centering, col_centering
+        row_normalization, col_normalization, row_centering, col_centering
 
 
 def plot_dendrogram(model, data, tree, axis, dist=cusca.mydist, title='no_title.png', **kwargs):

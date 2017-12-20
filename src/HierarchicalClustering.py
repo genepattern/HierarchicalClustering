@@ -9,6 +9,13 @@ Pre-release. This module should only be used for testing purposes.
 print("Disclaimer: This is a pre-release version.")
 print("This module should only be used for testing purposes.")
 
+# Debugging only
+import pip
+installed_packages = pip.get_installed_distributions()
+installed_packages_list = sorted(["%s==%s" % (i.key, i.version)
+     for i in installed_packages])
+print(installed_packages_list)
+
 # print("*Expecto installer*")
 # import pip
 
