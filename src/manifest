@@ -1,7 +1,7 @@
 #HierarchicalClustering
 #Wed Aug 23 09:49:23 PDT 2017
 JVMLevel=
-LSID=urn\:lsid\:broad.mit.edu\:cancer.software.genepattern.module.analysis\:00009\:7.2.0
+LSID=urn\:lsid\:broad.mit.edu\:cancer.software.genepattern.module.analysis\:00009\:7.3.1
 author=Edwin Juarez;Mesirov Lab -- GenePattern
 categories=Clustering
 commandLine=<python_3.6> <libdir>HierarchicalClustering.py <input.filename> <column.distance.measure> <output_distance_matrix> <row.distance.measure> <clustering.method> <output.base.name> <row.normalize> <col.normalize> <row.centering> <col.centering>
@@ -38,7 +38,7 @@ p2_prefix=
 p2_prefix_when_specified=
 p2_type=java.lang.String
 #p2_value=euclidean\=Euclidean [L2] (default);pearson\=Pearson correlation;absolute_pearson\=Pearson correlation, absolute value;uncentered_pearson\=Uncentered Pearson correlation;absolute_uncentered_pearson\=Uncentered Pearson correlation, absolute value;spearman\=Spearman's rank correlation;kendall\=Kendall's Tau;mahattan\=L-1, Manhattan, City block distance;cosine\=Cosine distance;information_coefficient\=Information Coeffient
-p2_value=0\=No column clustering;1\=Uncentered correlation;2\=Pearson correlation;3\=Uncentered correlation, absolute value;4\=Pearson correlation, absolute value;5\=Spearman's rank correlation;6\=Kendall's tau;7\=Euclidean distance;8\=City-block distance
+p2_value=0\=No column clustering;1\=Uncentered correlation;2\=Pearson correlation;3\=Uncentered correlation, absolute value;4\=Pearson correlation, absolute value;5\=Spearman's rank correlation;6\=Kendall's tau;7\=Euclidean distance;8\=City-block distance;9\=Information coefficient
 p3_MODE=
 p3_TYPE=TEXT
 p3_default_value=False
@@ -66,7 +66,7 @@ p4_prefix=
 p4_prefix_when_specified=
 p4_type=java.lang.String
 #p4_value=True\=True;False\=False
-p4_value=0\=No row clustering;1\=Uncentered correlation;2\=Pearson correlation;3\=Uncentered correlation, absolute value;4\=Pearson correlation, absolute value;5\=Spearman's rank correlation;6\=Kendall's tau;7\=Euclidean distance;8\=City-block distance
+p4_value=0\=No row clustering;1\=Uncentered correlation;2\=Pearson correlation;3\=Uncentered correlation, absolute value;4\=Pearson correlation, absolute value;5\=Spearman's rank correlation;6\=Kendall's tau;7\=Euclidean distance;8\=City-block distance;9\=Information coefficient
 p5_default_value=a
 p5_description=hierarchical clustering method to use
 p5_name=clustering.method

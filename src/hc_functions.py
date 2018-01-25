@@ -37,6 +37,7 @@ input_col_distance_dict = {
     "6": "kendall",
     "7": "euclidean",
     "8": "manhattan",
+    "9": "information_coefficient",
     # These are the values I expect from the comand line
     "no_col": "No_column_clustering",
     "uncentered_pearson": "uncentered_pearson",
@@ -76,6 +77,7 @@ input_row_distance_dict = {
     "6": "kendall",
     "7": "euclidean",
     "8": "manhattan",
+    "9": "information_coefficient",
     # These are the values I expect from the comand line
     "no_row": "No_row_clustering",
     "uncentered_pearson": "uncentered_pearson",

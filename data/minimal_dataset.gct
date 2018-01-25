@@ -1,0 +1,13 @@
+#1.2
+10	5
+Name	Description	ALL-00	ALL-01	ALL-02	AML-03	AML-04
+Gene_A1	GLUTATHIONE S-TRANSFERASE, MICROSOMAL	44.0	91.0	70.0	1582.0	643.0
+Gene_A2	DF D component of complement (adipsin)	20.0	20.0	20.0	6595.0	4366.0
+Gene_A3	Zyxin	298.0	178.0	105.0	5814.0	4403.0
+Gene_A4	LRPAP1 Low density lipoprotein-related protein-associated protein 1 (alpha-2-macroglobulin receptor-associated protein 1	468.0	444.0	426.0	1821.0	2300.0
+Gene_A5	MPO Myeloperoxidase	56.0	490.0	20.0	9138.0	16000.0
+Gene_B5	Terminal transferase mRNA	3282.0	8700.0	4614.0	120.0	20.0
+Gene_B4	TCF3 Transcription factor 3 (E2A immunoglobulin enhancer binding factors E12/E47)	1320.0	1484.0	606.0	197.0	282.0
+Gene_B3	CD19 gene	2911.0	1477.0	2758.0	676.0	517.0
+Gene_B2	SPTAN1 Spectrin, alpha, non-erythrocytic 1 (alpha-fodrin)	610.0	786.0	994.0	135.0	352.0
+Gene_B1	IGB Immunoglobulin-associated beta (B29)	2150.0	2751.0	20.0	20.0	53.0
