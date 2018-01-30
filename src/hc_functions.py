@@ -14,6 +14,7 @@ from sklearn.cluster import AgglomerativeClustering
 import scipy
 import itertools
 
+SIGNIFICANT_DIGITS = 7
 
 input_col_distance_dict = {
     # These are the values I expect
@@ -967,7 +968,7 @@ def make_tree(model, data=None):
 def make_cdt(data, order_of_columns, order_of_rows, name='test.cdt', atr_companion=True, gtr_companion=False):
     # TODO: if order_of_columns == None, then do arange(len(list(data)))
     # TODO: if order_of_rows == None, then do arange(len(list(data)))
-
+    # exit(data.to_csv())
     data.index.name = "ID"
     data.rename(columns={'Description': 'Name'}, inplace=True)
 
@@ -1024,7 +1025,13 @@ def make_cdt(data, order_of_columns, order_of_rows, name='test.cdt', atr_compani
     # print(data.to_csv(sep='\t', index=True, header=True))
     f = open(name, 'w')
     f.write(data.to_csv(sep='\t', index=True, header=True))
+    # f.write(data.to_csv(sep='\t', index=True, header=True))
     f.close()
+    # pd.options.display.float_format = '{:3.3f}'.format
+    data = data.round(2)
+    # print(data.to_csv())
+    # exit()
+    # exit(data.to_csv(sep=' ', index=True, header=True, float_format='2',))
     return
 
 
@@ -1055,11 +1062,13 @@ def make_atr(col_tree_dic, data, dist, clustering_method='average', file_name='t
     f = open(file_name, 'w')
     for node, children in col_tree_dic.items():
         elements = [translate_tree(node, max_val, 'atr'), translate_tree(children[0], max_val, 'atr'),
-                    translate_tree(children[1], max_val, 'atr'), str(distance_dic[node])]
+                    translate_tree(children[1], max_val, 'atr'),
+                    "{num:.{width}f}".format(num=distance_dic[node], width=SIGNIFICANT_DIGITS)]
         # print('\t', '\t'.join(elements))
         # AID.append(translate_tree(children[0], max_val, 'atr'))
         # AID.append(translate_tree(children[1], max_val, 'atr'))
         f.write('\t'.join(elements) + '\n')
+        # print('\t'.join(elements) + '\n')
     f.close()
 
     return
@@ -1080,7 +1089,8 @@ def make_gtr(row_tree_dic, data, dist, clustering_method='average',  file_name='
     for node, children in row_tree_dic.items():
 
         elements = [translate_tree(node, max_val, 'gtr'), translate_tree(children[0], max_val, 'gtr'),
-                    translate_tree(children[1], max_val, 'gtr'), str(distance_dic[node])]
+                    translate_tree(children[1], max_val, 'gtr'),
+                    "{num:.{width}f}".format(num=distance_dic[node], width=SIGNIFICANT_DIGITS)]
         # GID.append(translate_tree(children[0], max_val, 'gtr'))
         # GID.append(translate_tree(children[1], max_val, 'gtr'))
         f.write('\t'.join(elements)+'\n')
