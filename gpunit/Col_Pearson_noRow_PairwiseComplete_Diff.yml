@@ -1,13 +1,16 @@
+# Run this gpunit loccaly by calling:
+# ant -f ${GPUNIT_HOME}/build.xml -Dgpunit.diffStripTrailingCR="--strip-trailing-cr" -Dgp.host="127.0.0.1" -Dgp.url="http://127.0.0.1:8080" -Dgp.user="edjuaro@gmail.com" -Dgp.password="" -Dgpunit.testfolder=`pwd` gpunit
 #lsid=urn:lsid:broad.mit.edu:cancer.software.genepattern.module.analysis:00009:5.4
 #
-name: HierarchicalClustering - Column Oriented - Default - Pearson - Pairwise Average-Linkage
+name: HierarchicalClustering - Column Oriented - Default - Pearson - Pairwise Complete-Linkage
 description: (no description)
 module: HierarchicalClustering
 params:
-       input.filename: "<%gpunit.testData%>/gpunit/HierarchicalClustering/v6/input/all_aml_test.preprocessed.gct"
+       input.filename: "https://datasets.genepattern.org/data/test_data/BRCA_minimal_60x19.gct"
+       # input.filename: "https://raw.githubusercontent.com/genepattern/example-notebooks/master/2017-11-07_CCMI_workshop/BRCA_40_samples.gct"
        column.distance.measure: "2"
        row.distance.measure: "0"
-       clustering.method: "a"
+       clustering.method: "m"
        log.transform: ""
        row.center: ""
        row.normalize: ""
@@ -17,7 +20,7 @@ params:
 assertions:
         diffCmd: diff <%gpunit.diffStripTrailingCR%> -q
         files:
-            "all_aml_test.preprocessed.atr":
-                diff: "output/Col_Pearson_noRow_PairwiseComplete_Diff/all_aml_test.preprocessed.atr"
-            "all_aml_test.preprocessed.cdt":
-                diff: "output/Col_Pearson_noRow_PairwiseComplete_Diff/all_aml_test.preprocessed.cdt"
+            "BRCA_minimal_60x19.atr":
+                diff: "output/Col_Pearson_noRow_PairwiseComplete_Diff/BRCA_minimal_60x19.atr"
+            "BRCA_minimal_60x19.cdt":
+                diff: "output/Col_Pearson_noRow_PairwiseComplete_Diff/BRCA_minimal_60x19.cdt"

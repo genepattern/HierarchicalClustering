@@ -1037,6 +1037,7 @@ def make_atr(col_tree_dic, data, dist, clustering_method='average', file_name='t
     for node, children in col_tree_dic.items():
         val = centroid_distances(children[0], children[1], tree=col_tree_dic, data=data, axis=1,
                                  distance=dist, clustering_method=clustering_method)
+        print("Value is", val)
         distance_dic[node] = val
 
     # if dist == cusca.custom_euclidean_sim:
@@ -1216,7 +1217,7 @@ def centroid_distances(node_a, node_b, tree, data, axis=0, distance=cusca.mydist
     elif clustering_method == 'complete':
         for pair in itertools.product(data[children_of_a], data[children_of_b]):
             distances_list.append(distance(pair[0], pair[1]))
-        return np.max(distances_list)
+        return np.min(distances_list)
     else:
         exit("Ony 'average' and 'complete' clustering methods are accepted at the moment (>_<)")
 

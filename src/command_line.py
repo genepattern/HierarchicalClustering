@@ -10,9 +10,10 @@ INPUT_FILE_DIR = os.path.join(ROOT, 'data/')
 # gct_file = 'test_dataset_50x38.gct'
 # gct_file = 'test_dataset.gct'
 # gct_file = 'minimal_dataset.gct'
+gct_file = 'BRCA_minimal_60x19.gct'
 # gct_file = 'OV_data_subset.gct'
 # gct_file = 'BRCA_filtered.gct'
-gct_file = 'all_aml_train.gct'
+# gct_file = 'all_aml_train.gct'
 # gct_file = 'all_aml_test.gct'
 
 # func = 'euclidean'
@@ -32,6 +33,6 @@ func = 'pearson'
 # command = "python HierarchicalClustering.py "+INPUT_FILE_DIR+gct_file+" "+func+" False "+func
 # command = "python HierarchicalClustering.py "+INPUT_FILE_DIR+gct_file+" "+"No_column_clustering"+" False "+func
 command = "python HierarchicalClustering.py "+INPUT_FILE_DIR+gct_file+" "+func+" False 0 "+\
-          " a HC_out False False Mean Mean"
+          " m HC_out False False Mean Mean"
 print("About to make this command line call\n\t", command)
 call(command, shell=True)
