@@ -1,7 +1,7 @@
 #HierarchicalClustering
 #Wed Aug 23 09:49:23 PDT 2017
 JVMLevel=
-LSID=urn\:lsid\:broad.mit.edu\:cancer.software.genepattern.module.analysis\:00009\:7.3.4
+LSID=urn\:lsid\:broad.mit.edu\:cancer.software.genepattern.module.analysis\:00009\:7.3.5
 author=Edwin Juarez;Mesirov Lab -- GenePattern
 categories=Clustering
 commandLine=<python_3.6> <libdir>HierarchicalClustering.py <input.filename> <column.distance.measure> <output_distance_matrix> <row.distance.measure> <clustering.method> <output.base.name> <row.normalize> <col.normalize> <row.centering> <col.centering>

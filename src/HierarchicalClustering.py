@@ -2,12 +2,10 @@
 Created on 2017-08-15 by Edwin F. Juarez.
 
 This module will grab a .gct file to perform hierarchical clustering on the columns.
-
-Pre-release. This module should only be used for testing purposes.
 """
 
-print("Disclaimer: This is a pre-release version.")
-print("This module should only be used for testing purposes.")
+# print("Disclaimer: This is a pre-release version.")
+# print("This module should only be used for testing purposes.")
 
 # Debugging only
 # import pip
