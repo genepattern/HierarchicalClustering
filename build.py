@@ -50,7 +50,8 @@ path_to_archive = "archive/"+module_name+"."+current_version+".zip"
 path_to_current = "archive/current/"+module_name+"."+current_version+".zip"
 
 # path_to_src = "src"
-what_to_zip = "src/manifest src/HierarchicalClustering.py src/hc_functions.py src/test_HC.py src/command_line.py"
+what_to_zip = "src/manifest src/HierarchicalClustering.py src/hc_functions.py src/test_HC.py src/command_line.py " \
+              "src/doc.html"
 
 # Saving to the archive:
 print("Zipping to archive")

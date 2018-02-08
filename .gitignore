@@ -106,3 +106,5 @@ ENV/
 src/.DS_Store
 archive/
 .idea/
+gpunit/reports
+gpunit/jobResults
