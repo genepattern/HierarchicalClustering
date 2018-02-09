@@ -2,20 +2,15 @@ import sys
 import cuzcatlan as cusca
 import numpy as np
 from statistics import mode
-from sklearn.metrics import pairwise
-from sklearn import metrics
-
 from scipy.cluster.hierarchy import dendrogram
 import matplotlib.pyplot as plt
 import seaborn as sns
 import pandas as pd
 import itertools
-from sklearn.cluster import AgglomerativeClustering
-import scipy
-import itertools
 
 SIGNIFICANT_DIGITS = 7
 
+# This dictionary is used for parsing inputs
 input_col_distance_dict = {
     # These are the values I expect
     "No column clustering": "No_column_clustering",
@@ -56,6 +51,7 @@ input_col_distance_dict = {
     "Information Coefficient": "information_coefficient",
 }
 
+# This dictionary is used for parsing inputs
 input_row_distance_dict = {
     # These are the values I expect
     "No row clustering": "No_row_clustering",
@@ -96,6 +92,7 @@ input_row_distance_dict = {
     "Information Coefficient": "information_coefficient",
 }
 
+# This dictionary is used for parsing inputs
 input_clustering_method = {
     # These are the values I expect
     'Pairwise complete-linkage': 'complete',
@@ -106,7 +103,7 @@ input_clustering_method = {
     'a': 'average',  # I think this is the default
 }
 
-
+# This dictionary is used for parsing inputs
 input_row_centering = {
     # These are the values I expect
     'No': None,
@@ -118,6 +115,7 @@ input_row_centering = {
     'Mean': 'Mean',
 }
 
+# This dictionary is used for parsing inputs
 input_row_normalize = {
     # These are the values I expect
     'No': False,
@@ -127,6 +125,7 @@ input_row_normalize = {
     'True': True,
 }
 
+# This dictionary is used for parsing inputs
 input_col_centering = {
     # These are the values I expect
     'No': None,
@@ -138,6 +137,7 @@ input_col_centering = {
     'Mean': 'Mean',
 }
 
+# This dictionary is used for parsing inputs
 input_col_normalize = {
     # These are the values I expect
     'No': False,
@@ -149,6 +149,11 @@ input_col_normalize = {
 
 
 def parse_inputs(args=sys.argv):
+    """
+    This is the function which parses the inputs, it should be replaced with argparse
+    :param args:
+    :return:
+    """
     # inp = []
     # inp = args
     # Error handling:
@@ -543,16 +548,23 @@ def parse_inputs(args=sys.argv):
 
 
 def plot_dendrogram(model, data, tree, axis, dist=cusca.mydist, title='no_title.png', **kwargs):
-    plt.clf()
+    """
     #modified from https://github.com/scikit-learn/scikit-learn/pull/3464/files
+    :param model:
+    :param data:
+    :param tree:
+    :param axis:
+    :param dist:
+    :param title:
+    :param kwargs:
+    :return:
+    """
+    plt.clf()
+
     # Children of hierarchical clustering
     children = model.children_
-    # Distances between each pair of children
-    #TODO: Fix this cusca.mydist
-    # distance = cusca.dendodist(children, euclidian_similarity)
-    # distance = cusca.dendodist(children, dist)
 
-    # distance = np.cumsum(better_dendodist(children, dist, tree, data, axis=axis))
+    # Distances between each pair of children
     distance = better_dendodist(children, dist, tree, data, axis=axis)
 
     # norm_distances = []
@@ -563,28 +575,16 @@ def plot_dendrogram(model, data, tree, axis, dist=cusca.mydist, title='no_title.
     list_of_children = list(get_children(tree, leaves_are_self_children=False).values())
     no_of_observations = [len(i) for i in list_of_children if i]
     no_of_observations.append(len(no_of_observations)+1)
-    # print(len(no_of_observations))
 
-    # print(children)
-
-    # print(list(tree.values()))
-
-    # print(norm_distances)
-
-    # print(distance)
     if all(value == 0 for value in distance):
         # If all distances are zero, then use uniform distance
         distance = np.arange(len(distance))
-
-    # print(distance)
-    # print(np.cumsum(distance))
 
     # The number of observations contained in each cluster level
     # no_of_observations = np.arange(2, children.shape[0]+2)
     # print(no_of_observations)
 
-
-    # Create linkage matrix and then plot the dendrogram
+    #  # Create linkage matrix and then plot the dendrogram
     # linkage_matrix = np.column_stack([children, distance, no_of_observations]).astype(float)
     # linkage_matrix = np.column_stack([children, np.cumsum(distance), no_of_observations]).astype(float)
     linkage_matrix = np.column_stack([children, distance, no_of_observations]).astype(float)
@@ -612,7 +612,7 @@ def plot_dendrogram(model, data, tree, axis, dist=cusca.mydist, title='no_title.
     return order_of_columns
 
 
-def order_leaves(model, data, tree, labels, axis=0, dist=cusca.mydist, reverse = False):
+def order_leaves(model, data, tree, labels, axis=0, dist=cusca.mydist, reverse=False):
     # Adapted from here: https://stackoverflow.com/questions/12572436/calculate-ordering-of-dendrogram-leaves
 
     children = model.children_
@@ -646,7 +646,13 @@ def order_leaves(model, data, tree, labels, axis=0, dist=cusca.mydist, reverse =
 
 
 def two_plot_two_dendrogram(model, dist=cusca.mydist, **kwargs):
-    #modified from https://github.com/scikit-learn/scikit-learn/pull/3464/files
+    """
+    modified from https://github.com/scikit-learn/scikit-learn/pull/3464/files
+    :param model:
+    :param dist:
+    :param kwargs:
+    :return:
+    """
     # Children of hierarchical clustering
     children = model.children_
     # Distances between each pair of children
@@ -790,9 +796,9 @@ def plot_heatmap(df, col_order, row_order, top=5, title_text='differentially exp
 
 
 def parse_data(gct_name, row_normalization=False, col_normalization=False, row_centering=None, col_centering=None):
-    f = open(gct_name)
-    f.readline()
-    size = f.readline().strip('\n').split('\t')
+    # f = open(gct_name)
+    # f.readline()
+    # size = f.readline().strip('\n').split('\t')
 
     data_df = pd.read_csv(gct_name, sep='\t', skiprows=2)
     # print(size)

@@ -110,8 +110,8 @@ p10_prefix_when_specified=
 p10_type=java.lang.String
 p10_value=False\=No;True\=Yes
 privacy=public
-quality=preproduction
-taskDoc=
+quality=production
+taskDoc=doc.html
 taskType=Clustering
 userid=edjuaro@gmail.com
 version=Further testing the "install on the fly" functioanlity.
