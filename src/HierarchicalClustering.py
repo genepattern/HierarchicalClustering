@@ -3,11 +3,14 @@ Created on 2017-08-15 by Edwin F. Juarez.
 
 This module will grab a .gct file to perform hierarchical clustering on the columns.
 """
+from timeit import default_timer as timer
+beginning_of_time = timer()
 import os
 from hc_functions import *
 import seaborn as sns
 from sklearn.cluster import AgglomerativeClustering
 import matplotlib as mpl
+import humanfriendly
 tasklib_path = os.path.dirname(os.path.realpath(sys.argv[0]))
 mpl.use('Agg')
 sns.set_style("white")
@@ -79,3 +82,5 @@ if output_distances:
 # Make the cdt file
 make_cdt(data=new_full_gct, name=output_base_name+'.cdt', atr_companion=atr_companion, gtr_companion=gtr_companion,
          order_of_columns=order_of_columns, order_of_rows=order_of_rows)
+end_of_time = timer()
+print("We are done! Wall time elapsed:", humanfriendly.format_timespan(end_of_time - beginning_of_time))
