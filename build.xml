@@ -6,8 +6,8 @@
 <target name="create-zip" depends="init">
     <antcall target="prezip"/>
     <zip destfile="${dest.dir}/${ant.project.name}.zip" whenempty="fail" defaultexcludes="true">
-        <!-- <fileset dir="." includes="manifest, doc.html"/> -->
-        <zipfileset dir="src" includes="manifest, doc.html, *.py"/>
+        <fileset dir="." includes="manifest, doc.html"/>
+        <zipfileset dir="src" includes="*.py"/>
     </zip>
     <antcall target="postzip"/>
 </target>
