@@ -3,7 +3,7 @@ call("mkdir -p archive/current/", shell=True)
 
 # Turn these into an input
 module_name = "HierarchicalClustering"
-path_to_manifest = "src/manifest"
+path_to_manifest = "manifest"
 
 # reading the old version:
 def get_version(line):
@@ -24,7 +24,7 @@ def read_manifest_version(file_name):
 old_version = read_manifest_version(path_to_manifest)
 # For now update only the minor version
 version_vector = old_version.split(".")
-version_vector[2] = str(int(version_vector[2])+1)
+version_vector[1] = str(int(version_vector[1])+1)
 current_version = ".".join(version_vector)
 print("Old version is", old_version)
 print("Updated version is", current_version)
@@ -83,7 +83,7 @@ script = """
 echo $0
 ls -l
 echo done
-""" 
+"""
 do a subprocess.call(script, shell=True)
 
 
