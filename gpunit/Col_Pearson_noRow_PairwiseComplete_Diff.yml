@@ -17,7 +17,6 @@ params:
        column.normalize: ""
        output.base.name: "<input.filename_basename>"
 assertions:
-        diffCmd: diff <%gpunit.diffStripTrailingCR%> -q
         files:
             "all_aml_test.preprocessed.atr":
                 diff: "output/Col_Pearson_noRow_PairwiseComplete_Diff/all_aml_test.preprocessed.atr"
