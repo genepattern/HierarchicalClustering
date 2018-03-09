@@ -1,24 +1,25 @@
-name: HierarchicalClustering - Column Oriented - Default - Pearson - Pairwise Average-Linkage
-#description: (no description)
-#module: HierarchicalClustering
+#
+# HierarchicalClustering v6 test
+#
+name: "HierarchicalClustering - Column Oriented - Default - Pearson - Pairwise Average-Linkage"
 module: "urn:lsid:broad.mit.edu:cancer.software.genepattern.module.analysis:00009:6"
 params:
-       input.filename: "<%gpunit.testData%>/gpunit/HierarchicalClustering/v6/input/all_aml_test.preprocessed.gct"
-       # Pearson correlation
-       column.distance.measure: "2"
-       # No row clustering
-       row.distance.measure: "0"
-       # Pairwise average-linkage
-       clustering.method: "a"
-       log.transform: ""
-       row.center: ""
-       row.normalize: ""
-       column.center: ""
-       column.normalize: ""
-       output.base.name: "<input.filename_basename>"
+    input.filename: "<%gpunit.testData%>/gpunit/HierarchicalClustering/v6/input/all_aml_test.preprocessed.gct"
+    # Pearson correlation
+    column.distance.measure: "2"
+    # No row clustering
+    row.distance.measure: "0"
+    # Pairwise average-linkage
+    clustering.method: "a"
+    log.transform: ""
+    row.center: ""
+    row.normalize: ""
+    column.center: ""
+    column.normalize: ""
+    output.base.name: "<input.filename_basename>"
 assertions:
-        files:
-            "all_aml_test.preprocessed.atr":
-                diff: "output/Col_Pearson_noRow_PairwiseComplete_Diff/all_aml_test.preprocessed.atr"
-            "all_aml_test.preprocessed.cdt":
-                diff: "output/Col_Pearson_noRow_PairwiseComplete_Diff/all_aml_test.preprocessed.cdt"
+    files:
+        "all_aml_test.preprocessed.atr":
+            diff: "output/Col_Pearson_noRow_PairwiseComplete_Diff/all_aml_test.preprocessed.atr"
+        "all_aml_test.preprocessed.cdt":
+            diff: "output/Col_Pearson_noRow_PairwiseComplete_Diff/all_aml_test.preprocessed.cdt"
