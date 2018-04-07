@@ -12,7 +12,7 @@ from sklearn.cluster import AgglomerativeClustering
 import matplotlib as mpl
 import humanfriendly
 tasklib_path = os.path.dirname(os.path.realpath(sys.argv[0]))
-mpl.use('Agg')
+# mpl.use('Agg')"
 sns.set_style("white")
 
 # Parse the inputs -- This is using my depreciated "parse_inputs" approach
