@@ -16,17 +16,19 @@ def do_this(comando):
     sys.stdout.flush()
     call(comando, shell=True)
 
-##DEBUG##
-print("*****\nDebugging now\n*****")
-do_this("echo $LC_ALL")
-# do_this("pip install /usr/ej_temp")
-print("***************")
-sys.stdout.flush()
-import cuzcatlan as cusca
-# do_this('pip list | grep "cuzcatlan"')
-# do_this('pip list | grep "matplotlib"')
-AirForce13
-print("*****\nEding debugging now\n*****")
+os.chdir("usr/src")
+
+# ##DEBUG##
+# print("*****\nDebugging now\n*****")
+# do_this("echo $LC_ALL")
+# # do_this("pip install /usr/ej_temp")
+# print("***************")
+# sys.stdout.flush()
+# import cuzcatlan as cusca
+# # do_this('pip list | grep "cuzcatlan"')
+# # do_this('pip list | grep "matplotlib"')
+#
+# print("*****\nEding debugging now\n*****")
 
 
 # docker run \
@@ -48,10 +50,10 @@ print("*****\nEding debugging now\n*****")
 # gct_file = 'https://datasets.genepattern.org/data/test_data/BRCA_minimal_60x19.gct'
 # gct_file = 'https://datasets.genepattern.org/data/test_data/BRCA_large_20783x40.gct'
 
-# gct_file = 'https://datasets.genepattern.org/data/test_data/BRCA_minimal_60x19.gct'
+gct_file = 'https://datasets.genepattern.org/data/test_data/BRCA_minimal_60x19.gct'
 
 # func = 'euclidean'
-# func = 'pearson'
+func = 'pearson'
 # func = 'manhattan'
 # func = 'uncentered_pearson'
 # func = 'absolute_pearson'
@@ -66,11 +68,19 @@ print("*****\nEding debugging now\n*****")
 # command = "python HierarchicalClustering.py "+INPUT_FILE_DIR+gct_file+" "+func+" True "+func
 # command = "python HierarchicalClustering.py "+INPUT_FILE_DIR+gct_file+" "+func+" False "+func
 # command = "python HierarchicalClustering.py "+INPUT_FILE_DIR+gct_file+" "+"No_column_clustering"+" False "+func
-
 # command = "python HierarchicalClustering.py "+INPUT_FILE_DIR+gct_file+" "+func+" False 0 "+\
 #           " m HC_out False False Mean Mean"
-
 # command = "python HierarchicalClustering.py "+gct_file+" "+func+" False 0 "+\
 #           " m HC_out False False Mean Mean"
-# print("About to make this command line call\n\t", command)
-# call(command, shell=True)
+
+command = "python "+"HierarchicalClustering.py "+gct_file+" "+func+" False 0 "+\
+        " m HC_out False False Mean Mean"
+print("About to make this command line call\n\t", command)
+call(command, shell=True)
+
+
+# docker run \
+# -v /Users/edjuaro/GoogleDrive/modules/HierarchicalClustering/src:/usr/src \
+# -v /Users/edjuaro/GoogleDrive/cuzcatlan:/usr/ej_temp \
+# -v /Users/edjuaro/GoogleDrive/modules/HierarchicalClustering/src:/usr/data \
+# genepattern/docker-python36 python usr/src/command_line.py
