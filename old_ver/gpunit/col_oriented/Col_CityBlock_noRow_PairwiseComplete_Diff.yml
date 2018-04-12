@@ -1,0 +1,23 @@
+#lsid=urn:lsid:broad.mit.edu:cancer.software.genepattern.module.analysis:00009:5.4
+#
+name: HierarchicalClustering - Column Oriented - Valid Paramater Set 7
+description: (no description)
+module: HierarchicalClustering
+params:
+       input.filename: "<%gpunit.testData%>/gpunit/HierarchicalClustering/v6/input/all_aml_test.preprocessed.gct"
+       column.distance.measure: "8"
+       row.distance.measure: "0"
+       clustering.method: "m"
+       log.transform: ""
+       row.center: ""
+       row.normalize: ""
+       column.center: ""
+       column.normalize: ""
+       output.base.name: "<input.filename_basename>"
+assertions:
+        diffCmd: diff <%gpunit.diffStripTrailingCR%> -q
+        files:
+            "all_aml_test.preprocessed.atr":
+                diff: "<%gpunit.resultData%>/gpunit/HierarchicalClustering/v6/output/col_oriented/valid_pset_7_test/all_aml_test.preprocessed.atr"
+            "all_aml_test.preprocessed.cdt":
+                diff: "<%gpunit.resultData%>/gpunit/HierarchicalClustering/v6/output/col_oriented/valid_pset_7_test/all_aml_test.preprocessed.cdt"

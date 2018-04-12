@@ -1,0 +1,26 @@
+# Run this gpunit loccaly by calling:
+# ant -f ${GPUNIT_HOME}/build.xml -Dgpunit.diffStripTrailingCR="--strip-trailing-cr" -Dgp.host="127.0.0.1" -Dgp.url="http://127.0.0.1:8080" -Dgp.user="edjuaro@gmail.com" -Dgp.password="" -Dgpunit.testfolder=`pwd` gpunit
+#lsid=urn:lsid:broad.mit.edu:cancer.software.genepattern.module.analysis:00009:5.4
+#
+name: HierarchicalClustering - Column and Row Oriented - Default - Pearson - Pairwise Average-Linkage
+description: (no description)
+module: HierarchicalClustering
+params:
+       input.filename: "https://datasets.genepattern.org/data/test_data/BRCA_minimal_60x19.gct"
+       # input.filename: "https://raw.githubusercontent.com/genepattern/example-notebooks/master/2017-11-07_CCMI_workshop/BRCA_40_samples.gct"
+       column.distance.measure: "2"
+       row.distance.measure: "2"
+       clustering.method: "a"
+       log.transform: ""
+       row.center: ""
+       row.normalize: ""
+       column.center: ""
+       column.normalize: ""
+       output.base.name: "<input.filename_basename>"
+assertions:
+        diffCmd: diff <%gpunit.diffStripTrailingCR%> -q
+        files:
+            "BRCA_minimal_60x19.atr":
+                diff: "output/Col_Pearson_RowPearson_PairwiseAverage_Diff/BRCA_minimal_60x19.atr"
+            "BRCA_minimal_60x19.cdt":
+                diff: "output/Col_Pearson_RowPearson_PairwiseAverage_Diff/BRCA_minimal_60x19.cdt"
