@@ -1,4 +1,6 @@
+#updated after building 7.10
+#Mon, 07 May 2018 20:25:37 -0400
 #updated after building 7.9
 #Wed, 11 Apr 2018 15:15:24 -0400
 #prerelease version number
-prerelease.number=10
+prerelease.number=11
