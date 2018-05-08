@@ -1,13 +1,13 @@
 #HierarchicalClustering
 #Wed Aug 23 09:49:23 PDT 2017
 JVMLevel=
-LSID=urn\:lsid\:broad.mit.edu\:cancer.software.genepattern.module.analysis\:00009\:7.7
+LSID=urn\:lsid\:broad.mit.edu\:cancer.software.genepattern.module.analysis\:00009\:7.11
 author=Edwin Juarez;Mesirov Lab -- GenePattern
 categories=Clustering
 commandLine=<python_3.6> <libdir>HierarchicalClustering.py <input.filename> <column.distance.measure> <output_distance_matrix> <row.distance.measure> <clustering.method> <output.base.name> <row.normalize> <col.normalize> <row.centering> <col.centering>
-job.docker.image: genepattern/docker-python36:0.4
+job.docker.image: genepattern/docker-python36:0.5
 cpuType=any
-description=This module will replace the current HierarchicalClustering module.
+description=Perform hierarchical clustering on samples (columns) or/and genes (rows).
 fileFormat=cls;csv;png
 language=Python
 name=HierarchicalClustering
@@ -114,5 +114,5 @@ privacy=public
 quality=production
 taskDoc=doc.html
 taskType=Clustering
-userid=edjuaro@gmail.com
-version=Further testing the install on the fly functionality
+userid=edjuaro
+version=Improving performance for commonly used distance metrics

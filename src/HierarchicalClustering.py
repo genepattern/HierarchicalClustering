@@ -64,14 +64,28 @@ log("About to cluster columns", get_linenumber(), DEBUG)
 if col_distance_metric != 'No_column_clustering':
     atr_companion = True
 
-    # Set Sklearn's clustering model parameters
-    col_model = AgglomerativeClustering(linkage=linkage_dic[clustering_method], n_clusters=2,
-                                        affinity=str2func[col_distance_metric])
-    # fit Sklearn's clustering model
-    col_model.fit(data_transpose)
-    col_tree = make_tree(col_model)
-    order_of_columns = order_leaves(col_model, tree=col_tree, data=data_transpose,
-                                    dist=str2similarity[col_distance_metric], labels=col_labels, reverse=True)
+    # TO Be DELETED
+    # # Set Sklearn's clustering model parameters
+    # col_model = AgglomerativeClustering(linkage=linkage_dic[clustering_method], n_clusters=2,
+    #                                     affinity=str2func[col_distance_metric])
+    # # fit Sklearn's clustering model
+    # col_model.fit(data_transpose)
+    # col_tree = make_tree(col_model)
+    # order_of_columns = order_leaves(col_model, tree=col_tree, data=data_transpose,
+    #                                 dist=str2similarity[col_distance_metric], labels=col_labels, reverse=True)
+
+    #  # fastcluster
+    D = pdist(data, metric=pdist_dict[col_distance_metric])
+    # print(row_distance_metric, pdist_dict[row_distance_metric])
+
+    Z = fastcluster.linkage(D, method=linkage_dic[clustering_method])
+    numeric_order_of_columns, R = two_plot_2_dendrogram(Z=Z, num_clust=2, no_plot=True)
+    # order_of_rows = [row_labels[int(i)] for i in numeric_order_of_rows]  # Getting label names from order of rows
+    # order_of_rows = row_labels[numeric_order_of_rows]  # Getting label names from order of rows
+    order_of_columns = [col_labels[i] for i in numeric_order_of_columns]
+
+    col_tree = make_tree(Z, scipy=True, n_leaves=len(order_of_columns))
+
     log("About to write atr file", get_linenumber(), DEBUG)
     # Create atr file
     make_atr(col_tree, file_name=output_base_name+'.atr', data=data,
@@ -81,6 +95,7 @@ log("About to cluster rows", get_linenumber(), DEBUG)
 if row_distance_metric != 'No_row_clustering':
     gtr_companion = True
 
+    # TO Be DELETED
     # # Set Sklearn's clustering model parameters
     # row_model = AgglomerativeClustering(linkage=linkage_dic[clustering_method], n_clusters=2,
     #                                     affinity=str2func[row_distance_metric])
@@ -93,7 +108,7 @@ if row_distance_metric != 'No_row_clustering':
 
     #  # fastcluster
     D = pdist(data, metric=pdist_dict[row_distance_metric])
-    print(row_distance_metric, pdist_dict[row_distance_metric])
+    # print(row_distance_metric, pdist_dict[row_distance_metric])
 
     Z = fastcluster.linkage(D, method=linkage_dic[clustering_method])
     numeric_order_of_rows, R = two_plot_2_dendrogram(Z=Z, num_clust=2, no_plot=True)
@@ -131,4 +146,3 @@ end_of_time = timer()
 spanned = end_of_time - beginning_of_time
 print("We are done! Wall time elapsed:", humanfriendly.format_timespan(spanned))
 print("###", spanned)
-
