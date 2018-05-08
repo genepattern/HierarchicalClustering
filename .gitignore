@@ -108,3 +108,9 @@ archive/
 .idea/
 gpunit/reports
 gpunit/jobResults
+reports
+jobResults
+src/HC_out.atr
+src/HC_out.cdt
+src/HC_out.gtr
+src/HC_out_pairwise_distances.csv
