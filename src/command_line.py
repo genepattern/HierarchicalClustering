@@ -51,8 +51,8 @@ def do_this(comando):
 # gct_file = 'https://datasets.genepattern.org/data/test_data/BRCA_minimal_60x19.gct'
 # gct_file = 'https://datasets.genepattern.org/data/test_data/BRCA_large_20783x40.gct'
 
-# gct_file = 'https://datasets.genepattern.org/data/test_data/BRCA_minimal_60x19.gct'
-gct_file = 'https://datasets.genepattern.org/data/test_data/BRCA_large_20783x40.gct'
+gct_file = 'https://datasets.genepattern.org/data/test_data/BRCA_minimal_60x19.gct'
+# gct_file = 'https://datasets.genepattern.org/data/test_data/BRCA_large_20783x40.gct'
 
 # func = 'euclidean'
 func = 'pearson'
@@ -80,7 +80,7 @@ func = 'pearson'
 #         " m HC_out False False Mean Mean"
 
 # With row clustering
-command = "python "+"HierarchicalClustering.py "+gct_file+" pearson False pearson m HC_out False False Mean Mean"
+command = "python "+"HierarchicalClustering.py "+gct_file+" pearson False No_row_clustering m HC_out False False Mean Mean"
 print("About to make this command line call\n\t", command)
 call(command, shell=True)
 

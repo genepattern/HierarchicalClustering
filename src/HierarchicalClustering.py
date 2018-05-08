@@ -75,7 +75,7 @@ if col_distance_metric != 'No_column_clustering':
     #                                 dist=str2similarity[col_distance_metric], labels=col_labels, reverse=True)
 
     #  # fastcluster
-    D = pdist(data, metric=pdist_dict[col_distance_metric])
+    D = pdist(data_transpose, metric=pdist_dict[col_distance_metric])
     # print(row_distance_metric, pdist_dict[row_distance_metric])
 
     Z = fastcluster.linkage(D, method=linkage_dic[clustering_method])
