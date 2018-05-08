@@ -92,8 +92,10 @@ if row_distance_metric != 'No_row_clustering':
     #                              dist=str2similarity[row_distance_metric], labels=row_labels)
 
     #  # fastcluster
-    D = pdist(data, metric=cusca.custom_pearson_dist)
-    Z = fastcluster.linkage(D, method='weighted')
+    D = pdist(data, metric=pdist_dict[row_distance_metric])
+    print(row_distance_metric, pdist_dict[row_distance_metric])
+
+    Z = fastcluster.linkage(D, method=linkage_dic[clustering_method])
     numeric_order_of_rows, R = two_plot_2_dendrogram(Z=Z, num_clust=2, no_plot=True)
     # order_of_rows = [row_labels[int(i)] for i in numeric_order_of_rows]  # Getting label names from order of rows
     # order_of_rows = row_labels[numeric_order_of_rows]  # Getting label names from order of rows

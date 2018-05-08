@@ -878,6 +878,23 @@ str2func = {
 }
 
 
+pdist_dict = {
+    'custom_euclidean': 'correlation',
+    'uncentered_pearson': my_affinity_u,
+    'absolute_uncentered_pearson': my_affinity_au,
+    'information_coefficient': cusca.information_coefficient_dist,
+    'pearson': 'correlation',
+    'spearman': cusca.custom_spearman_dist,
+    'kendall': cusca.custom_kendall_tau_dist,
+    'absolute_pearson': cusca.absolute_pearson_dist,
+    'l1': 'cityblock',
+    'l2': 'l2',
+    'manhattan': 'cityblock',
+    'cosine': 'cosine',
+    'euclidean': 'euclidean',
+}
+
+
 str2affinity_func = {
     'custom_euclidean': my_affinity_e,
     'uncentered_pearson': my_affinity_u,
