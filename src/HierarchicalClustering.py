@@ -8,14 +8,16 @@ beginning_of_time = timer()
 import os
 from hc_functions import *
 import seaborn as sns
-from sklearn.cluster import AgglomerativeClustering
+from sklearn.cluster import AgglomerativeClustering  # We are not using this anymore
 import matplotlib as mpl
 import humanfriendly
 import datetime
 from inspect import currentframe
 tasklib_path = os.path.dirname(os.path.realpath(sys.argv[0]))
-# mpl.use('Agg')"
+# mpl.use('Agg')
 sns.set_style("white")
+import fastcluster
+from scipy.spatial.distance import pdist
 
 DEBUG = True
 
@@ -79,14 +81,26 @@ log("About to cluster rows", get_linenumber(), DEBUG)
 if row_distance_metric != 'No_row_clustering':
     gtr_companion = True
 
-    # Set Sklearn's clustering model parameters
-    row_model = AgglomerativeClustering(linkage=linkage_dic[clustering_method], n_clusters=2,
-                                        affinity=str2func[row_distance_metric])
-    # fit Sklearn's clustering model
-    row_model.fit(data)
-    row_tree = make_tree(row_model)
-    order_of_rows = order_leaves(row_model, tree=row_tree, data=data,
-                                 dist=str2similarity[row_distance_metric], labels=row_labels)
+    # # Set Sklearn's clustering model parameters
+    # row_model = AgglomerativeClustering(linkage=linkage_dic[clustering_method], n_clusters=2,
+    #                                     affinity=str2func[row_distance_metric])
+    #
+    # # fit Sklearn's clustering model
+    # row_model.fit(data)
+    # row_tree = make_tree(row_model, scipy=False)
+    # order_of_rows = order_leaves(row_model, tree=row_tree, data=data,
+    #                              dist=str2similarity[row_distance_metric], labels=row_labels)
+
+    #  # fastcluster
+    D = pdist(data, metric=cusca.custom_pearson_dist)
+    Z = fastcluster.linkage(D, method='weighted')
+    numeric_order_of_rows, R = two_plot_2_dendrogram(Z=Z, num_clust=2, no_plot=True)
+    # order_of_rows = [row_labels[int(i)] for i in numeric_order_of_rows]  # Getting label names from order of rows
+    # order_of_rows = row_labels[numeric_order_of_rows]  # Getting label names from order of rows
+    order_of_rows = [row_labels[i] for i in numeric_order_of_rows]
+
+    row_tree = make_tree(Z, scipy=True, n_leaves=len(order_of_rows))
+
     log("About to write gtr file", get_linenumber(), DEBUG)
     # Create gtr file
     make_gtr(row_tree, data=data, file_name=output_base_name+'.gtr', dist=str2similarity[row_distance_metric])
