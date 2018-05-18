@@ -7,6 +7,7 @@ ROOT = os.path.join(WORKING_DIR, '..')
 TASKLIB = os.path.join(ROOT, 'src/')
 INPUT_FILE_DIR = os.path.join(ROOT, 'data/')
 
+
 def do_this(comando):
     print("***************")
     sys.stdout.flush()
@@ -16,7 +17,7 @@ def do_this(comando):
     sys.stdout.flush()
     call(comando, shell=True)
 
-os.chdir("usr/src")
+# os.chdir("usr/src")
 
 # ##DEBUG##
 # print("*****\nDebugging now\n*****")
@@ -51,6 +52,7 @@ os.chdir("usr/src")
 # gct_file = 'https://datasets.genepattern.org/data/test_data/BRCA_large_20783x40.gct'
 
 gct_file = 'https://datasets.genepattern.org/data/test_data/BRCA_minimal_60x19.gct'
+# gct_file = 'https://datasets.genepattern.org/data/test_data/BRCA_large_20783x40.gct'
 
 # func = 'euclidean'
 func = 'pearson'
@@ -73,8 +75,12 @@ func = 'pearson'
 # command = "python HierarchicalClustering.py "+gct_file+" "+func+" False 0 "+\
 #           " m HC_out False False Mean Mean"
 
-command = "python "+"HierarchicalClustering.py "+gct_file+" "+func+" False 0 "+\
-        " m HC_out False False Mean Mean"
+# # No row clustering
+# command = "python "+"HierarchicalClustering.py "+gct_file+" "+func+" False 0 "+\
+#         " m HC_out False False Mean Mean"
+
+# With row clustering
+command = "python "+"HierarchicalClustering.py "+gct_file+" pearson False No_row_clustering m HC_out False False Mean Mean"
 print("About to make this command line call\n\t", command)
 call(command, shell=True)
 

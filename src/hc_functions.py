@@ -878,6 +878,23 @@ str2func = {
 }
 
 
+pdist_dict = {
+    'custom_euclidean': 'correlation',
+    'uncentered_pearson': my_affinity_u,
+    'absolute_uncentered_pearson': my_affinity_au,
+    'information_coefficient': cusca.information_coefficient_dist,
+    'pearson': 'correlation',
+    'spearman': cusca.custom_spearman_dist,
+    'kendall': cusca.custom_kendall_tau_dist,
+    'absolute_pearson': cusca.absolute_pearson_dist,
+    'l1': 'cityblock',
+    'l2': 'l2',
+    'manhattan': 'cityblock',
+    'cosine': 'cosine',
+    'euclidean': 'euclidean',
+}
+
+
 str2affinity_func = {
     'custom_euclidean': my_affinity_e,
     'uncentered_pearson': my_affinity_u,
@@ -938,7 +955,7 @@ linkage_dic = {
 }
 
 
-def make_tree(model, data=None):
+def make_tree(model, n_leaves=None, scipy=False):
     """
     Modified from:
     https://stackoverflow.com/questions/27386641/how-to-traverse-a-tree-from-sklearn-agglomerativeclustering
@@ -967,7 +984,12 @@ def make_tree(model, data=None):
     # print(tree)
     # return tree
 
-    return dict(enumerate(model.children_, model.n_leaves_))
+    if scipy:
+        return dict(enumerate(np.delete(model, [2, 3], 1).astype(int), n_leaves))
+
+    else:
+
+        return dict(enumerate(model.children_, model.n_leaves_))
     # return dict(enumerate(model.children_, 1))
 
 
@@ -1249,3 +1271,14 @@ def better_dendodist(children, distance, tree, data, axis):
     for pair in children:
         distances_list.append(centroid_distances(pair[0], pair[1], tree, data, axis, distance=distance))
     return distances_list
+
+
+def two_plot_2_dendrogram(Z, num_clust, no_plot=True):
+    # plt.clf()
+    threshold = Z[-num_clust + 1, 2]
+    R = dendrogram(Z, no_labels=True, color_threshold=threshold, no_plot=no_plot)
+    order_of_columns = R['leaves']
+
+    # plt.show()
+    # plt.savefig('WHAT_ARE_THOOOOSE.png')
+    return order_of_columns, R
