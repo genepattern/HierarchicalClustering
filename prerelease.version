@@ -1,3 +1,5 @@
+#updated after building 7.17
+#Fri, 01 Jun 2018 19:42:52 -0400
 #updated after building 7.16
 #Fri, 01 Jun 2018 19:30:24 -0400
 #updated after building 7.15
@@ -15,4 +17,4 @@
 #updated after building 7.9
 #Wed, 11 Apr 2018 15:15:24 -0400
 #prerelease version number
-prerelease.number=17
+prerelease.number=18
