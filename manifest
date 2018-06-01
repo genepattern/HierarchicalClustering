@@ -1,7 +1,7 @@
 #HierarchicalClustering
 #Wed Aug 23 09:49:23 PDT 2017
 JVMLevel=
-LSID=urn\:lsid\:broad.mit.edu\:cancer.software.genepattern.module.analysis\:00009\:7.16
+LSID=urn\:lsid\:broad.mit.edu\:cancer.software.genepattern.module.analysis\:00009\:7.17
 author=Edwin Juarez;Mesirov Lab -- GenePattern
 categories=Clustering
 commandLine=<python_3.6> <libdir>HierarchicalClustering.py <input.filename> <column.distance.measure> <output_distance_matrix> <row.distance.measure> <clustering.method> <output.base.name> <row.normalize> <col.normalize> <row.centering> <col.centering>
@@ -52,10 +52,9 @@ p3_optional=on
 p3_prefix=
 p3_prefix_when_specified=
 p3_type=java.lang.String
-#p3_value=True\=True;False\=False
+p3_value=True\=True;False\=False
 p4_MODE=
 p4_TYPE=TEXT
-$p4_default_value=False
 p4_default_value=No row clustering
 p4_description=Whether or not to cluster by rows as well.
 p4_fileFormat=
@@ -66,7 +65,6 @@ p4_optional=on
 p4_prefix=
 p4_prefix_when_specified=
 p4_type=java.lang.String
-#p4_value=True\=True;False\=False
 p4_value=0\=No row clustering;1\=Uncentered correlation;2\=Pearson correlation;3\=Uncentered correlation, absolute value;4\=Pearson correlation, absolute value;5\=Spearman's rank correlation;6\=Kendall's tau;7\=Euclidean distance;8\=City-block distance;9\=Information coefficient
 p5_default_value=a
 p5_description=hierarchical clustering method to use
@@ -115,4 +113,4 @@ quality=production
 taskDoc=doc.html
 taskType=Clustering
 userid=edjuaro
-version=Fixing a bug introduced when performance as improved.
+version=Updating docs and fixing a bug introduced when performance as improved.
