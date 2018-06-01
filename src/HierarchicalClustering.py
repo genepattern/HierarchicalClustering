@@ -17,7 +17,7 @@ tasklib_path = os.path.dirname(os.path.realpath(sys.argv[0]))
 # mpl.use('Agg')
 sns.set_style("white")
 import fastcluster
-from scipy.spatial.distance import pdist
+from scipy.spatial.distance import pdist, squareform
 
 DEBUG = True
 
@@ -39,7 +39,7 @@ log("About to parse the inputs", get_linenumber(), DEBUG)
 # Parse the inputs -- This is using my depreciated "parse_inputs" approach
 # TODO: use python's argparse instead (see "download_from_gdc" for that)
 # TODO: here is the git for that: https://github.com/genepattern/download_from_gdc
-gct_name, col_distance_metric, output_distances, row_distance_metric, clustering_method, output_base_name, \
+gct_name, col_distance_metric, col_output_distances, row_distance_metric, clustering_method, output_base_name, \
     row_normalization, col_normalization, row_centering, col_centering = parse_inputs(sys.argv)
 
 log("About to parse data", get_linenumber(), DEBUG)
@@ -75,10 +75,11 @@ if col_distance_metric != 'No_column_clustering':
     #                                 dist=str2similarity[col_distance_metric], labels=col_labels, reverse=True)
 
     #  # fastcluster
-    D = pdist(data_transpose, metric=pdist_dict[col_distance_metric])
+    col_D = pdist(data_transpose, metric=pdist_dict[col_distance_metric])
+
     # print(row_distance_metric, pdist_dict[row_distance_metric])
 
-    Z = fastcluster.linkage(D, method=linkage_dic[clustering_method])
+    Z = fastcluster.linkage(col_D, method=linkage_dic[clustering_method])
     numeric_order_of_columns, R = two_plot_2_dendrogram(Z=Z, num_clust=2, no_plot=True)
     # order_of_rows = [row_labels[int(i)] for i in numeric_order_of_rows]  # Getting label names from order of rows
     # order_of_rows = row_labels[numeric_order_of_rows]  # Getting label names from order of rows
@@ -107,10 +108,10 @@ if row_distance_metric != 'No_row_clustering':
     #                              dist=str2similarity[row_distance_metric], labels=row_labels)
 
     #  # fastcluster
-    D = pdist(data, metric=pdist_dict[row_distance_metric])
+    row_D = pdist(data, metric=pdist_dict[row_distance_metric])
     # print(row_distance_metric, pdist_dict[row_distance_metric])
 
-    Z = fastcluster.linkage(D, method=linkage_dic[clustering_method])
+    Z = fastcluster.linkage(row_D, method=linkage_dic[clustering_method])
     numeric_order_of_rows, R = two_plot_2_dendrogram(Z=Z, num_clust=2, no_plot=True)
     # order_of_rows = [row_labels[int(i)] for i in numeric_order_of_rows]  # Getting label names from order of rows
     # order_of_rows = row_labels[numeric_order_of_rows]  # Getting label names from order of rows
@@ -122,21 +123,29 @@ if row_distance_metric != 'No_row_clustering':
     # Create gtr file
     make_gtr(row_tree, data=data, file_name=output_base_name+'.gtr', dist=str2similarity[row_distance_metric])
 
-log("About to create distance matrix", get_linenumber(), DEBUG)
+log("About to try to create the col distance matrix", get_linenumber(), DEBUG)
 # Possibly create a distances file
-if output_distances:
-    row_distance_matrix = str2affinity_func[row_distance_metric](data)
-    # col_distance_matrix = str2affinity_func[col_distance_metric](np.transpose(data))  # This is "never" useful info.
-    log("About to write the row_distance matrix", get_linenumber(), DEBUG)
-    dist_file = open(output_base_name+'_pairwise_distances.csv', 'w')
-    dist_file.write('labels,')
-    dist_file.write(",".join(col_model.labels_.astype(str))+"\n")
-    dist_file.write('samples,')
-    dist_file.write(",".join(list(data_df))+"\n")
+if col_output_distances:
+    # row_distance_matrix = str2affinity_func[row_distance_metric](data)
+    try:
+        col_distance_matrix = str2affinity_func[col_distance_metric](np.transpose(data))
+    except KeyError:
+        print(col_distance_metric, "is not a valid column distance")
+        log(f"Invalid distance{col_distance_metric}", get_linenumber(), DEBUG)
+        exit(1)
+
+    log("About to write the col_distance matrix", get_linenumber(), DEBUG)
+    dist_file = open(output_base_name+'_pairwise_column_distances.csv', 'w')
+    dist_file.write('v/>,')
+    dist_file.write(','.join(col_labels))
+    dist_file.write('\n')
     i = 0
-    for row in row_distance_matrix:
-        dist_file.write('distances row='+str(i)+","+",".join(row.astype(str)) + "\n")
+    for row in squareform(col_D):
+        dist_file.write(f'{col_labels[i]},')
+        dist_file.write(','.join([str(s) for s in row]))
+        dist_file.write('\n')
         i += 1
+
 
 log("About to make cdt file", get_linenumber(), DEBUG)
 # Make the cdt file
