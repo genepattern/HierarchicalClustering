@@ -1,5 +1,5 @@
 # Run this gpunit loccaly by calling:
-# ant -f ${GPUNIT_HOME}/build.xml -Dgpunit.diffStripTrailingCR="--strip-trailing-cr" -Dgp.host="127.0.0.1" -Dgp.url="http://127.0.0.1:8080" -Dgp.user="edjuaro@gmail.com" -Dgp.password="" -Dgpunit.testfolder=`pwd` gpunit
+# ant -f ${GPUNIT_HOME}/build.xml -Dgp.host="127.0.0.1" -Dgp.url="http://127.0.0.1:8080" -Dgp.user="edjuaro@gmail.com" -Dgp.password="" -Dgpunit.testfolder=`pwd` gpunit
 #lsid=urn:lsid:broad.mit.edu:cancer.software.genepattern.module.analysis:00009:5.4
 #
 name: HierarchicalClustering - Column Oriented - Default - Pearson - Pairwise Complete-Linkage
@@ -18,7 +18,7 @@ params:
        column.normalize: ""
        output.base.name: "<input.filename_basename>"
 assertions:
-        diffCmd: diff <%gpunit.diffStripTrailingCR%> -q
+        diffCmd: diff -q
         files:
             "BRCA_minimal_60x19.atr":
                 diff: "output/Col_Pearson_noRow_PairwiseComplete_Diff/BRCA_minimal_60x19.atr"
