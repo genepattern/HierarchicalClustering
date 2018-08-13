@@ -1,7 +1,7 @@
 #HierarchicalClustering
 #Wed Aug 23 09:49:23 PDT 2017
 JVMLevel=
-LSID=urn\:lsid\:broad.mit.edu\:cancer.software.genepattern.module.analysis\:00009\:7.17
+LSID=urn\:lsid\:broad.mit.edu\:cancer.software.genepattern.module.analysis\:00009\:7.18
 author=Edwin Juarez;Mesirov Lab -- GenePattern
 categories=Clustering
 commandLine=<python_3.6> <libdir>HierarchicalClustering.py <input.filename> <column.distance.measure> <output_distance_matrix> <row.distance.measure> <clustering.method> <output.base.name> <row.normalize> <col.normalize> <row.centering> <col.centering>
@@ -16,7 +16,7 @@ p1_MODE=IN
 p1_TYPE=FILE
 p1_default_value=
 p1_description=This is the GCT file to use
-p1_fileFormat=
+p1_fileFormat=gct
 p1_flag=-G
 p1_name=input.filename
 p1_numValues=0..1
