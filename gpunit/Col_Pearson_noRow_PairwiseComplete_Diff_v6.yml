@@ -20,6 +20,6 @@ assertions:
         diffCmd: diff -q
         files:
             "all_aml_test.preprocessed.atr":
-                diff: "output/Col_Pearson_noRow_PairwiseComplete_Diff/all_aml_test.preprocessed.atr"
+                diff: "output/Col_Pearson_noRow_PairwiseComplete_Diff_v6/all_aml_test.preprocessed.atr"
             "all_aml_test.preprocessed.cdt":
-                diff: "output/Col_Pearson_noRow_PairwiseComplete_Diff/all_aml_test.preprocessed.cdt"
+                diff: "output/Col_Pearson_noRow_PairwiseComplete_Diff_v6/all_aml_test.preprocessed.cdt"
